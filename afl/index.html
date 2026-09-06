@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#102e37">
-<title>Arcade AFL Showdown</title>
+<title>Arcade AFL Showdown · v17 P2P</title>
 <style>
 :root{--ink:#173640;--blue:#098afa;--orange:#ff8a13;--cream:#f4f8e9;--dock:116px;--action:102px;--joy:112px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none;background:#183f34;font-family:Trebuchet MS,Arial,sans-serif;color:var(--ink)}body{touch-action:none}button,input,select{font:inherit}button{cursor:pointer;user-select:none;touch-action:manipulation}button:focus-visible,summary:focus-visible{outline:3px solid #ffdc60;outline-offset:3px}button:disabled{cursor:default}button,input,select,summary{-webkit-user-select:auto}input,select{min-width:0}input[type=text],input[type=number],select{border:1px solid #ccd8cc;border-radius:10px;background:#fff;color:#173640;padding:9px 10px;font-weight:800;width:100%;outline-offset:2px}input[type=color]{height:36px;width:100%;padding:3px;border:1px solid #cbd6c6;border-radius:8px;background:white}input[type=checkbox]{width:19px;height:19px;accent-color:#087de9}.hidden{display:none!important}#app{position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate}#game{position:absolute;inset:0;display:block;width:100%;height:100%}svg{display:block}.icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}.iconDefs{position:absolute;width:0;height:0;overflow:hidden}
@@ -61,7 +61,7 @@
 <span class="fieldLabel">Choose your ground</span><div class="venues"><button class="venue active" data-venue="stadium"><span class="venuePic"></span><span class="venueName">SHOWDOWN OVAL</span></button><button class="venue" data-venue="park"><span class="venuePic"></span><span class="venueName">COMMUNITY OVAL</span></button><button class="venue" data-venue="night"><span class="venuePic"></span><span class="venueName">FRIDAY NIGHT LIGHTS</span></button></div><div class="setupRow"><label><span class="fieldLabel">Your AFL club</span><select id="clubQuick0" aria-label="Your AFL club"></select></label><label><span class="fieldLabel">Opposition club</span><select id="clubQuick1" aria-label="Opposition AFL club"></select></label></div>
 <div class="teamSummary"><div class="teamBadges"><div class="badge"><i id="blueSwatch" class="swatch"></i><span id="bluePreview">BLUE</span></div><span class="versus">vs</span><div class="badge"><i id="orangeSwatch" class="swatch" style="background:#ff8417"></i><span id="orangePreview">ORANGE</span></div></div><button id="customiseToggle" class="quiet" aria-expanded="false" aria-controls="editor">CUSTOMISE TEAMS +</button></div>
 <div id="editor" class="editor hidden"><div class="tabs"><button class="choice active" data-team="0">YOUR TEAM</button><button class="choice" data-team="1">OPPONENTS</button></div><div id="editorBody"></div><div class="editorFoot"><button id="randomise" class="quiet">Shuffle appearances</button><span>Saved on this device</span></div></div>
-<button id="start" class="start">FIRST BOUNCE<svg viewBox="0 0 24 24"><use href="#i-play"/></svg></button><button id="multiplayer" class="multiplayerLaunch">MULTIPLAYER · TWO PHONES</button><p class="rules">Goals = 6 · Behinds = 1 · Four quarters · You control your selected club</p>
+<button id="start" class="start">FIRST BOUNCE<svg viewBox="0 0 24 24"><use href="#i-play"/></svg></button><button id="multiplayer" class="multiplayerLaunch">MULTIPLAYER · P2P</button><p class="rules">Goals = 6 · Behinds = 1 · Four quarters · You control your selected club</p>
 </div></div></section>
 <div id="hud" class="hidden"><div id="scorebar"><div class="scoreTeam"><span id="blueName" class="scoreName">BLUE</span><span class="scoreNum" id="blueScore">0.0 (0)</span></div><div class="timeBox"><span id="clock">2:00</span><span id="halfLabel">Q1 · 1ST</span></div><div class="scoreTeam orange"><span class="scoreNum" id="orangeScore">0.0 (0)</span><span id="orangeName" class="scoreName">ORANGE</span></div></div><div class="utility left"><button id="fullscreen" class="iconBtn" aria-label="Fullscreen"><svg class="icon"><use href="#i-full"/></svg></button><button id="sound" class="iconBtn" aria-label="Mute sound"><svg class="icon"><use id="soundIcon" href="#i-sound"/></svg></button></div><div class="utility right"><button id="pause" class="iconBtn pauseBtn" aria-label="Pause"><svg class="icon"><use href="#i-pause"/></svg></button></div></div>
 <div id="controls" class="hidden"><div id="joystick" role="group" aria-label="Movement joystick"><span class="arrow up">▲</span><span class="arrow down">▲</span><span class="arrow left">▲</span><span class="arrow right">▲</span><div id="stick"></div></div><div id="controlInfo"><div id="attackDirection">ATTACK →</div><div id="playerLabel">10 · ALEX</div><div id="helpLine">Move: arrows / WASD · Handball: X · Kick: Space</div></div><div class="actionBtns"><button id="passBtn" class="actionBtn" aria-label="Handball or switch player"><svg class="ballIcon" viewBox="0 0 48 48"><use href="#i-ball"/></svg><span class="label">HANDBALL</span><small id="passSub">TO TEAMMATE</small></button><button id="shootBtn" class="actionBtn" aria-label="Kick or tackle"><svg class="ballIcon" viewBox="0 0 55 48"><use href="#i-shoot"/></svg><span class="label">KICK</span><small id="shootSub">HOLD FOR POWER</small></button></div></div>
@@ -87,13 +87,20 @@ const FIREBASE_CONFIG={
 };
 const MP={mode:'single',roomCode:null,roomRef:null,db:null,uid:null,guestConnected:false,remoteControlled:null,
  remoteInput:{x:0,y:0},remoteSeq:{pass:0,tackle:0,kick:0},localSeq:{pass:0,tackle:0,kick:0},
- lastGuestSend:0,lastHostSend:0,lastGuestX:99,lastGuestY:99,listeners:[],guestPhase:null,authReady:false};
+ lastGuestSend:0,lastHostSend:0,lastGuestX:99,lastGuestY:99,listeners:[],signalListeners:[],guestPhase:null,authReady:false,
+ peer:null,fastDC:null,reliableDC:null,p2pReady:false,p2pFailed:false,p2pTimer:null,pendingCandidates:[],rtt:null,lastPing:0};
 function localTeam(){return MP.mode==='guest'?1:0;}
 function isLocalHuman(p){return !!p&&p===G.controlled&&p.team===localTeam();}
 function isRemoteHuman(p){return MP.mode==='host'&&MP.guestConnected&&!!p&&p===MP.remoteControlled&&p.team===1;}
 function isHumanControlled(p){return isLocalHuman(p)||isRemoteHuman(p);}
 function controlFor(p){return isRemoteHuman(p)?MP.remoteInput:input;}
 function setNetBadge(text,kind='good'){const b=$('netBadge');if(!b)return;if(!text){b.classList.add('hidden');return;}b.textContent=text;b.classList.remove('hidden','good','warn');b.classList.add(kind);}
+function connectionBadge(){
+ if(MP.mode==='single'){setNetBadge('');return;}
+ if(MP.p2pReady){const ms=Number.isFinite(MP.rtt)?` · ${MP.rtt} ms`:'';setNetBadge(`DIRECT P2P${ms} · ROOM ${MP.roomCode}`,'good');}
+ else if(MP.p2pFailed)setNetBadge(`FIREBASE FALLBACK · ROOM ${MP.roomCode}`,'warn');
+ else setNetBadge(`${MP.mode==='host'?'HOST':'PLAYER 2'} · CONNECTING P2P · ${MP.roomCode}`,'warn');
+}
 async function ensureFirebase(){
  if(MP.authReady&&MP.db)return true;
  if(typeof firebase==='undefined'){showModal('MULTIPLAYER','Internet connection needed','<p>Firebase did not load. Check your internet connection and try again.</p>',[{label:'OK',primary:true,action:()=>$('modal').classList.add('hidden')}]);return false;}
@@ -105,26 +112,115 @@ async function ensureFirebase(){
 }
 function detachMultiplayerListeners(){for(const x of MP.listeners){try{x.ref.off(x.event,x.fn);}catch(e){}}MP.listeners=[];}
 function listen(ref,event,fn){ref.on(event,fn);MP.listeners.push({ref,event,fn});}
+function listenSignal(ref,event,fn){ref.on(event,fn);MP.signalListeners.push({ref,event,fn});}
+function detachSignalListeners(){for(const x of MP.signalListeners){try{x.ref.off(x.event,x.fn);}catch(e){}}MP.signalListeners=[];}
+function clearP2PTimer(){if(MP.p2pTimer){clearTimeout(MP.p2pTimer);MP.p2pTimer=null;}}
+function closePeerConnection(markFailed=false){
+ clearP2PTimer();detachSignalListeners();const pc=MP.peer;MP.peer=null;MP.p2pReady=false;MP.pendingCandidates=[];
+ for(const dc of [MP.fastDC,MP.reliableDC]){if(dc){try{dc.onopen=dc.onclose=dc.onerror=dc.onmessage=null;dc.close();}catch(e){}}}
+ MP.fastDC=null;MP.reliableDC=null;if(pc){try{pc.onicecandidate=pc.onconnectionstatechange=pc.ondatachannel=null;pc.close();}catch(e){}}
+ if(markFailed)MP.p2pFailed=true;
+}
 async function leaveMultiplayer(removeHostRoom=true){
- const wasHost=MP.mode==='host',room=MP.roomRef;detachMultiplayerListeners();
- if(room){try{if(wasHost&&removeHostRoom)await room.remove();else if(MP.mode==='guest'){await room.child('guestConnected').set(false);await room.child('guestUid').remove();}}catch(e){}}
- MP.mode='single';MP.roomCode=null;MP.roomRef=null;MP.guestConnected=false;MP.remoteControlled=null;MP.remoteInput={x:0,y:0};MP.remoteSeq={pass:0,tackle:0,kick:0};MP.localSeq={pass:0,tackle:0,kick:0};MP.guestPhase=null;setNetBadge('');
+ const wasHost=MP.mode==='host',wasGuest=MP.mode==='guest',room=MP.roomRef;closePeerConnection(false);detachMultiplayerListeners();
+ if(room){try{if(wasHost&&removeHostRoom)await room.remove();else if(wasGuest){await room.child('guestConnected').set(false);await room.child('guestUid').remove();}}catch(e){}}
+ MP.mode='single';MP.roomCode=null;MP.roomRef=null;MP.guestConnected=false;MP.remoteControlled=null;MP.remoteInput={x:0,y:0};MP.remoteSeq={pass:0,tackle:0,kick:0};MP.localSeq={pass:0,tackle:0,kick:0};MP.guestPhase=null;MP.p2pFailed=false;MP.rtt=null;setNetBadge('');
 }
 function newRoomCode(){return String(Math.floor(1000+Math.random()*9000));}
 async function allocateRoom(){for(let i=0;i<18;i++){const code=newRoomCode(),ref=MP.db.ref('rooms/'+code),snap=await ref.once('value');if(!snap.exists())return {code,ref};}throw new Error('Could not allocate room');}
-function multiplayerMenu(){showModal('AFL SHOWDOWN','Multiplayer',`<p>Play head-to-head on two phones or tablets. The host chooses the teams and match settings.</p><div class="instructions"><p><strong>HOST GAME</strong> creates a four-digit room code.</p><p><strong>JOIN GAME</strong> enters that code on the second device.</p></div>`,[{label:'HOST GAME',primary:true,action:hostGame},{label:'JOIN GAME',action:joinGamePrompt},{label:'CANCEL',action:()=>$('modal').classList.add('hidden')}]);}
+function multiplayerMenu(){showModal('AFL SHOWDOWN','Multiplayer',`<p>Play head-to-head on two phones or tablets. Firebase finds the room, then the phones switch to a low-latency WebRTC direct link for gameplay.</p><div class="instructions"><p><strong>HOST GAME</strong> creates a four-digit room code.</p><p><strong>JOIN GAME</strong> enters that code on the second device.</p></div>`,[{label:'HOST GAME',primary:true,action:hostGame},{label:'JOIN GAME',action:joinGamePrompt},{label:'CANCEL',action:()=>$('modal').classList.add('hidden')}]);}
+function makePeer(){
+ const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]});
+ MP.peer=pc;MP.pendingCandidates=[];MP.p2pReady=false;MP.p2pFailed=false;MP.rtt=null;
+ const myCandidates=MP.mode==='host'?'hostCandidates':'guestCandidates';
+ pc.onicecandidate=e=>{if(e.candidate&&MP.roomRef)MP.roomRef.child('webrtc/'+myCandidates).push(e.candidate.toJSON()).catch(()=>{});};
+ pc.onconnectionstatechange=()=>{
+  if(pc!==MP.peer)return;const st=pc.connectionState;
+  if(st==='failed'||st==='closed'){p2pConnectionFailed();}
+  else if(st==='disconnected'){clearP2PTimer();MP.p2pTimer=setTimeout(()=>{if(MP.peer===pc&&!MP.p2pReady)p2pConnectionFailed();},1800);}
+  else if(st==='connected')maybeMarkP2PReady();
+ };
+ return pc;
+}
+function configureDataChannel(dc){
+ if(!dc)return;dc.binaryType='arraybuffer';
+ if(dc.label==='fast')MP.fastDC=dc;else if(dc.label==='reliable')MP.reliableDC=dc;
+ dc.onopen=()=>{maybeMarkP2PReady();};
+ dc.onclose=()=>{if(MP.p2pReady)p2pConnectionFailed();};
+ dc.onerror=()=>{};
+ dc.onmessage=e=>handleRTCMessage(e.data);
+}
+function maybeMarkP2PReady(){
+ if(!MP.peer||MP.fastDC?.readyState!=='open'||MP.reliableDC?.readyState!=='open')return;
+ clearP2PTimer();MP.p2pReady=true;MP.p2pFailed=false;connectionBadge();
+ if(MP.mode==='host'&&G.state==='setup')showHostLobby();
+ if(MP.mode==='guest'&&G.state==='setup')showGuestWaiting();
+}
+function p2pConnectionFailed(){
+ if(MP.mode==='single')return;closePeerConnection(true);connectionBadge();
+ if(MP.mode==='host'&&G.state==='setup')showHostLobby();
+ if(MP.mode==='guest'&&G.state==='setup')showGuestWaiting();
+ if(G.state!=='setup')notice('DIRECT LINK LOST · USING FIREBASE FALLBACK',2.2);
+}
+async function addRemoteCandidate(v){
+ if(!v||!MP.peer)return;const c=new RTCIceCandidate(v);
+ if(!MP.peer.remoteDescription){MP.pendingCandidates.push(c);return;}
+ try{await MP.peer.addIceCandidate(c);}catch(e){console.warn('ICE candidate rejected',e);}
+}
+async function flushRemoteCandidates(){const list=MP.pendingCandidates.splice(0);for(const c of list){try{await MP.peer?.addIceCandidate(c);}catch(e){}}}
+function startP2PTimeout(){clearP2PTimer();MP.p2pTimer=setTimeout(()=>{if(!MP.p2pReady)p2pConnectionFailed();},9000);}
+async function startHostWebRTC(){
+ if(MP.mode!=='host'||!MP.roomRef||MP.peer)return;
+ try{
+  const pc=makePeer();configureDataChannel(pc.createDataChannel('fast',{ordered:false,maxRetransmits:0}));configureDataChannel(pc.createDataChannel('reliable',{ordered:true}));
+  listenSignal(MP.roomRef.child('webrtc/answer'),'value',async s=>{if(MP.mode!=='host'||!MP.peer||!s.exists()||MP.peer.remoteDescription)return;try{await MP.peer.setRemoteDescription(s.val());await flushRemoteCandidates();}catch(e){console.error('Answer failed',e);}});
+  listenSignal(MP.roomRef.child('webrtc/guestCandidates'),'child_added',s=>addRemoteCandidate(s.val()));
+  const offer=await pc.createOffer();await pc.setLocalDescription(offer);await MP.roomRef.child('webrtc/offer').set({type:pc.localDescription.type,sdp:pc.localDescription.sdp});startP2PTimeout();connectionBadge();
+ }catch(e){console.error('Host WebRTC failed',e);p2pConnectionFailed();}
+}
+async function startGuestWebRTC(){
+ if(MP.mode!=='guest'||!MP.roomRef||MP.peer)return;
+ try{
+  const pc=makePeer();pc.ondatachannel=e=>configureDataChannel(e.channel);
+  listenSignal(MP.roomRef.child('webrtc/hostCandidates'),'child_added',s=>addRemoteCandidate(s.val()));
+  listenSignal(MP.roomRef.child('webrtc/offer'),'value',async s=>{
+   if(MP.mode!=='guest'||!MP.peer||!s.exists()||MP.peer.remoteDescription)return;
+   try{await MP.peer.setRemoteDescription(s.val());await flushRemoteCandidates();const answer=await MP.peer.createAnswer();await MP.peer.setLocalDescription(answer);await MP.roomRef.child('webrtc/answer').set({type:MP.peer.localDescription.type,sdp:MP.peer.localDescription.sdp});}catch(e){console.error('Offer failed',e);p2pConnectionFailed();}
+  });
+  startP2PTimeout();connectionBadge();
+ }catch(e){console.error('Guest WebRTC failed',e);p2pConnectionFailed();}
+}
+function sendFast(obj){const dc=MP.fastDC;if(!MP.p2pReady||!dc||dc.readyState!=='open'||dc.bufferedAmount>220000)return false;try{dc.send(JSON.stringify(obj));return true;}catch(e){return false;}}
+function sendReliable(obj){const dc=MP.reliableDC;if(!MP.p2pReady||!dc||dc.readyState!=='open'||dc.bufferedAmount>220000)return false;try{dc.send(JSON.stringify(obj));return true;}catch(e){return false;}}
+function handleRTCMessage(raw){
+ let m;try{m=JSON.parse(raw);}catch(e){return;}if(!m||!m.t)return;
+ if(MP.mode==='host'){
+  if(m.t==='i'){MP.remoteInput.x=clamp(+m.x||0,-1,1);MP.remoteInput.y=clamp(+m.y||0,-1,1);}
+  else if(m.t==='a')handleRemoteAction(m.a,+m.q||0,+m.p||.55);
+  else if(m.t==='ping')sendFast({t:'pong',n:m.n});
+  else if(m.t==='rtt'){MP.rtt=clamp(Math.round(+m.ms||0),0,999);connectionBadge();}
+ }else if(MP.mode==='guest'){
+  if(m.t==='s'&&m.s)applyRemoteState(m.s);
+  else if(m.t==='pong'){MP.rtt=clamp(Math.round(performance.now()-(+m.n||performance.now())),0,999);sendFast({t:'rtt',ms:MP.rtt});connectionBadge();}
+ }
+}
 async function hostGame(){
  if(!await ensureFirebase())return;
  try{
   await leaveMultiplayer(false);const {code,ref}=await allocateRoom();MP.mode='host';MP.roomCode=code;MP.roomRef=ref;MP.guestConnected=false;MP.remoteSeq={pass:0,tackle:0,kick:0};
   await ref.set({status:'waiting',hostUid:MP.uid,guestConnected:false,config:clone(cfg),createdAt:firebase.database.ServerValue.TIMESTAMP,input:{guest:{x:0,y:0,passSeq:0,tackleSeq:0,kickSeq:0,kickPower:.55}}});
   try{ref.onDisconnect().remove();}catch(e){}
-  const guestRef=ref.child('guestConnected');listen(guestRef,'value',snap=>{const before=MP.guestConnected;MP.guestConnected=!!snap.val();if(MP.mode!=='host')return;if(G.state==='setup')showHostLobby();if(before&&!MP.guestConnected&&G.state!=='setup')notice('PLAYER 2 DISCONNECTED · AI TAKES OVER',2.2);});
-  const inputRef=ref.child('input/guest');listen(inputRef,'value',snap=>handleGuestInput(snap.val()||{}));
-  showHostLobby();setNetBadge(`HOST · ROOM ${code}`,'good');
+  const guestRef=ref.child('guestConnected');listen(guestRef,'value',snap=>{const before=MP.guestConnected;MP.guestConnected=!!snap.val();if(MP.mode!=='host')return;if(MP.guestConnected&&!MP.peer)startHostWebRTC();if(before&&!MP.guestConnected){closePeerConnection(false);if(G.state!=='setup')notice('PLAYER 2 DISCONNECTED · AI TAKES OVER',2.2);}if(G.state==='setup')showHostLobby();});
+  const inputRef=ref.child('input/guest');listen(inputRef,'value',snap=>{if(!MP.p2pReady)handleGuestInput(snap.val()||{});});
+  showHostLobby();connectionBadge();
  }catch(err){console.error(err);await leaveMultiplayer(false);showModal('MULTIPLAYER','Could not host','<p>The room could not be created. Check your internet connection and try again.</p>',[{label:'OK',primary:true,action:()=>$('modal').classList.add('hidden')}]);}
 }
-function showHostLobby(){if(MP.mode!=='host'||G.state!=='setup')return;const ready=MP.guestConnected;showModal('HOST GAME',ready?'Player 2 connected':'Waiting for Player 2',`<div class="roomCode">${MP.roomCode}</div><p class="roomHint">Enter this code on the second phone.</p><p>${ready?'Both devices are connected. Start when you are ready.':'Keep this screen open while Player 2 joins.'}</p>`,[...(ready?[{label:'START MATCH',primary:true,action:startHostedMatch}]:[]),{label:'CANCEL ROOM',action:async()=>{await leaveMultiplayer();$('modal').classList.add('hidden');}}]);}
+function showHostLobby(){if(MP.mode!=='host'||G.state!=='setup')return;const joined=MP.guestConnected,direct=MP.p2pReady,failed=MP.p2pFailed;
+ const status=!joined?'Waiting for Player 2':direct?'Direct connection ready':failed?'Direct connection unavailable':'Connecting direct link…';
+ const detail=!joined?'Keep this screen open while Player 2 joins.':direct?'The phones are now linked directly for low-latency gameplay.':failed?'WebRTC could not connect, so the old Firebase gameplay link is available as a fallback.':'This normally takes a second or two.';
+ const buttons=[];if(direct)buttons.push({label:'START MATCH',primary:true,action:startHostedMatch});else if(failed)buttons.push({label:'START WITH FALLBACK',primary:true,action:startHostedMatch},{label:'RETRY DIRECT LINK',action:async()=>{closePeerConnection(false);try{await MP.roomRef.child('webrtc').remove();}catch(e){}startHostWebRTC();showHostLobby();}});buttons.push({label:'CANCEL ROOM',action:async()=>{await leaveMultiplayer();$('modal').classList.add('hidden');}});
+ showModal('HOST GAME',status,`<div class="roomCode">${MP.roomCode}</div><p class="roomHint">Enter this code on the second phone.</p><p>${detail}</p>`,buttons);
+}
 async function startHostedMatch(){if(MP.mode!=='host'||!MP.guestConnected)return;try{await MP.roomRef.child('config').set(clone(cfg));await MP.roomRef.child('status').set('playing');}catch(e){}$('modal').classList.add('hidden');startMatch();}
 function joinGamePrompt(){showModal('JOIN GAME','Enter room code','<p>Type the four-digit code shown on the host device.</p><input id="roomCodeInput" class="roomInput" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="0000" aria-label="Room code">',[{label:'JOIN ROOM',primary:true,action:joinRoomFromInput},{label:'BACK',action:multiplayerMenu}]);setTimeout(()=>{$('roomCodeInput')?.focus();},50);}
 async function joinRoomFromInput(){const el=$('roomCodeInput'),code=(el?.value||'').replace(/\D/g,'').slice(0,4);if(code.length!==4){if(el)el.focus();return;}if(!await ensureFirebase())return;
@@ -134,19 +230,23 @@ async function joinRoomFromInput(){const el=$('roomCodeInput'),code=(el?.value||
   await ref.update({guestConnected:true,guestUid:MP.uid});try{ref.child('guestConnected').onDisconnect().set(false);ref.child('guestUid').onDisconnect().remove();}catch(e){}
   if(data.config){cfg=clone(data.config);saveConfig();updateSetup();rebuildStadium();resetPositions(0);}
   listen(ref.child('config'),'value',s=>{if(MP.mode!=='guest'||!s.exists())return;cfg=clone(s.val());saveConfig();updateSetup();rebuildStadium();});
-  listen(ref.child('status'),'value',s=>{if(MP.mode!=='guest')return;const st=s.val();if(st==='waiting')showGuestWaiting();else if(st===null)guestRoomClosed();});
-  listen(ref.child('state'),'value',s=>{if(MP.mode==='guest'&&s.exists())applyRemoteState(s.val());});
-  showGuestWaiting();setNetBadge(`PLAYER 2 · ROOM ${code}`,'good');
+  listen(ref.child('status'),'value',s=>{if(MP.mode!=='guest')return;const st=s.val();if(st==='waiting'&&G.state==='setup')showGuestWaiting();else if(st===null)guestRoomClosed();});
+  listen(ref.child('state'),'value',s=>{if(MP.mode==='guest'&&!MP.p2pReady&&s.exists())applyRemoteState(s.val());});
+  startGuestWebRTC();showGuestWaiting();connectionBadge();
  }catch(err){console.error(err);await leaveMultiplayer(false);showModal('JOIN GAME','Could not join','<p>Could not connect to that room. Check the code and internet connection.</p>',[{label:'TRY AGAIN',primary:true,action:joinGamePrompt},{label:'CANCEL',action:()=>$('modal').classList.add('hidden')}]);}
 }
-function showGuestWaiting(){if(MP.mode!=='guest')return;showModal('JOINED ROOM',`Room ${MP.roomCode}`,`<p>You are Player 2 and will control <strong>${escapeHTML(cfg.teams[1].name)}</strong>.</p><p>Waiting for the host to start the match.</p>`,[{label:'LEAVE ROOM',action:async()=>{await leaveMultiplayer();$('modal').classList.add('hidden');}}]);}
-function guestRoomClosed(){if(MP.mode!=='guest')return;detachMultiplayerListeners();MP.roomRef=null;showModal('MULTIPLAYER','Host left the room','<p>The host closed this multiplayer room.</p>',[{label:'BACK TO SETUP',primary:true,action:async()=>{await leaveMultiplayer(false);backToSetup();}}]);setNetBadge('HOST DISCONNECTED','warn');}
-function guestAction(type,power=.55){if(MP.mode!=='guest'||!MP.roomRef)return;const key=type+'Seq';MP.localSeq[type]=(MP.localSeq[type]||0)+1;const data={[key]:MP.localSeq[type]};if(type==='kick')data.kickPower=clamp(power,.3,1);MP.roomRef.child('input/guest').update(data).catch(()=>{});}
+function showGuestWaiting(){if(MP.mode!=='guest'||G.state!=='setup')return;const status=MP.p2pReady?'Direct connection ready':MP.p2pFailed?'Using Firebase fallback':'Connecting direct link…';const detail=MP.p2pReady?'Low-latency WebRTC is ready. Waiting for the host to start the match.':MP.p2pFailed?'A direct link could not be established. You can still play if the host starts with fallback.':'Waiting for the two phones to establish their direct connection.';showModal('JOINED ROOM',`Room ${MP.roomCode}`,`<p>You are Player 2 and will control <strong>${escapeHTML(cfg.teams[1].name)}</strong>.</p><p><strong>${status}</strong><br>${detail}</p>`,[{label:'LEAVE ROOM',action:async()=>{await leaveMultiplayer();$('modal').classList.add('hidden');}}]);}
+function guestRoomClosed(){if(MP.mode!=='guest')return;closePeerConnection(false);detachMultiplayerListeners();MP.roomRef=null;showModal('MULTIPLAYER','Host left the room','<p>The host closed this multiplayer room.</p>',[{label:'BACK TO SETUP',primary:true,action:async()=>{await leaveMultiplayer(false);backToSetup();}}]);setNetBadge('HOST DISCONNECTED','warn');}
+function guestAction(type,power=.55){
+ if(MP.mode!=='guest'||!MP.roomRef)return;MP.localSeq[type]=(MP.localSeq[type]||0)+1;const seq=MP.localSeq[type],payload={t:'a',a:type,q:seq,p:clamp(power,.3,1)};if(sendReliable(payload))return;
+ const key=type+'Seq',data={[key]:seq};if(type==='kick')data.kickPower=clamp(power,.3,1);MP.roomRef.child('input/guest').update(data).catch(()=>{});
+}
+function handleRemoteAction(type,seq,power=.55){if(MP.mode!=='host'||!['pass','tackle','kick'].includes(type))return;if(seq&&seq<=MP.remoteSeq[type])return;if(seq)MP.remoteSeq[type]=seq;if(type==='pass')remotePassAction();else if(type==='tackle')remoteTackleAction();else remoteKickAction(clamp(power,.3,1));}
 function handleGuestInput(v){if(MP.mode!=='host')return;MP.remoteInput.x=clamp(+v.x||0,-1,1);MP.remoteInput.y=clamp(+v.y||0,-1,1);
  const ps=+v.passSeq||0,ts=+v.tackleSeq||0,ks=+v.kickSeq||0;
- if(ps>MP.remoteSeq.pass){MP.remoteSeq.pass=ps;remotePassAction();}
- if(ts>MP.remoteSeq.tackle){MP.remoteSeq.tackle=ts;remoteTackleAction();}
- if(ks>MP.remoteSeq.kick){MP.remoteSeq.kick=ks;remoteKickAction(clamp(+v.kickPower||.55,.3,1));}
+ if(ps>MP.remoteSeq.pass)handleRemoteAction('pass',ps);
+ if(ts>MP.remoteSeq.tackle)handleRemoteAction('tackle',ts);
+ if(ks>MP.remoteSeq.kick)handleRemoteAction('kick',ks,clamp(+v.kickPower||.55,.3,1));
 }
 function remotePassAction(){if(MP.mode!=='host'||G.state!=='play'||G.paused)return;let p=MP.remoteControlled;if(!p)p=fieldPlayers(1)[0];if(!p)return;if(G.ball.owner===p)passBall(p);else{const n=nearest(1,G.ball.x,G.ball.y,p);if(n){MP.remoteControlled=n;n.assist=.22;}}}
 function remoteTackleAction(){if(MP.mode!=='host'||G.state!=='play'||G.paused)return;const p=MP.remoteControlled;if(!p||p.cool>0)return;const b=G.ball,n=unit(b.x-p.x,b.y-p.y);p.tackle=.24;p.cool=.72;p.vx=n.x*245;p.vy=n.y*245;p.face=Math.atan2(n.y,n.x);emit(p.x,p.y,5,'dust');sound('tackle');}
@@ -162,8 +262,25 @@ function syncGuestPhaseUI(oldState){if(MP.mode!=='guest')return;
  if(G.paused){if(MP.guestPhase!=='paused'){MP.guestPhase='paused';showModal('HOST PAUSED','Match paused','<p>The host has paused the match.</p>',[{label:'LEAVE MATCH',action:async()=>{await leaveMultiplayer();backToSetup();}}]);}return;}
  MP.guestPhase=null;$('modal').classList.add('hidden');
 }
-function maybeSendGuestInput(now){if(MP.mode!=='guest'||!MP.roomRef)return;if(now-MP.lastGuestSend<45)return;const x=Math.round(input.x*100)/100,y=Math.round(input.y*100)/100;if(Math.abs(x-MP.lastGuestX)<.02&&Math.abs(y-MP.lastGuestY)<.02&&now-MP.lastGuestSend<180)return;MP.lastGuestSend=now;MP.lastGuestX=x;MP.lastGuestY=y;MP.roomRef.child('input/guest').update({x,y}).catch(()=>{});}
-function maybePublishHostState(now){if(MP.mode!=='host'||!MP.roomRef||G.state==='setup')return;if(now-MP.lastHostSend<75)return;MP.lastHostSend=now;const state=serializeGame();if(state)MP.roomRef.child('state').set(state).catch(()=>{});}
+function maybeSendGuestInput(now){
+ if(MP.mode!=='guest'||!MP.roomRef)return;const interval=MP.p2pReady?30:45;if(now-MP.lastGuestSend<interval)return;const x=Math.round(input.x*100)/100,y=Math.round(input.y*100)/100;if(Math.abs(x-MP.lastGuestX)<.02&&Math.abs(y-MP.lastGuestY)<.02&&now-MP.lastGuestSend<(MP.p2pReady?110:180))return;MP.lastGuestSend=now;MP.lastGuestX=x;MP.lastGuestY=y;
+ if(sendFast({t:'i',x,y}))return;MP.roomRef.child('input/guest').update({x,y}).catch(()=>{});
+}
+function maybePublishHostState(now){
+ if(MP.mode!=='host'||!MP.roomRef||G.state==='setup')return;const interval=MP.p2pReady?35:75;if(now-MP.lastHostSend<interval)return;MP.lastHostSend=now;const state=serializeGame();if(!state)return;if(sendFast({t:'s',s:state}))return;MP.roomRef.child('state').set(state).catch(()=>{});
+}
+function maybePingP2P(now){if(MP.mode!=='guest'||!MP.p2pReady||now-MP.lastPing<1000)return;MP.lastPing=now;sendFast({t:'ping',n:Math.round(now)});}
+function guestPredict(dt){
+ if(MP.mode!=='guest'||!G.ball||G.paused||!['ready','play','goal'].includes(G.state))return;dt=Math.min(.05,Math.max(0,dt));if(!dt)return;
+ G.age+=dt;if(G.state==='play')G.time=Math.max(0,G.time-dt);
+ const cp=G.controlled;
+ for(const p of G.players){
+  if(p===cp&&G.state==='play'&&p.stun<=0){const mag=Math.min(1,length(input.x,input.y));if(mag>.12){const sp=(G.ball.owner===p?166:187)*mag;p.vx=towards(p.vx,input.x*sp,1050*dt);p.vy=towards(p.vy,input.y*sp,1050*dt);}else if(G.ball.owner===p){p.vx=towards(p.vx,0,1100*dt);p.vy=towards(p.vy,0,1100*dt);}}
+  p.x+=p.vx*dt;p.y+=p.vy*dt;const q=clampToOval(p.x,p.y,18);p.x=q.x;p.y=q.y;const v=length(p.vx,p.vy);p.stride=(p.stride||0)+v*dt*.083;if(v>10){const a=Math.atan2(p.vy*.85,p.vx),da=Math.atan2(Math.sin(a-p.face),Math.cos(a-p.face));p.face+=da*Math.min(1,dt*14);}
+ }
+ const b=G.ball;if(b.owner){const p=b.owner,v=length(p.vx,p.vy),n=v>15?unit(p.vx,p.vy):{x:Math.cos(p.face),y:Math.sin(p.face)},side={x:-n.y,y:n.x};b.x=p.x+n.x*10+side.x*4;b.y=p.y+n.y*10+side.y*4;b.z=Math.max(28,b.z||31);}
+ else{b.x+=b.vx*dt;b.y+=b.vy*dt;b.z=Math.max(0,(b.z||0)+(b.vz||0)*dt);b.vz=(b.vz||0)-350*dt;}
+}
 
 const TAU=Math.PI*2, P={w:1000,h:600,b1:190,g1:248,g2:352,b2:410,post:94};
 const KICK_MAX_RANGE=259, HANDBALL_MAX_RANGE=92;
@@ -880,8 +997,7 @@ function sound(name){
   else if(name==='tap')tone(175,.055,.035,'sine',0,70);
   else if(name==='handball'){tone(145,.07,.055,'triangle',0,68);tone(260,.035,.018,'sine',.01,150);}
   else if(name==='kick')tone(170,.12,.11,'sine',0,45);
-  else if(name==='shoot'){tone(130,.16,.15,'sine',0,38);tone(240,.085,.028,'triangle',0,80);}
-  else if(name==='tackle')tone(85,.1,.055,'triangle',0,40);
+  else if(name==='shoot'){tone(130,.16,.15,'sine',0,38);tone(240,.085,.028,'triangle',0,80);}  else if(name==='tackle')tone(85,.1,.055,'triangle',0,40);
   else if(name==='save'){tone(105,.16,.105,'triangle',0,42);tone(350,.065,.025,'sine',.02,150);}
   else if(name==='post'){tone(690,.35,.05,'triangle',0,410);tone(1000,.22,.025,'sine');}
   else if(name==='whistle'){tone(2400,.18,.035,'sine',0,2750);tone(2500,.26,.03,'sine',.21,2350);}
@@ -997,7 +1113,8 @@ function touchUp(e){
  const tap=!touch.dragging&&now-touch.downAt<TAP_HOLD&&length(x-touch.startX,y-touch.startY)<=TAP_SLOP,second=touch.second,context=touch.context;
  touch.pointer=null;touch.dragging=false;touch.second=false;touch.context=null;input.touchActive=false;input.x=input.y=0;$('touchTarget').classList.add('hidden');
  if(!tap){touch.pending=null;return;}
- if(second){const pending=touch.pending;touch.pending=null;if(pending)touchAction('shoot',x,y,pending.context);} else if(sameTouchContext(context))touch.pending={x,y,due:now+TAP_WINDOW,context};
+ if(second){const pending=touch.pending;touch.pending=null;if(pending)touchAction('shoot',x,y,pending.context);}
+ else if(sameTouchContext(context))touch.pending={x,y,due:now+TAP_WINDOW,context};
 }
 function touchCancel(e){if(e.pointerId===touch.pointer)cancelTouchInput();}
 $('touchSurface').addEventListener('pointerdown',touchDown);
@@ -1031,11 +1148,11 @@ function frame(now){
  updateTouchGestures(now);
  const elapsed=lastTime?Math.min(.12,Math.max(0,(now-lastTime)/1000)):0;lastTime=now;
  if(MP.mode==='guest'){
-  updateInput();if(input.charging)input.charge+=elapsed;maybeSendGuestInput(now);accumulator=0;
+  updateInput();if(input.charging)input.charge+=elapsed;maybeSendGuestInput(now);guestPredict(elapsed);accumulator=0;
  }else if(!G.paused&&!['setup','half','end'].includes(G.state)){
   accumulator+=elapsed;let count=0;while(accumulator>=1/120&&count<15){step(1/120);accumulator-=1/120;count++;}
  }else accumulator=0;
- maybePublishHostState(now);drawScene();hudTick+=elapsed;if(hudTick>.08){updateHUD();hudTick=0;}requestAnimationFrame(frame);
+ maybePingP2P(now);maybePublishHostState(now);drawScene();hudTick+=elapsed;if(hudTick>.08){updateHUD();hudTick=0;}requestAnimationFrame(frame);
 }
 updateSetup();resetPositions(0);resize();requestAnimationFrame(frame);
 })();
