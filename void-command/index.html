@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-<title>VOID COMMAND — Tactical Space Combat</title>
+<title>VOID COMMAND V13 — Tactical Space Combat</title>
 <style>
   :root{
     --bg:#05090d;--panel:rgba(7,16,22,.84);--line:rgba(110,213,223,.28);--cyan:#73e2e8;--cyan2:#c9fbff;
@@ -32,24 +32,32 @@
   #statusStrip{position:absolute;top:7px;left:50%;transform:translateX(-50%);min-width:0;padding:5px 9px;text-align:center;border:1px solid rgba(115,226,232,.12);background:rgba(5,12,17,.34);font-size:8px;letter-spacing:.10em;text-transform:uppercase;white-space:nowrap}
   #warning{position:absolute;top:39px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);text-shadow:0 0 12px rgba(255,189,99,.4);opacity:0;transition:opacity .14s}
   #warning.on{opacity:1}.critical{color:var(--red)!important}
-  #bottomHud{left:50%;bottom:7px;transform:translateX(-50%);width:min(650px,calc(100% - 125px));min-width:430px;padding:0;display:grid;grid-template-columns:1fr 112px;gap:6px;align-items:end;background:transparent;border:0;box-shadow:none;backdrop-filter:none}
-  .miniPanel{border:1px solid rgba(111,211,220,.12);background:rgba(5,14,18,.47);padding:5px;min-height:0}.miniPanel:first-child{display:none}.miniTitle{font-size:7px;letter-spacing:.12em;color:#719ea8;text-transform:uppercase;margin-bottom:3px}
+  #bottomHud{left:50%;bottom:7px;transform:translateX(-50%);width:min(680px,calc(100% - 125px));min-width:470px;padding:0;display:grid;grid-template-columns:132px 1fr 112px;gap:6px;align-items:end;background:transparent;border:0;box-shadow:none;backdrop-filter:none}
+  .miniPanel{border:1px solid rgba(111,211,220,.12);background:rgba(5,14,18,.47);padding:5px;min-height:0}#thrustPanel{display:block;pointer-events:auto;padding:6px 8px 7px}.thrustReadout{display:flex;justify-content:space-between;align-items:center;font-size:8px;letter-spacing:.08em;color:#90b9c1;margin-bottom:5px}.thrustReadout b{color:#e6fdff;font-size:11px}.thrustSlider{width:100%;height:18px;margin:0;accent-color:#73e2e8;touch-action:none;cursor:pointer}.thrustReserveRow{display:flex;justify-content:space-between;align-items:center;margin-top:3px;font-size:6.5px;letter-spacing:.08em;color:#7398a1;text-transform:uppercase}.thrustReserveBar{height:5px;margin-top:3px;background:#09171d;border:1px solid rgba(111,211,220,.11);overflow:hidden}.thrustReserveFill{height:100%;width:100%;background:linear-gradient(90deg,#4abec8,#c8ffff);transition:width .08s linear}.thrustReserveFill.warn{background:linear-gradient(90deg,#a66d31,#ffbf66)}.thrustReserveFill.danger{background:linear-gradient(90deg,#a43b3b,#ff756c)}.thrustHint{font-size:6.5px;color:#688c94;letter-spacing:.07em;text-transform:uppercase;text-align:center;margin-top:3px}.miniTitle{font-size:7px;letter-spacing:.12em;color:#719ea8;text-transform:uppercase;margin-bottom:3px}
   .telemetry{display:grid;grid-template-columns:1fr 1fr;gap:5px 9px;font-size:10px}.telemetry b{color:#ddfbff;font-weight:600}
-  .controls{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;pointer-events:auto}
+  .controls{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;pointer-events:auto}
   .btn{position:relative;border:1px solid rgba(118,215,224,.22);background:linear-gradient(180deg,rgba(12,29,36,.79),rgba(3,11,15,.88));min-width:0;height:50px;padding:5px 3px;cursor:pointer;overflow:hidden;transition:transform .06s,border-color .12s,background .12s;box-shadow:0 0 12px rgba(0,0,0,.15) inset}
   .btn:active{transform:translateY(1px) scale(.99)}.btn.ready{border-color:rgba(116,229,235,.62);box-shadow:0 0 14px rgba(79,217,225,.08) inset}.btn.warn{border-color:rgba(255,189,99,.56)}.btn.danger{border-color:rgba(255,95,95,.56)}
   .btn .ico{display:block;font-size:14px;line-height:13px;margin-bottom:2px;color:#b8f8fb}.btn .txt{font-size:8px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}.btn .small{display:block;margin-top:2px;font-size:6.5px;color:#7e9ca5;letter-spacing:.025em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  #radar{width:100%;height:50px;border:1px solid rgba(105,207,218,.10);background:radial-gradient(circle,rgba(34,79,89,.13),rgba(3,10,13,.10));display:block}
+  #radarPanel{pointer-events:auto;transition:width .18s,height .18s,background .18s,border-color .18s;z-index:7}
+  #radar{width:100%;height:50px;border:1px solid rgba(105,207,218,.10);background:radial-gradient(circle,rgba(34,79,89,.13),rgba(3,10,13,.10));display:block;cursor:pointer;touch-action:none}
+  body.radarExpanded #radarPanel{position:fixed;right:8px;bottom:68px;width:min(330px,44vw);height:min(255px,46vh);padding:7px;background:rgba(4,14,19,.90);border-color:rgba(112,225,234,.34);box-shadow:0 12px 34px rgba(0,0,0,.44),inset 0 0 24px rgba(64,196,207,.035)}
+  body.radarExpanded #radar{height:calc(100% - 13px);border-color:rgba(105,207,218,.22)}
+  body.radarExpanded #radarPanel .miniTitle:after{content:'  ·  TAP TO REDUCE';color:#88c9d0}
+  #statusStrip .flightData{color:#bceff2;margin-left:8px}
   #topButtons{position:fixed;right:8px;bottom:65px;display:flex;gap:5px;pointer-events:auto}
+  body.radarHidden #bottomHud{width:min(560px,calc(100% - 90px));grid-template-columns:132px 1fr}
+  body.radarHidden #bottomHud .miniPanel:last-child{display:none}
+  body.radarHidden #radarPanel{display:none}
   .roundBtn{width:31px;height:31px;border:1px solid rgba(122,222,231,.22);background:rgba(5,14,19,.65);color:#c6f7f9;cursor:pointer;font-size:13px}
-  #overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 46%,rgba(8,24,32,.62),rgba(1,4,6,.94));z-index:20;pointer-events:auto;touch-action:manipulation}
-  #overlay.hidden{display:none}.menu{width:min(760px,92vw);padding:34px 36px;border:1px solid rgba(111,218,228,.24);background:linear-gradient(180deg,rgba(9,23,30,.96),rgba(2,8,12,.95));box-shadow:0 30px 90px rgba(0,0,0,.5);position:relative}.menu:before{content:"";position:absolute;inset:8px;border:1px solid rgba(94,201,213,.08);pointer-events:none;z-index:0}.menu>*{position:relative;z-index:1}.menuBtn{position:relative;z-index:3}
+  #overlay,#resultOverlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 46%,rgba(8,24,32,.62),rgba(1,4,6,.94));z-index:20;pointer-events:auto;touch-action:manipulation}
+  #overlay.hidden,#resultOverlay.hidden{display:none}.menu{width:min(760px,92vw);padding:34px 36px;border:1px solid rgba(111,218,228,.24);background:linear-gradient(180deg,rgba(9,23,30,.96),rgba(2,8,12,.95));box-shadow:0 30px 90px rgba(0,0,0,.5);position:relative}.menu:before{content:"";position:absolute;inset:8px;border:1px solid rgba(94,201,213,.08);pointer-events:none;z-index:0}.menu>*{position:relative;z-index:1}.menuBtn{position:relative;z-index:3}
   .menu h1{margin:0;font-size:clamp(32px,5vw,64px);letter-spacing:.18em;line-height:.9;color:#eaffff;text-shadow:0 0 30px rgba(107,231,238,.12)}
   .menu h2{margin:10px 0 23px;font-weight:400;font-size:11px;letter-spacing:.32em;color:#6f9ca6;text-transform:uppercase}
   .menu p{max-width:610px;color:#9bb6bd;font-size:13px;line-height:1.55}.menuRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;pointer-events:auto}.menuBtn{padding:13px 19px;border:1px solid rgba(104,220,228,.35);background:#0a1c23;color:#dffcff;text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800;cursor:pointer}.menuBtn.primary{background:linear-gradient(180deg,#12323b,#0a1e25);border-color:rgba(112,232,239,.7)}.difficultyTitle{margin-top:18px;color:#6f9ca6;font-size:9px;letter-spacing:.25em;text-transform:uppercase}.difficultyGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:7px}.diffBtn{padding:9px 5px;border:1px solid rgba(104,220,228,.2);background:rgba(5,18,24,.72);color:#7e9ea6;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;touch-action:none}.diffBtn.active{color:#e8ffff;border-color:rgba(112,232,239,.72);background:rgba(18,50,59,.9);box-shadow:inset 0 0 16px rgba(75,215,226,.08)}.diffHint{margin-top:6px;color:#7998a0;font-size:10px;min-height:16px}
-  .help{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.help div{padding:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015);font-size:10px;color:#809da5;line-height:1.45}.help b{display:block;color:#bfeef0;letter-spacing:.09em;margin-bottom:4px}
+  .resultStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0 6px}.resultStat{border:1px solid rgba(110,213,223,.12);background:rgba(255,255,255,.018);padding:11px 10px}.resultStat span{display:block;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#729aa3}.resultStat b{display:block;margin-top:5px;font-size:18px;color:#e8feff;font-weight:700}.help{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.help div{padding:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015);font-size:10px;color:#809da5;line-height:1.45}.help b{display:block;color:#bfeef0;letter-spacing:.09em;margin-bottom:4px}
   #toast{position:fixed;left:50%;bottom:66px;transform:translateX(-50%) translateY(8px);padding:6px 9px;border:1px solid rgba(113,219,228,.18);background:rgba(4,13,18,.72);font-size:8px;letter-spacing:.08em;text-transform:uppercase;opacity:0;transition:.18s;z-index:10}.toastOn{opacity:1!important;transform:translateX(-50%) translateY(0)!important}
-  @media(max-width:820px){#shipPanel{width:164px}.sys{grid-template-columns:47px 1fr 24px}#contactPanel{width:150px}#bottomHud{width:calc(100% - 16px);min-width:0;grid-template-columns:1fr;left:8px;right:8px;transform:none}.miniPanel:last-child{display:none}.controls{grid-template-columns:repeat(5,1fr)}#topButtons{bottom:62px}.help{grid-template-columns:1fr}.menu{padding:25px 24px}.menu p{font-size:12px}.difficultyGrid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:820px){body.radarExpanded #radarPanel{width:min(300px,52vw);height:min(220px,48vh)}#shipPanel{width:164px}.sys{grid-template-columns:47px 1fr 24px}#contactPanel{width:150px}#bottomHud{width:calc(100% - 16px);min-width:0;grid-template-columns:112px 1fr 92px;left:8px;right:8px;transform:none}.controls{grid-template-columns:repeat(3,1fr)}#thrustPanel{padding:5px 6px}.thrustReadout b{font-size:10px}#topButtons{bottom:62px}.help{grid-template-columns:1fr}.menu{padding:25px 24px}.menu p{font-size:12px}.difficultyGrid{grid-template-columns:repeat(3,1fr)}}
   @media(max-height:620px){#shipPanel{transform:scale(.86);transform-origin:top left}#contactPanel{transform:scale(.86);transform-origin:top right}#bottomHud{bottom:4px}.help{display:none}.menu p{max-width:680px}.menu{padding-top:24px;padding-bottom:24px}#topButtons{bottom:58px}}
 
   /* Compact battle view */
@@ -70,7 +78,7 @@
     <div class="tiny" id="damageText">All compartments nominal</div>
   </div>
 
-  <div id="statusStrip">ACHERON // 720 × 520 KM</div>
+  <div id="statusStrip"><span>ACHERON // 720 × 520 KM</span><span class="flightData" id="flightData">SPD 0 m/s // COURSE — // HDG 090°</span></div>
   <div id="warning">INCOMING TORPEDO</div>
 
   <div id="contactPanel" class="panel">
@@ -79,29 +87,29 @@
   </div>
 
   <div id="bottomHud" class="panel">
-    <div class="miniPanel">
-      <div class="miniTitle">Flight Solution</div>
-      <div class="telemetry">
-        <span>VEL</span><b id="velText">0 m/s</b>
-        <span>RANGE</span><b id="rangeText">—</b>
-        <span>BURN</span><b id="burnText">1G</b>
-        <span>VECTOR</span><b id="vectorText">UNSET</b>
-      </div>
+    <div class="miniPanel" id="thrustPanel">
+      <div class="miniTitle">Thrust Power</div>
+      <div class="thrustReadout"><span>POWER</span><b id="thrustValue">3.0G</b></div>
+      <input class="thrustSlider" id="thrustSlider" type="range" min="0.5" max="10" step="0.5" value="3" aria-label="Thrust power" />
+      <div class="thrustReserveRow"><span>Drive Reserve</span><b id="thrustReserveText">100%</b></div>
+      <div class="thrustReserveBar"><div class="thrustReserveFill" id="thrustReserveFill"></div></div>
+      <div class="thrustHint">Hold space to burn · reserve recharges</div>
+      <div style="display:none"><span id="velText"></span><span id="rangeText"></span><span id="burnText"></span><span id="vectorText"></span><span id="gSmall"></span><span id="burnSmall"></span></div>
     </div>
     <div class="controls">
-      <button class="btn ready" id="burnBtn"><span class="ico">◢</span><span class="txt">Burn</span><span class="small" id="burnSmall">Set vector</span></button>
       <button class="btn ready" id="torpBtn"><span class="ico">➤</span><span class="txt">Torpedoes</span><span class="small" id="torpSmall">8/8 · ∞ RESERVE</span></button>
       <button class="btn ready" id="railBtn"><span class="ico">━</span><span class="txt">Railgun</span><span class="small" id="railSmall">READY</span></button>
       <button class="btn ready" id="pdcBtn"><span class="ico">✣</span><span class="txt">PDC</span><span class="small" id="pdcSmall">AUTO</span></button>
-      <button class="btn warn" id="gBtn"><span class="ico">↟</span><span class="txt">Thrust</span><span class="small" id="gSmall">1G</span></button>
     </div>
-    <div class="miniPanel">
+    <div class="miniPanel" id="radarPanel">
       <div class="miniTitle">Tactical Radar</div>
-      <canvas id="radar"></canvas>
+      <canvas id="radar" aria-label="Tactical radar. Tap to enlarge or reduce."></canvas>
     </div>
   </div>
 
   <div id="topButtons">
+    <button class="roundBtn" id="menuBtn" title="Main Menu">⌂</button>
+    <button class="roundBtn" id="radarBtn" title="Toggle Radar">R</button>
     <button class="roundBtn" id="hudBtn" title="Toggle HUD">◫</button>
     <button class="roundBtn" id="pauseBtn" title="Pause">Ⅱ</button>
     <button class="roundBtn" id="fsBtn" title="Fullscreen">⛶</button>
@@ -112,11 +120,11 @@
   <div class="menu">
     <h1>VOID<br>COMMAND</h1>
     <h2>Physics-driven tactical space combat</h2>
-    <p>Command the <b>TCS Valiant</b> against a hostile patrol. Set burn vectors directly on the battlefield, use torpedo salvos at range, wait for a railgun solution, and trust your PDC network when the missiles arrive.</p>
+    <p>Command the <b>TCS Valiant</b> against a hostile patrol. Press and hold anywhere in space to burn toward your finger, drag while holding to steer the thrust vector, and manage the regenerative drive reserve. Around 1G is nearly sustainable; harder burns rapidly drain the reserve and require recovery.</p>
     <div class="help">
-      <div><b>MOVE / AIM</b>Tap or drag space to place the shared aim/burn cursor. Your ship stays centred while the sector scrolls around you.</div>
+      <div><b>MOVE / AIM</b>Short tap to place the railgun aim cursor. Press and hold to burn toward your finger; drag while holding to steer. Release to cut thrust.</div>
       <div><b>TARGET</b>Tap an enemy ship or its contact entry to select it.</div>
-      <div><b>FIGHT</b>Torpedoes are long-range. Railguns hit hard. PDCs intercept incoming missiles automatically.</div>
+      <div><b>FIGHT</b>Torpedo salvos can saturate point defence. PDCs defend against torpedoes first, then engage ships at very close range. Asteroids are physical cover: weapons can strike, move and fracture them. Critical off-screen impacts may trigger a brief combat replay.</div>
     </div>
     <div class="difficultyTitle">Combat difficulty</div>
     <div class="difficultyGrid" id="difficultyGrid">
@@ -126,8 +134,25 @@
       <button class="diffBtn" data-difficulty="veteran">Veteran</button>
       <button class="diffBtn" data-difficulty="command">Command</button>
     </div>
-    <div class="diffHint" id="diffHint">Combat: railguns average about 3 clean hits against a standard frigate.</div>
+    <div class="diffHint" id="diffHint">Combat: balanced · 2 hostiles. Railguns average about 3 clean hits against a standard frigate.</div>
     <div class="menuRow"><button class="menuBtn primary" id="startBtn">Start Skirmish</button></div>
+  </div>
+</div>
+
+<div id="resultOverlay" class="hidden">
+  <div class="menu">
+    <h1 id="resultTitle">SECTOR<br>SECURE</h1>
+    <h2 id="resultSubtitle">Hostile patrol destroyed</h2>
+    <p id="resultText">All hostile contacts have been eliminated. The sector is secure.</p>
+    <div class="resultStats">
+      <div class="resultStat"><span>Difficulty</span><b id="resultDifficulty">Combat</b></div>
+      <div class="resultStat"><span>Battle Time</span><b id="resultTime">0:00</b></div>
+      <div class="resultStat"><span>Hull Remaining</span><b id="resultHull">100%</b></div>
+    </div>
+    <div class="menuRow">
+      <button class="menuBtn primary" id="againBtn">Fight Again</button>
+      <button class="menuBtn" id="resultMenuBtn">Main Menu</button>
+    </div>
   </div>
 </div>
 <script>
@@ -136,12 +161,13 @@
 const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
 const radar = document.getElementById('radar'), rctx = radar.getContext('2d');
 const DPR = () => Math.min(window.devicePixelRatio || 1, 1.7);
-let W=0,H=0,dpr=1,last=0,paused=false,started=false,difficulty='combat',elapsed=0;
+let W=0,H=0,dpr=1,last=0,paused=false,started=false,difficulty='combat',elapsed=0,battleEnded=false,victoryCountdown=0;
 let screenShake=0,flash=0,warningTimer=0,toastTimer=0;
+let combatHistory=[],historySampleClock=0,replay=null,replayQueue=[];
 const ui={
   systems:document.getElementById('systems'), contacts:document.getElementById('contacts'), warning:document.getElementById('warning'), toast:document.getElementById('toast'),
   vel:document.getElementById('velText'), range:document.getElementById('rangeText'), burn:document.getElementById('burnText'), vector:document.getElementById('vectorText'), crew:document.getElementById('crewText'), damage:document.getElementById('damageText'), repair:document.getElementById('repairText'),
-  torpSmall:document.getElementById('torpSmall'),railSmall:document.getElementById('railSmall'),pdcSmall:document.getElementById('pdcSmall'),gSmall:document.getElementById('gSmall'),burnSmall:document.getElementById('burnSmall'),contactCount:document.getElementById('contactCount')
+  torpSmall:document.getElementById('torpSmall'),railSmall:document.getElementById('railSmall'),pdcSmall:document.getElementById('pdcSmall'),gSmall:document.getElementById('gSmall'),burnSmall:document.getElementById('burnSmall'),contactCount:document.getElementById('contactCount'),flightData:document.getElementById('flightData')
 };
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), lerp=(a,b,t)=>a+(b-a)*t, hypot=(a,b)=>Math.hypot(a,b);
 const norm=(x,y)=>{const l=Math.hypot(x,y)||1;return{x:x/l,y:y/l}};
@@ -160,14 +186,18 @@ addEventListener('resize',resize,{passive:true});resize();
 
 const stars=Array.from({length:300},()=>({x:Math.random(),y:Math.random(),s:Math.random()*1.5+.25,a:Math.random()*.7+.2,depth:rand(.05,.24)}));
 const sectorDust=Array.from({length:170},()=>({x:rand(-world.width/2,world.width/2),y:rand(-world.height/2,world.height/2),r:rand(1.2,4.8),a:rand(.035,.15)}));
-let particles=[],tracers=[],torps=[],ships=[],selected=null,plan=null,burnActive=0,pdcMode='AUTO',gIndex=0,repairJob=null;
+let particles=[],tracers=[],torps=[],ships=[],asteroids=[],selected=null,plan=null,burnActive=0,pdcMode='AUTO',gIndex=0,repairJob=null;
 const gLevels=[1,3,6,10];
+let thrustG=3,holdBurn=null,thrustReserve=100,thrustReserveMax=100,thrustReserveDry=false;
+const thrustRechargeRate=4.5,thrustDrainPerG=4.75,thrustRestartLevel=12;
 const difficultyModes={
-  cadet:{label:'Cadet',railHits:1,enemyAccel:.72,enemyRailHit:.28,enemyRailDamage:.78,torpAggro:.72},
-  patrol:{label:'Patrol',railHits:2,enemyAccel:.86,enemyRailHit:.34,enemyRailDamage:.9,torpAggro:.86},
-  combat:{label:'Combat',railHits:3,enemyAccel:1,enemyRailHit:.42,enemyRailDamage:1,torpAggro:1},
-  veteran:{label:'Veteran',railHits:4,enemyAccel:1.12,enemyRailHit:.48,enemyRailDamage:1.08,torpAggro:1.12},
-  command:{label:'Command',railHits:5,enemyAccel:1.24,enemyRailHit:.55,enemyRailDamage:1.16,torpAggro:1.25}
+  // The lower modes are intentionally generous. Difficulty now changes the whole encounter,
+  // not just enemy aim: patrol size, aggression, torpedo pressure, PDC efficiency and repair help.
+  cadet:{label:'Cadet',railHits:1,enemyAccel:.38,enemyRailHit:.10,enemyRailDamage:.50,torpAggro:.28,enemyPdc:.52,playerPdc:1.34,enemyTorpDamage:.52,enemyReload:1.85,enemyCount:1,playerHull:135,playerArmour:130,repairTime:3.6,repairAmount:40},
+  patrol:{label:'Patrol',railHits:2,enemyAccel:.52,enemyRailHit:.16,enemyRailDamage:.62,torpAggro:.42,enemyPdc:.65,playerPdc:1.24,enemyTorpDamage:.65,enemyReload:1.60,enemyCount:2,playerHull:122,playerArmour:118,repairTime:4.2,repairAmount:36},
+  combat:{label:'Combat',railHits:3,enemyAccel:.68,enemyRailHit:.23,enemyRailDamage:.75,torpAggro:.60,enemyPdc:.78,playerPdc:1.14,enemyTorpDamage:.78,enemyReload:1.35,enemyCount:2,playerHull:112,playerArmour:108,repairTime:4.8,repairAmount:33},
+  veteran:{label:'Veteran',railHits:4,enemyAccel:.84,enemyRailHit:.31,enemyRailDamage:.88,torpAggro:.78,enemyPdc:.91,playerPdc:1.06,enemyTorpDamage:.90,enemyReload:1.15,enemyCount:3,playerHull:104,playerArmour:102,repairTime:5.4,repairAmount:30},
+  command:{label:'Command',railHits:5,enemyAccel:1.00,enemyRailHit:.40,enemyRailDamage:1.00,torpAggro:.96,enemyPdc:1.00,playerPdc:1.00,enemyTorpDamage:1.00,enemyReload:1.00,enemyCount:3,playerHull:100,playerArmour:100,repairTime:6.0,repairAmount:28}
 };
 const classRailToughness={CORVETTE:.86,FRIGATE:1,DESTROYER:1.22,CRUISER:1.42};
 function railDamageFor(target){
@@ -186,22 +216,115 @@ function setDifficulty(key){
   document.querySelectorAll('.diffBtn').forEach(b=>b.classList.toggle('active',b.dataset.difficulty===key));
   const m=difficultyModes[key];
   const hint=document.getElementById('diffHint');
-  if(hint) hint.textContent=`${m.label}: railguns average about ${m.railHits} clean hit${m.railHits===1?'':'s'} against a standard frigate; lighter/heavier ships vary.`;
+  const feel={cadet:'very forgiving · 1 hostile',patrol:'easy · 2 hostiles',combat:'balanced · 2 hostiles',veteran:'challenging · 3 hostiles',command:'full-strength enemy patrol · 3 hostiles'}[key];
+  if(hint) hint.textContent=`${m.label}: ${feel}. Railguns average about ${m.railHits} clean hit${m.railHits===1?'':'s'} against a standard frigate.`;
+}
+
+// --- Physical asteroids -------------------------------------------------------
+// Radius controls mass approximately by volume. Weapon impulses therefore shove small
+// rocks dramatically while large bodies barely change velocity.
+function asteroidMass(r){return Math.max(.8,Math.pow(r/10,3));}
+function makeAsteroid(x,y,r,vx=rand(-12,12),vy=rand(-12,12),generation=0){
+  const mass=asteroidMass(r),hp=r*2.7;
+  const verts=10+Math.floor(rand(0,5)),shape=[];
+  for(let i=0;i<verts;i++)shape.push(rand(.76,1.08));
+  return {x,y,r,vx,vy,a:rand(0,Math.PI*2),spin:rand(-.18,.18),mass,hp,maxHp:hp,dead:false,generation,shape,seed:rand(0,9999)};
+}
+function spawnAsteroidField(){
+  asteroids=[];
+  const forbidden=[{x:0,y:0,r:430},{x:1450,y:-560,r:300},{x:2550,y:920,r:330},{x:-2100,y:-1250,r:300}];
+  const chooseR=()=>{const q=Math.random();return q<.54?rand(14,30):q<.88?rand(32,62):rand(66,112)};
+  let tries=0;
+  while(asteroids.length<46&&tries++<500){
+    const x=rand(-world.width*.46,world.width*.46),y=rand(-world.height*.45,world.height*.45),r=chooseR();
+    if(forbidden.some(f=>Math.hypot(x-f.x,y-f.y)<f.r+r))continue;
+    asteroids.push(makeAsteroid(x,y,r));
+  }
+  // A few deliberately positioned groups make cover relevant early in a match.
+  [[720,-260,52],[930,-170,24],[1710,120,78],[-930,-620,42],[-1260,-760,24],[2170,520,35]].forEach(([x,y,r])=>asteroids.push(makeAsteroid(x,y,r,rand(-7,7),rand(-7,7))));
+}
+function segmentCircleHit(x1,y1,x2,y2,cx,cy,r){
+  const dx=x2-x1,dy=y2-y1,fx=x1-cx,fy=y1-cy;
+  const A=dx*dx+dy*dy;if(A<1e-8)return null;
+  const B=2*(fx*dx+fy*dy),C=fx*fx+fy*fy-r*r,disc=B*B-4*A*C;if(disc<0)return null;
+  const sd=Math.sqrt(disc);let t=(-B-sd)/(2*A);if(t<0||t>1)t=(-B+sd)/(2*A);if(t<0||t>1)return null;
+  return {t,x:x1+dx*t,y:y1+dy*t};
+}
+function firstAsteroidOnSegment(x1,y1,x2,y2,padding=0,ignore=null){
+  let best=null;
+  for(const a of asteroids){if(a.dead||a===ignore)continue;const h=segmentCircleHit(x1,y1,x2,y2,a.x,a.y,a.r+padding);if(h&&(!best||h.t<best.hit.t))best={asteroid:a,hit:h};}
+  return best;
+}
+function applyAsteroidImpulse(a,ix,iy){if(a.dead)return;a.vx+=ix/a.mass;a.vy+=iy/a.mass;}
+function fractureAsteroid(a,kind='KINETIC'){
+  if(a.dead)return;a.dead=true;
+  burst(a.x,a.y,Math.round(clamp(a.r*1.3,22,120)),kind==='TORPEDO'?'#e3a064':'#b5aaa0');
+  burst(a.x,a.y,Math.round(clamp(a.r*.55,12,55)),'#7d736c');
+  if(a.r>31&&a.generation<2){
+    const fractions=a.r>70?[.34,.28,.22]:[.43,.31];
+    const children=[];let px=0,py=0,total=0;
+    for(let i=0;i<fractions.length;i++){
+      const m=a.mass*fractions[i],r=10*Math.cbrt(m),ang=rand(0,Math.PI*2),sp=rand(18,55)*(65/Math.max(35,a.r));
+      const rvx=Math.cos(ang)*sp,rvy=Math.sin(ang)*sp;children.push({m,r,rvx,rvy});px+=m*rvx;py+=m*rvy;total+=m;
+    }
+    // Subtract the mass-weighted average separation velocity: fragment momentum sums to
+    // the parent's centre-of-mass momentum (remaining mass becomes dust/debris).
+    const avx=px/total,avy=py/total;
+    for(const c of children){
+      const ang=Math.atan2(c.rvy-avy,c.rvx-avx),dist=a.r*.2;
+      const child=makeAsteroid(a.x+Math.cos(ang)*dist,a.y+Math.sin(ang)*dist,c.r,a.vx+c.rvx-avx,a.vy+c.rvy-avy,a.generation+1);
+      child.hp*=.78;child.maxHp=child.hp;asteroids.push(child);
+    }
+  }
+}
+function damageAsteroid(a,amount,impulseX=0,impulseY=0,kind='KINETIC'){
+  if(!a||a.dead)return;
+  a.hp-=amount;applyAsteroidImpulse(a,impulseX,impulseY);
+  const n=Math.round(clamp(amount*.22,3,22));burst(a.x+rand(-a.r*.22,a.r*.22),a.y+rand(-a.r*.22,a.r*.22),n,kind==='TORPEDO'?'#ffb06a':'#c3bbb1');
+  if(a.hp<=0)fractureAsteroid(a,kind);
+}
+function shipMass(s){return s.klass==='DESTROYER'?190:s.klass==='FRIGATE'?125:82;}
+function updateAsteroids(dt){
+  const hw=world.width/2,hh=world.height/2;
+  for(const a of asteroids){if(a.dead)continue;a.x+=a.vx*dt;a.y+=a.vy*dt;a.a+=a.spin*dt;
+    if(a.x-a.r<-hw||a.x+a.r>hw){a.x=clamp(a.x,-hw+a.r,hw-a.r);a.vx*=-.55}
+    if(a.y-a.r<-hh||a.y+a.r>hh){a.y=clamp(a.y,-hh+a.r,hh-a.r);a.vy*=-.55}
+    for(const sh of ships){if(sh.dead)continue;const dx=sh.x-a.x,dy=sh.y-a.y,d=Math.hypot(dx,dy)||1,minD=a.r+sh.radius*.72;if(d>=minD)continue;
+      const nx=dx/d,ny=dy/d,rvx=sh.vx-a.vx,rvy=sh.vy-a.vy,rel=rvx*nx+rvy*ny;
+      const overlap=minD-d;sh.x+=nx*overlap*.58;sh.y+=ny*overlap*.58;a.x-=nx*overlap*.42;a.y-=ny*overlap*.42;
+      if(rel<0){const ma=a.mass,ms=shipMass(sh),j=-(1.28)*rel/(1/ma+1/ms);a.vx-=j*nx/ma;a.vy-=j*ny/ma;sh.vx+=j*nx/ms;sh.vy+=j*ny/ms;
+        const impact=Math.abs(rel);if(impact>18){damage(sh,clamp(impact*.11*(a.r/30),2,22),'COLLISION');damageAsteroid(a,clamp(impact*.16*(ms/100),2,28),-nx*j*.18,-ny*j*.18,'COLLISION');}
+      }
+    }
+  }
+  // Asteroid-to-asteroid collisions use a simple impulse response. Momentum is exchanged
+  // between the two bodies; larger rocks therefore barely notice small fragments.
+  for(let i=0;i<asteroids.length;i++){const a=asteroids[i];if(a.dead)continue;for(let j=i+1;j<asteroids.length;j++){const b=asteroids[j];if(b.dead)continue;
+    const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1,minD=a.r+b.r;if(d>=minD)continue;const nx=dx/d,ny=dy/d,overlap=minD-d;
+    const total=a.mass+b.mass;a.x-=nx*overlap*(b.mass/total);a.y-=ny*overlap*(b.mass/total);b.x+=nx*overlap*(a.mass/total);b.y+=ny*overlap*(a.mass/total);
+    const rvx=b.vx-a.vx,rvy=b.vy-a.vy,rel=rvx*nx+rvy*ny;if(rel<0){const jimp=-(1.45)*rel/(1/a.mass+1/b.mass);a.vx-=jimp*nx/a.mass;a.vy-=jimp*ny/a.mass;b.vx+=jimp*nx/b.mass;b.vy+=jimp*ny/b.mass;
+      const impact=Math.abs(rel);if(impact>32){damageAsteroid(a,clamp(impact*.05*(b.r/30),1,12),-nx*jimp*.04,-ny*jimp*.04,'COLLISION');damageAsteroid(b,clamp(impact*.05*(a.r/30),1,12),nx*jimp*.04,ny*jimp*.04,'COLLISION');}}
+  }}
+  asteroids=asteroids.filter(a=>!a.dead);
 }
 
 function makeShip(name,x,y,team,klass='CORVETTE'){
   return {name,x,y,vx:team==='player'?34:-18,vy:team==='player'?6:rand(-8,8),a:team==='player'?0:Math.PI,team,klass,dead:false,
     hull:100,maxHull:100,armour:100,maxArmour:100,reactor:100,drive:100,sensors:100,weapons:100,pdc:100,life:100,crew:team==='player'?24:18,
     torps:team==='player'?8:6,torpMax:team==='player'?8:6,torpReload:0,torpReloadRate:team==='player'?1.65:2.4,
-    railCd:0,torpCd:team==='player'?0:rand(4,8),pdcCd:0,aiPhase:rand(0,10),hitFlash:0,heat:0,lastHit:'',radius:klass==='DESTROYER'?38:30};
+    railCd:0,torpCd:team==='player'?0:rand(4,8),pdcCd:0,pdcHeat:0,pdcOverheated:false,aiPhase:rand(0,10),hitFlash:0,heat:0,lastHit:'',deathTimer:0,radius:klass==='DESTROYER'?38:30};
 }
 function resetBattle(){
-  particles=[];tracers=[];torps=[];ships=[];selected=null;plan=null;burnActive=0;pdcMode='AUTO';gIndex=0;repairJob=null;elapsed=0;screenShake=0;
+  particles=[];tracers=[];torps=[];ships=[];asteroids=[];selected=null;plan=null;burnActive=0;pdcMode='AUTO';gIndex=0;repairJob=null;elapsed=0;screenShake=0;battleEnded=false;victoryCountdown=0;holdBurn=null;thrustG=Number(document.getElementById('thrustSlider')?.value||3);thrustReserve=thrustReserveMax;thrustReserveDry=false;combatHistory=[];historySampleClock=0;replay=null;replayQueue=[];
+  const mode=difficultyModes[difficulty]||difficultyModes.combat;
   player=makeShip('TCS VALIANT',0,0,'player','CORVETTE');
+  player.hull=player.maxHull=mode.playerHull;player.armour=player.maxArmour=mode.playerArmour;
   const e1=makeShip('KRS RAZIN',1450,-560,'enemy','FRIGATE');e1.radius=33;e1.torps=7;e1.torpMax=7;
   const e2=makeShip('KRS SULAK',2550,920,'enemy','DESTROYER');e2.radius=42;e2.hull=e2.maxHull=125;e2.armour=e2.maxArmour=120;e2.torps=9;e2.torpMax=9;
   const e3=makeShip('KRS VESNA',-2100,-1250,'enemy','CORVETTE');e3.radius=28;e3.torps=5;e3.torpMax=5;
-  ships=[player,e1,e2,e3];selected=e1;
+  const enemies=[e1,e2,e3].slice(0,mode.enemyCount);
+  for(const e of enemies)e.torpReloadRate*=mode.enemyReload;
+  ships=[player,...enemies];spawnAsteroidField();selected=e1;
   world.camX=player.x;world.camY=player.y;world.zoom=clamp(Math.min(W/1250,H/820),.62,.9);
   renderContacts();toast('TARGET ACQUIRED — KRS RAZIN');
 }
@@ -210,18 +333,159 @@ let player=makeShip('TCS VALIANT',0,0,'player');
 function toast(t){ui.toast.textContent=t;ui.toast.classList.add('toastOn');toastTimer=2.1}
 function warn(t,critical=false){ui.warning.textContent=t;ui.warning.classList.toggle('critical',critical);ui.warning.classList.add('on');warningTimer=1.2}
 
+
+// --- Combat replay / kill-cam -------------------------------------------------
+// Keep a short rolling history of the tactical scene. Critical impacts can then be
+// re-staged in a half-screen picture-in-picture view even when they occurred off camera.
+function snapshotCombat(){
+  historySampleClock=0;
+  combatHistory.push({
+    t:elapsed,
+    ships:ships.map(s=>({name:s.name,x:s.x,y:s.y,vx:s.vx,vy:s.vy,a:s.a,team:s.team,klass:s.klass,dead:s.dead,hull:s.hull,armour:s.armour,radius:s.radius})),
+    torps:torps.filter(t=>!t.dead).map(t=>({x:t.x,y:t.y,vx:t.vx,vy:t.vy,team:t.team,target:t.target?.name||''}))
+  });
+  const cutoff=elapsed-3.25;
+  while(combatHistory.length&&combatHistory[0].t<cutoff)combatHistory.shift();
+}
+function shipVisibleOnMainView(ship){
+  const p=toScreen(ship.x,ship.y),margin=Math.max(70,ship.radius*world.zoom+35);
+  return p.x>-margin&&p.x<W+margin&&p.y>-margin&&p.y<H+margin;
+}
+function replayLabel(type,fatal,subsystem){
+  if(fatal)return type==='TORPEDO'?'TORPEDO KILL':'CRITICAL KILL';
+  if(subsystem)return subsystem.toUpperCase()+' CRITICAL';
+  return type==='TORPEDO'?'MAJOR TORPEDO IMPACT':'RAILGUN PENETRATION';
+}
+function requestCombatReplay(ship,{type='KINETIC',amount=0,fatal=false,subsystem=null}={}){
+  if(ship.team!=='enemy'||type==='PDC')return;
+  const offscreen=!shipVisibleOnMainView(ship);
+  const major=(type==='RAIL'&&amount>=22)||(type==='TORPEDO'&&amount>=28)||subsystem;
+  // Fatal impacts always qualify. Non-fatal critical hits qualify when they were off-screen,
+  // which keeps the feature useful without constantly covering the battlefield.
+  if(!fatal&&!(major&&offscreen))return;
+  const evt={target:ship.name,type,amount,fatal,subsystem,label:replayLabel(type,fatal,subsystem),offscreen,
+    impact:{x:ship.x,y:ship.y,a:ship.a,radius:ship.radius,klass:ship.klass},at:elapsed};
+  if(replay?.active){if(replayQueue.length<2)replayQueue.push(evt);return;}
+  startCombatReplay(evt);
+}
+function startCombatReplay(evt){
+  const start=Math.max(0,evt.at-2.35);
+  const frames=combatHistory.filter(f=>f.t>=start&&f.t<=evt.at);
+  replay={active:true,event:evt,frames,age:0,duration:2.35,preDuration:1.42};
+}
+function updateCombatReplay(realDt){
+  if(!replay?.active)return;
+  replay.age+=realDt;
+  if(replay.age>=replay.duration){
+    replay=null;
+    if(replayQueue.length)startCombatReplay(replayQueue.shift());
+  }
+}
+function replayFrameAt(r){
+  if(!r.frames.length)return null;
+  const frac=clamp(r.age/r.preDuration,0,1);
+  const idx=Math.min(r.frames.length-1,Math.floor(frac*(r.frames.length-1)));
+  return r.frames[idx];
+}
+function drawReplayShipSnapshot(s,cx,cy,scale,isTarget=false){
+  const rr=(s.radius||30)*scale;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(s.a||0);
+  if(isTarget){ctx.shadowBlur=18;ctx.shadowColor=s.team==='enemy'?'rgba(255,91,91,.45)':'rgba(115,226,232,.4)'}
+  ctx.fillStyle=s.team==='enemy'?'#332626':'#18313a';ctx.strokeStyle=s.team==='enemy'?'#d27669':'#7dd6df';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(rr,0);ctx.lineTo(rr*.52,-rr*.34);ctx.lineTo(-rr*.35,-rr*.43);ctx.lineTo(-rr*.88,-rr*.25);ctx.lineTo(-rr,0);ctx.lineTo(-rr*.88,rr*.25);ctx.lineTo(-rr*.35,rr*.43);ctx.lineTo(rr*.52,rr*.34);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle=s.team==='enemy'?'#473232':'#294850';ctx.fillRect(-rr*.58,-3*scale,rr*1.25,6*scale);
+  ctx.fillStyle='#091217';ctx.fillRect(-rr*.9,-rr*.2,rr*.17,rr*.15);ctx.fillRect(-rr*.9,rr*.05,rr*.17,rr*.15);
+  ctx.restore();
+}
+function drawCombatReplay(){
+  if(!replay?.active)return;
+  const r=replay,evt=r.event;
+  const pw=Math.min(W*.50,650),ph=Math.min(H*.62,430),px=W-pw-10,py=Math.max(44,(H-ph)*.42);
+  ctx.save();
+  ctx.fillStyle='rgba(1,6,9,.94)';ctx.fillRect(px,py,pw,ph);
+  ctx.strokeStyle='rgba(114,226,234,.64)';ctx.lineWidth=1.5;ctx.strokeRect(px+.5,py+.5,pw-1,ph-1);
+  ctx.fillStyle='rgba(115,226,232,.08)';ctx.fillRect(px,py,pw,27);
+  ctx.font='800 10px Segoe UI,Arial';ctx.fillStyle='#dffcff';ctx.textAlign='left';ctx.fillText('COMBAT REPLAY // '+evt.label,px+10,py+18);
+  ctx.textAlign='right';ctx.fillStyle=evt.offscreen?'#ffbd63':'#78aeb7';ctx.fillText(evt.offscreen?'OFF-SCREEN EVENT':'CRITICAL EVENT',px+pw-10,py+18);
+
+  // Clip the replay battlefield below the header.
+  ctx.beginPath();ctx.rect(px+2,py+29,pw-4,ph-31);ctx.clip();
+  const frame=replayFrameAt(r);
+  const targetFrame=frame?.ships.find(s=>s.name===evt.target);
+  const focus=targetFrame||evt.impact;
+  const sceneScale=Math.min(pw/760,ph/430)*1.18;
+  const rcx=px+pw*.56,rcy=py+ph*.56;
+  const map=(x,y)=>({x:rcx+(x-focus.x)*sceneScale,y:rcy+(y-focus.y)*sceneScale});
+
+  // Faint replay grid makes the insert read as a tactical camera rather than another HUD panel.
+  ctx.strokeStyle='rgba(104,190,200,.07)';ctx.lineWidth=1;
+  for(let gx=px-100;gx<px+pw+100;gx+=70){ctx.beginPath();ctx.moveTo(gx,py+29);ctx.lineTo(gx,py+ph);ctx.stroke()}
+  for(let gy=py+29;gy<py+ph;gy+=70){ctx.beginPath();ctx.moveTo(px,gy);ctx.lineTo(px+pw,gy);ctx.stroke()}
+
+  if(frame){
+    for(const s of frame.ships){
+      if(s.dead)continue;
+      const p=map(s.x,s.y);if(p.x<px-80||p.x>px+pw+80||p.y<py-80||p.y>py+ph+80)continue;
+      drawReplayShipSnapshot(s,p.x,p.y,sceneScale,s.name===evt.target);
+    }
+    for(const t of frame.torps){
+      const p=map(t.x,t.y);if(p.x<px||p.x>px+pw||p.y<py+29||p.y>py+ph)continue;
+      ctx.fillStyle=t.team==='player'?'#ffd08a':'#ff806c';ctx.shadowBlur=9;ctx.shadowColor=ctx.fillStyle;ctx.beginPath();ctx.arc(p.x,p.y,2.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+    }
+  }
+
+  const impactPhase=clamp((r.age-r.preDuration)/(r.duration-r.preDuration),0,1);
+  if(impactPhase>0){
+    const ip=map(evt.impact.x,evt.impact.y);
+    if(evt.type==='RAIL'){
+      // Draw the shot as a near-instant streak entering the target from the left side of the replay.
+      ctx.globalAlpha=clamp(1-impactPhase*.55,.2,1);ctx.strokeStyle='#d9ffff';ctx.lineWidth=2.8;ctx.beginPath();ctx.moveTo(px+15,ip.y-rand(-2,2));ctx.lineTo(ip.x,ip.y);ctx.stroke();ctx.globalAlpha=1;
+    }
+    const rad=18+impactPhase*(evt.fatal?105:58);
+    const g=ctx.createRadialGradient(ip.x,ip.y,2,ip.x,ip.y,rad);g.addColorStop(0,'rgba(255,255,238,.96)');g.addColorStop(.18,'rgba(255,190,95,.82)');g.addColorStop(.5,'rgba(255,91,59,.35)');g.addColorStop(1,'rgba(255,60,30,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(ip.x,ip.y,rad,0,Math.PI*2);ctx.fill();
+    if(evt.fatal){
+      ctx.strokeStyle='rgba(255,180,100,'+(1-impactPhase*.65)+')';ctx.lineWidth=1.4;
+      for(let i=0;i<18;i++){const a=i*.91+evt.impact.a,dist=18+impactPhase*(55+(i%5)*13);ctx.beginPath();ctx.moveTo(ip.x+Math.cos(a)*8,ip.y+Math.sin(a)*8);ctx.lineTo(ip.x+Math.cos(a)*dist,ip.y+Math.sin(a)*dist);ctx.stroke()}
+      if(impactPhase>.32){ctx.fillStyle='rgba(2,7,10,'+clamp((impactPhase-.32)*1.4,0,.9)+')';ctx.beginPath();ctx.arc(ip.x,ip.y,(evt.impact.radius||30)*sceneScale*.85,0,Math.PI*2);ctx.fill()}
+    }
+  }
+
+  ctx.restore();
+  // Caption outside the clipped scene.
+  ctx.save();ctx.font='700 9px Segoe UI,Arial';ctx.textAlign='left';ctx.fillStyle='#9dc3c9';
+  const detail=evt.fatal?'TARGET DESTROYED':evt.subsystem?evt.subsystem.toUpperCase()+' SYSTEM FAILURE':evt.type+' IMPACT';
+  ctx.fillText(evt.target+'  //  '+detail,px+10,py+ph-9);ctx.restore();
+}
+
+function destroyShip(ship){
+  if(ship.dead)return;
+  ship.dead=true;ship.deathTimer=1.6;ship.hull=0;
+  if(ship===selected)selected=null;
+  // Multi-stage breakup: flash, hot gas, then larger fragments that coast away.
+  burst(ship.x,ship.y,120,'#ff934f');
+  burst(ship.x+rand(-12,12),ship.y+rand(-12,12),85,'#eefcff');
+  burst(ship.x+rand(-18,18),ship.y+rand(-18,18),70,'#ffcf82');
+  for(let i=0;i<34;i++){
+    const a=Math.random()*Math.PI*2,sp=rand(55,260),life=rand(.8,2.4);
+    particles.push({x:ship.x+rand(-ship.radius*.3,ship.radius*.3),y:ship.y+rand(-ship.radius*.3,ship.radius*.3),vx:ship.vx+Math.cos(a)*sp,vy:ship.vy+Math.sin(a)*sp,life,max:life,size:rand(2.5,7),color:Math.random()<.38?'#ffb15c':'#8e9da0'});
+  }
+  screenShake=Math.max(screenShake,10);flash=Math.max(flash,.1);
+  if(ship.team==='enemy')toast(ship.name+' DESTROYED');else endBattle(false);
+}
 function damage(ship,amount,type='KINETIC'){
   if(ship.dead)return;
-  let remaining=amount;
+  let remaining=amount,subsystemHit=null;
   if(ship.armour>0){const ab=Math.min(ship.armour,amount*.58);ship.armour-=ab;remaining-=ab*.45;}
   ship.hull-=remaining; ship.hitFlash=.18; screenShake=Math.max(screenShake,Math.min(11,amount*.16));
   const systems=['drive','sensors','weapons','pdc','reactor','life'];
-  if(amount>12 && Math.random()<.58){const key=systems[(Math.random()*systems.length)|0];const sysD=rand(amount*.35,amount*.8);ship[key]=clamp(ship[key]-sysD,0,100);ship.lastHit=key.toUpperCase()+' DAMAGED';}
+  if(amount>12 && Math.random()<.58){const key=systems[(Math.random()*systems.length)|0];const sysD=rand(amount*.35,amount*.8);ship[key]=clamp(ship[key]-sysD,0,100);ship.lastHit=key.toUpperCase()+' DAMAGED';subsystemHit=(ship[key]<35||sysD>22)?key:null;}
   if(ship.life<25 && Math.random()<.3) ship.crew=Math.max(0,ship.crew-1);
   burst(ship.x,ship.y, type==='TORPEDO'?34:18, type==='TORPEDO'?'#ff9e57':'#d8fbff');
-  if(ship.hull<=0){ship.dead=true;burst(ship.x,ship.y,100,'#ff9f5c');burst(ship.x+10,ship.y-4,70,'#e9fbff');if(ship===selected)selected=null;if(ship.team==='enemy')toast(ship.name+' DESTROYED');else endBattle(false);}
+  const fatal=ship.hull<=0;
+  requestCombatReplay(ship,{type,amount,fatal,subsystem:subsystemHit});
+  if(fatal)destroyShip(ship);
 }
-function burst(x,y,n,color){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=rand(18,180);particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rand(.25,1.15),max:1,size:rand(1,3.8),color});}}
+function burst(x,y,n,color){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,sp=rand(18,180),life=rand(.25,1.15);particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life,max:life,size:rand(1,3.8),color});}}
 function trail(x1,y1,x2,y2,color,life=.12,w=1){tracers.push({x1,y1,x2,y2,color,life,max:life,w});}
 
 function launchTorp(from,to,enemy=false){
@@ -234,33 +498,30 @@ function launchTorp(from,to,enemy=false){
 }
 function fireTorpedoSalvo(){
   if(!started||paused)return;if(!selected||selected.dead){toast('SELECT A HOSTILE CONTACT');return;}if(player.torps<=0){toast('TORPEDO RACK RELOADING — ∞ RESERVE');return;}if(player.torpCd>0){toast('TORPEDO TUBE CYCLING');return;}
-  const count=Math.min(2,player.torps);for(let i=0;i<count;i++)setTimeout(()=>launchTorp(player,selected,false),i*180);toast('TORPEDO SALVO — '+count+' AWAY · AUTO RELOAD');
+  const count=Math.min(3,player.torps);for(let i=0;i<count;i++)setTimeout(()=>launchTorp(player,selected,false),i*165);toast('TORPEDO SALVO — '+count+' AWAY · AUTO RELOAD');
 }
 function fireRail(){
   if(!started||paused)return;
   if(!plan){toast('PLACE THE AIM CURSOR FIRST');return;}
   if(player.railCd>0){toast('RAILGUN CHARGING');return;}
   if(player.weapons<18){toast('RAILGUN OFFLINE');return;}
-  const aim=norm(plan.x-player.x,plan.y-player.y);
-  const railRange=1850;
-  player.railCd=4.4*(1+(100-player.reactor)/180);player.heat+=22;
-  player.a=Math.atan2(aim.y,aim.x);
+  const aim=norm(plan.x-player.x,plan.y-player.y),railRange=1850;
+  player.railCd=4.4*(1+(100-player.reactor)/180);player.heat+=22;player.a=Math.atan2(aim.y,aim.x);
   const muzzle={x:player.x+aim.x*(player.radius+15),y:player.y+aim.y*(player.radius+15)};
   let best=null,bestAlong=Infinity;
-  for(const enemy of ships){
-    if(enemy.team!=='enemy'||enemy.dead)continue;
-    const rx=enemy.x-muzzle.x,ry=enemy.y-muzzle.y;
-    const along=rx*aim.x+ry*aim.y;
-    if(along<0||along>railRange)continue;
-    const perp=Math.abs(rx*aim.y-ry*aim.x);
-    const tolerance=enemy.radius+10+(100-player.sensors)*.04;
-    if(perp<=tolerance&&along<bestAlong){best=enemy;bestAlong=along;}
-  }
-  const impactDist=best?bestAlong:railRange;
-  const end={x:muzzle.x+aim.x*impactDist,y:muzzle.y+aim.y*impactDist};
-  trail(muzzle.x,muzzle.y,end.x,end.y,'#c9fbff',.18,3.2);burst(muzzle.x,muzzle.y,24,'#e8ffff');flash=.12;screenShake=Math.max(screenShake,4);
-  if(best){damage(best,railDamageFor(best),'RAIL');selected=best;renderContacts();burst(end.x,end.y,24,'#efffff');toast('RAILGUN HIT — '+best.name+' · '+(best.lastHit||'HULL PENETRATION'));}
-  else toast('RAILGUN FIRED — NO CONTACT ON LINE');
+  for(const enemy of ships){if(enemy.team!=='enemy'||enemy.dead)continue;const rx=enemy.x-muzzle.x,ry=enemy.y-muzzle.y,along=rx*aim.x+ry*aim.y;if(along<0||along>railRange)continue;const perp=Math.abs(rx*aim.y-ry*aim.x),tolerance=enemy.radius+10+(100-player.sensors)*.04;if(perp<=tolerance&&along<bestAlong){best=enemy;bestAlong=along;}}
+  const far={x:muzzle.x+aim.x*railRange,y:muzzle.y+aim.y*railRange};
+  const rockHit=firstAsteroidOnSegment(muzzle.x,muzzle.y,far.x,far.y,2);
+  const rockAlong=rockHit?railRange*rockHit.hit.t:Infinity;
+  let end=far;
+  if(rockHit&&rockAlong<bestAlong){
+    end={x:rockHit.hit.x,y:rockHit.hit.y};trail(muzzle.x,muzzle.y,end.x,end.y,'#c9fbff',.18,3.2);burst(muzzle.x,muzzle.y,24,'#e8ffff');
+    damageAsteroid(rockHit.asteroid,92,aim.x*150,aim.y*150,'RAIL');burst(end.x,end.y,28,'#efffff');toast('RAILGUN IMPACT — ASTEROID');
+  }else if(best){
+    end={x:muzzle.x+aim.x*bestAlong,y:muzzle.y+aim.y*bestAlong};trail(muzzle.x,muzzle.y,end.x,end.y,'#c9fbff',.18,3.2);burst(muzzle.x,muzzle.y,24,'#e8ffff');
+    damage(best,railDamageFor(best),'RAIL');selected=best;renderContacts();burst(end.x,end.y,24,'#efffff');toast('RAILGUN HIT — '+best.name+' · '+(best.lastHit||'HULL PENETRATION'));
+  }else{trail(muzzle.x,muzzle.y,end.x,end.y,'#c9fbff',.18,3.2);burst(muzzle.x,muzzle.y,24,'#e8ffff');toast('RAILGUN FIRED — NO CONTACT ON LINE');}
+  flash=.12;screenShake=Math.max(screenShake,4);
 }
 
 
@@ -272,47 +533,196 @@ function updateAI(s,dt){
   s.vx+=(nx*radial + -ny*side)*acc*dt;s.vy+=(ny*radial + nx*side)*acc*dt;
   s.a+=clamp(angDiff(s.a,Math.atan2(dy,dx)),-1.2*dt,1.2*dt);
   if(s.torpCd<=0 && d<1100 && s.torps>0 && Math.random()<.012*mode.torpAggro*dt*60)launchTorp(s,player,true);
-  if(d<650 && s.weapons>20 && s.railCd<=0 && Math.random()<.004*mode.torpAggro*dt*60){s.railCd=rand(5,8);trail(s.x,s.y,player.x+rand(-30,30),player.y+rand(-30,30),'#ffb6a1',.12,2);if(Math.random()<mode.enemyRailHit)damage(player,rand(10,20)*mode.enemyRailDamage,'RAIL');}
+  if(d<650 && s.weapons>20 && s.railCd<=0 && Math.random()<.004*mode.torpAggro*dt*60){s.railCd=rand(5,8);const tx=player.x+rand(-30,30),ty=player.y+rand(-30,30),rock=firstAsteroidOnSegment(s.x,s.y,tx,ty,2);if(rock){trail(s.x,s.y,rock.hit.x,rock.hit.y,'#ffb6a1',.12,2);const n=norm(tx-s.x,ty-s.y);damageAsteroid(rock.asteroid,rand(55,80),n.x*110,n.y*110,'RAIL');}else{trail(s.x,s.y,tx,ty,'#ffb6a1',.12,2);if(Math.random()<mode.enemyRailHit)damage(player,rand(10,20)*mode.enemyRailDamage,'RAIL');}}
 }
 function updateShip(s,dt){
-  if(s.dead)return;s.railCd=Math.max(0,s.railCd-dt);s.torpCd=Math.max(0,s.torpCd-dt);s.pdcCd=Math.max(0,s.pdcCd-dt);s.hitFlash=Math.max(0,s.hitFlash-dt);s.heat=Math.max(0,s.heat-dt*6);
+  if(s.dead){s.deathTimer=Math.max(0,(s.deathTimer||0)-dt);return;}
+  s.railCd=Math.max(0,s.railCd-dt);s.torpCd=Math.max(0,s.torpCd-dt);s.pdcCd=Math.max(0,s.pdcCd-dt);s.hitFlash=Math.max(0,s.hitFlash-dt);s.heat=Math.max(0,s.heat-dt*6);
+  // PDC thermal loop: sustained defence heats the barrels/feed system. Overheated mounts
+  // remain locked until they cool well below the red line, preventing rapid on/off flicker.
+  s.pdcHeat=Math.max(0,s.pdcHeat-dt*(s.pdcOverheated?20:11));
+  if(s.pdcOverheated&&s.pdcHeat<=38){s.pdcOverheated=false;if(s===player)toast('PDC COOLED — DEFENCE RESTORED');}
   if(s.torps<s.torpMax){s.torpReload+=dt;if(s.torpReload>=s.torpReloadRate){s.torpReload-=s.torpReloadRate;s.torps=Math.min(s.torpMax,s.torps+1)}}else s.torpReload=0;
   s.x+=s.vx*dt;s.y+=s.vy*dt;
   const hw=world.width/2,hh=world.height/2;if(Math.abs(s.x)>hw){s.x=clamp(s.x,-hw,hw);s.vx*=-.35}if(Math.abs(s.y)>hh){s.y=clamp(s.y,-hh,hh);s.vy*=-.35}
   s.vx*=Math.pow(.9996,dt*60);s.vy*=Math.pow(.9996,dt*60);
 }
 function updatePlayer(dt){
-  if(burnActive>0 && plan){burnActive-=dt;const n=norm(plan.x-player.x,plan.y-player.y),acc=gLevels[gIndex]*8.5*(player.drive/100);player.vx+=n.x*acc*dt;player.vy+=n.y*acc*dt;player.a+=clamp(angDiff(player.a,Math.atan2(n.y,n.x)),-2.2*dt,2.2*dt);if(gLevels[gIndex]>=6&&Math.random()<.0007*gLevels[gIndex]*dt*60){player.reactor=clamp(player.reactor-rand(.5,1.5),0,100)}spawnEngine(player,n,gLevels[gIndex]);}
+  // The drive reserve is regenerative rather than consumable fuel. At ~1G the recharge
+  // almost matches the draw, while higher thrust settings progressively empty the store.
+  thrustReserve=clamp(thrustReserve+thrustRechargeRate*dt,0,thrustReserveMax);
+  if(thrustReserveDry&&thrustReserve>=thrustRestartLevel){thrustReserveDry=false;toast('DRIVE RESERVE RECOVERED')}
+  if(holdBurn&&holdBurn.down){
+    if(!holdBurn.active && performance.now()-holdBurn.started>=110)holdBurn.active=true;
+    if(holdBurn.active){
+      const dx=holdBurn.x-W/2,dy=holdBurn.y-H/2,mag=Math.hypot(dx,dy);
+      if(mag>14){
+        const n={x:dx/mag,y:dy/mag};
+        if(!thrustReserveDry&&thrustReserve>0){
+          const requestedDraw=thrustG*thrustDrainPerG*dt;
+          const availableFraction=clamp(thrustReserve/Math.max(requestedDraw,.001),0,1);
+          const effectiveG=thrustG*availableFraction;
+          thrustReserve=clamp(thrustReserve-requestedDraw,0,thrustReserveMax);
+          const acc=effectiveG*8.5*(player.drive/100);
+          player.vx+=n.x*acc*dt;player.vy+=n.y*acc*dt;
+          player.a+=clamp(angDiff(player.a,Math.atan2(n.y,n.x)),-2.2*dt,2.2*dt);
+          if(effectiveG>=6&&Math.random()<.0007*effectiveG*dt*60)player.reactor=clamp(player.reactor-rand(.5,1.5),0,100);
+          if(effectiveG>0.05)spawnEngine(player,n,effectiveG);
+          if(thrustReserve<=0){thrustReserveDry=true;warn('DRIVE RESERVE DEPLETED — RECHARGING',true)}
+        }
+        const w=toWorld(holdBurn.x,holdBurn.y);plan={x:w.x,y:w.y};
+      }
+    }
+  }
 }
 function spawnEngine(s,n,g){if(Math.random()<.72){const x=s.x-n.x*(s.radius*.7),y=s.y-n.y*(s.radius*.7);particles.push({x,y,vx:-n.x*rand(70,170)-s.vx*.2,vy:-n.y*rand(70,170)-s.vy*.2,life:rand(.16,.42),max:.42,size:rand(1.2,3+g*.18),color:g>=6?'#ffb35c':'#baf9ff'});}}
 
 function updateTorps(dt){
   for(const t of torps){if(t.dead)continue;t.life-=dt;t.fuel-=dt;if(t.life<=0||!t.target||t.target.dead){t.dead=true;continue;}
-    if(t.fuel>0){const n=norm(t.target.x-t.x,t.target.y-t.y),acc=70;const sp=Math.hypot(t.vx,t.vy)||1;let dvx=n.x*320-t.vx,dvy=n.y*320-t.vy;const dl=Math.hypot(dvx,dvy)||1;t.vx+=dvx/dl*acc*dt;t.vy+=dvy/dl*acc*dt;const ns=Math.hypot(t.vx,t.vy);if(ns>360){t.vx=t.vx/ns*360;t.vy=t.vy/ns*360}}
-    const ox=t.x,oy=t.y;t.x+=t.vx*dt;t.y+=t.vy*dt;trail(ox,oy,t.x,t.y,t.team==='player'?'#ffc673':'#ff7e67',.28,1.3);
-    const d=Math.hypot(t.x-t.target.x,t.y-t.target.y);if(d<t.target.radius+8){t.dead=true;damage(t.target,rand(30,46),'TORPEDO');if(t.target===player)warn('TORPEDO IMPACT — HULL DAMAGE',true);}
+    if(t.fuel>0){const n=norm(t.target.x-t.x,t.target.y-t.y),acc=70;let dvx=n.x*320-t.vx,dvy=n.y*320-t.vy;const dl=Math.hypot(dvx,dvy)||1;t.vx+=dvx/dl*acc*dt;t.vy+=dvy/dl*acc*dt;const ns=Math.hypot(t.vx,t.vy);if(ns>360){t.vx=t.vx/ns*360;t.vy=t.vy/ns*360}}
+    const ox=t.x,oy=t.y,nx=t.x+t.vx*dt,ny=t.y+t.vy*dt;
+    const rock=firstAsteroidOnSegment(ox,oy,nx,ny,t.radius||4);
+    if(rock){t.x=rock.hit.x;t.y=rock.hit.y;t.dead=true;const v=norm(t.vx,t.vy);damageAsteroid(rock.asteroid,rand(48,72),v.x*250,v.y*250,'TORPEDO');burst(t.x,t.y,42,'#ff9e57');screenShake=Math.max(screenShake,5);continue;}
+    t.x=nx;t.y=ny;trail(ox,oy,t.x,t.y,t.team==='player'?'#ffc673':'#ff7e67',.28,1.3);
+    const d=Math.hypot(t.x-t.target.x,t.y-t.target.y);if(d<t.target.radius+8){t.dead=true;let torpDamage=rand(30,46);if(t.target===player)torpDamage*=(difficultyModes[difficulty]||difficultyModes.combat).enemyTorpDamage;damage(t.target,torpDamage,'TORPEDO');if(t.target===player)warn('TORPEDO IMPACT — HULL DAMAGE',true);}
   }
   torps=torps.filter(t=>!t.dead);
 }
+
 function pdcDefense(ship,dt){
-  if(ship.dead||ship.pdc<10)return;let candidates=torps.filter(t=>!t.dead&&t.team!==ship.team&&Math.hypot(t.x-ship.x,t.y-ship.y)<240*(.7+.3*ship.sensors/100));if(!candidates.length)return;
-  if(ship===player&&pdcMode==='OFF')return;if(ship===player&&pdcMode==='CONSERVE'&&candidates[0]&&Math.hypot(candidates[0].x-ship.x,candidates[0].y-ship.y)>150)return;
-  if(ship.pdcCd>0)return;ship.pdcCd=.045+(100-ship.pdc)/900;
-  const t=candidates.sort((a,b)=>Math.hypot(a.x-ship.x,a.y-ship.y)-Math.hypot(b.x-ship.x,b.y-ship.y))[0];const a=Math.atan2(t.y-ship.y,t.x-ship.x)+rand(-.025,.025);const ex=t.x+rand(-5,5),ey=t.y+rand(-5,5);trail(ship.x+Math.cos(a)*ship.radius*.65,ship.y+Math.sin(a)*ship.radius*.65,ex,ey,ship.team==='player'?'#ffce77':'#ff9b76',.07,1.1);
-  const dist=Math.hypot(t.x-ship.x,t.y-ship.y),chance=clamp((.12+.42*(ship.pdc/100))*(1-dist/340),.02,.36);if(Math.random()<chance){t.dead=true;burst(t.x,t.y,18,'#ffba70');if(ship===player)toast('PDC INTERCEPT');}
+  if(ship.dead||ship.pdc<10||ship.pdcOverheated)return;
+  if(ship===player&&pdcMode==='OFF')return;
+  if(ship.pdcCd>0)return;
+
+  // Missile defence always has priority. If there is an incoming torpedo inside the
+  // defensive envelope, PDCs engage it before they will shoot at another ship.
+  const defenseRange=255*(.72+.28*ship.sensors/100);
+  let missiles=torps.filter(t=>!t.dead&&t.team!==ship.team&&Math.hypot(t.x-ship.x,t.y-ship.y)<defenseRange);
+  missiles.sort((a,b)=>Math.hypot(a.x-ship.x,a.y-ship.y)-Math.hypot(b.x-ship.x,b.y-ship.y));
+
+  if(missiles.length){
+    const t=missiles[0];
+    const dist=Math.hypot(t.x-ship.x,t.y-ship.y);
+    if(ship===player&&pdcMode==='CONSERVE'&&dist>135)return;
+
+    ship.pdcCd=.082+(100-ship.pdc)/700;
+    const a=Math.atan2(t.y-ship.y,t.x-ship.x)+rand(-.035,.035);
+    const sx=ship.x+Math.cos(a)*ship.radius*.65,sy=ship.y+Math.sin(a)*ship.radius*.65;
+    const ex=t.x+rand(-7,7),ey=t.y+rand(-7,7),rockBlock=firstAsteroidOnSegment(sx,sy,ex,ey,1.5);
+    if(rockBlock){trail(sx,sy,rockBlock.hit.x,rockBlock.hit.y,ship.team==='player'?'#ffce77':'#ff9b76',.075,1.1);const n=norm(ex-sx,ey-sy);damageAsteroid(rockBlock.asteroid,rand(.8,1.7),n.x*7,n.y*7,'PDC');ship.pdcHeat=clamp(ship.pdcHeat+6.8,0,110);if(ship.pdcHeat>=100){ship.pdcOverheated=true;ship.pdcCd=.45;if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);}return;}
+    trail(sx,sy,ex,ey,ship.team==='player'?'#ffce77':'#ff9b76',.075,1.1);
+    ship.pdcHeat=clamp(ship.pdcHeat+6.8,0,110);
+
+    const tracking=(ship.pdc/100)*(.64+.36*ship.sensors/100);
+    const rangeFactor=clamp(1-dist/defenseRange,.12,1);
+    let chance=(.055+.125*tracking)*(.72+.48*rangeFactor);
+    const diff=difficultyModes[difficulty]||difficultyModes.combat;
+    chance*=ship.team==='enemy'?diff.enemyPdc:diff.playerPdc;
+    if(ship===player&&pdcMode==='FOCUS')chance*=1.18;
+    if(ship===player&&pdcMode==='CONSERVE')chance*=.92;
+    chance=clamp(chance,.025,.28);
+    if(Math.random()<chance){t.dead=true;burst(t.x,t.y,20,'#ffba70');if(ship===player)toast('PDC INTERCEPT');}
+  } else {
+    // Dual-purpose close-range gunfire. This is deliberately a much shorter range
+    // than the missile-defence envelope, so PDCs only rake ships during close passes.
+    const attackRange=145*(.78+.22*ship.sensors/100);
+    const conserveRange=88;
+    let target=null;
+
+    if(ship.team==='player'){
+      if(selected&&!selected.dead&&selected.team==='enemy'&&Math.hypot(selected.x-ship.x,selected.y-ship.y)<attackRange){
+        target=selected;
+      } else {
+        let best=Infinity;
+        for(const e of ships){
+          if(e.team!=='enemy'||e.dead)continue;
+          const d=Math.hypot(e.x-ship.x,e.y-ship.y);
+          if(d<attackRange&&d<best){best=d;target=e;}
+        }
+      }
+      if(pdcMode==='CONSERVE'&&target&&Math.hypot(target.x-ship.x,target.y-ship.y)>conserveRange)target=null;
+    } else {
+      const d=Math.hypot(player.x-ship.x,player.y-ship.y);
+      if(!player.dead&&d<attackRange)target=player;
+    }
+
+    if(!target)return;
+
+    const dist=Math.hypot(target.x-ship.x,target.y-ship.y);
+    // A little target lead makes the streams look like genuine autocannon fire.
+    const flight=.045;
+    const tx=target.x+target.vx*flight,ty=target.y+target.vy*flight;
+    const a=Math.atan2(ty-ship.y,tx-ship.x)+rand(-.022,.022);
+    const spread=4+dist*.018;
+    const ex=tx+rand(-spread,spread),ey=ty+rand(-spread,spread);
+    const sx=ship.x+Math.cos(a)*ship.radius*.68,sy=ship.y+Math.sin(a)*ship.radius*.68,rockBlock=firstAsteroidOnSegment(sx,sy,ex,ey,1.5);
+    if(rockBlock){trail(sx,sy,rockBlock.hit.x,rockBlock.hit.y,ship.team==='player'?'#ffd38a':'#ff8e70',.07,1.15);const n=norm(ex-sx,ey-sy);damageAsteroid(rockBlock.asteroid,rand(.7,1.5),n.x*6,n.y*6,'PDC');ship.pdcCd=.105+(100-ship.pdc)/620;ship.pdcHeat=clamp(ship.pdcHeat+4.1,0,110);if(ship.pdcHeat>=100){ship.pdcOverheated=true;ship.pdcCd=.45;if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);}return;}
+    trail(sx,sy,ex,ey,ship.team==='player'?'#ffd38a':'#ff8e70',.07,1.15);
+
+    // Offensive fire has a slightly slower cadence and lower heat per burst than
+    // emergency missile interception, but sustained firing will still overheat.
+    ship.pdcCd=.105+(100-ship.pdc)/620;
+    ship.pdcHeat=clamp(ship.pdcHeat+4.1,0,110);
+
+    const tracking=(ship.pdc/100)*(.58+.42*ship.sensors/100);
+    const rangeFactor=clamp(1-dist/attackRange,.08,1);
+    let hitChance=(.22+.28*tracking)*(.48+.52*rangeFactor);
+    if(ship===player&&pdcMode==='FOCUS')hitChance*=1.16;
+    hitChance=clamp(hitChance,.14,.58);
+    if(Math.random()<hitChance){
+      const diff=difficultyModes[difficulty]||difficultyModes.combat;
+      let dmg=rand(1.15,2.25)*(ship.pdc/100);
+      if(ship.team==='enemy')dmg*=.78+.22*diff.enemyRailDamage;
+      damage(target,dmg,'PDC');
+      if(Math.random()<.18)burst(target.x+rand(-target.radius*.45,target.radius*.45),target.y+rand(-target.radius*.45,target.radius*.45),3,'#ffc48b');
+    }
+  }
+
+  if(ship.pdcHeat>=100){
+    ship.pdcOverheated=true;ship.pdcCd=.45;
+    if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);
+  }
 }
 
-function updateRepair(dt){if(!repairJob)return;repairJob.t-=dt;ui.repair.textContent=repairJob.key.toUpperCase()+' '+Math.max(0,repairJob.t).toFixed(1)+'s';if(repairJob.t<=0){player[repairJob.key]=clamp(player[repairJob.key]+28,0,100);toast(repairJob.key.toUpperCase()+' RESTORED');repairJob=null;ui.repair.textContent='IDLE';}}
-function startAutoRepair(){if(repairJob)return;const keys=['drive','pdc','sensors','weapons','reactor','life'];keys.sort((a,b)=>player[a]-player[b]);if(player[keys[0]]<92){repairJob={key:keys[0],t:6};}}
+function updateRepair(dt){if(!repairJob)return;repairJob.t-=dt;ui.repair.textContent=repairJob.key.toUpperCase()+' '+Math.max(0,repairJob.t).toFixed(1)+'s';if(repairJob.t<=0){player[repairJob.key]=clamp(player[repairJob.key]+(repairJob.amount||28),0,100);toast(repairJob.key.toUpperCase()+' RESTORED');repairJob=null;ui.repair.textContent='IDLE';}}
+function startAutoRepair(){if(repairJob)return;const keys=['drive','pdc','sensors','weapons','reactor','life'];keys.sort((a,b)=>player[a]-player[b]);if(player[keys[0]]<92){const m=difficultyModes[difficulty]||difficultyModes.combat;repairJob={key:keys[0],t:m.repairTime,amount:m.repairAmount};}}
 
 function tick(dt){
-  if(!started||paused)return;elapsed+=dt;updatePlayer(dt);for(const s of ships){updateShip(s,dt);if(s.team==='enemy')updateAI(s,dt)}world.camX=player.x;world.camY=player.y;updateTorps(dt);for(const s of ships)pdcDefense(s,dt);updateRepair(dt);if(!repairJob&&elapsed%9<dt)startAutoRepair();
+  if(!started||paused)return;elapsed+=dt;historySampleClock+=dt;if(historySampleClock>=.055)snapshotCombat();updatePlayer(dt);for(const s of ships){updateShip(s,dt);if(s.team==='enemy')updateAI(s,dt)}world.camX=player.x;world.camY=player.y;updateAsteroids(dt);updateTorps(dt);for(const s of ships)pdcDefense(s,dt);updateRepair(dt);if(!repairJob&&elapsed%9<dt)startAutoRepair();
   particles.forEach(p=>{p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vx*=Math.pow(.985,dt*60);p.vy*=Math.pow(.985,dt*60)});particles=particles.filter(p=>p.life>0);tracers.forEach(t=>t.life-=dt);tracers=tracers.filter(t=>t.life>0);
-  const incoming=torps.some(t=>t.team==='enemy'&&Math.hypot(t.x-player.x,t.y-player.y)<440);if(incoming&&warningTimer<=0)warn('INCOMING TORPEDO — PDC TRACKING');
+  // Dead ships stop existing as ships; only their expanding debris particles remain.
+  ships=ships.filter(s=>!s.dead||(s.deathTimer||0)>0);
+  const incoming=torps.some(t=>t.team==='enemy'&&Math.hypot(t.x-player.x,t.y-player.y)<440);if(incoming&&warningTimer<=0)warn(player.pdcOverheated?'INCOMING TORPEDO — PDC OVERHEATED':'INCOMING TORPEDO — PDC TRACKING',player.pdcOverheated);
+  const hw=world.width/2,hh=world.height/2,edgeDist=Math.min(hw-Math.abs(player.x),hh-Math.abs(player.y));
+  if(edgeDist<230&&warningTimer<=0)warn(edgeDist<80?'SECTOR LIMIT — TURN BACK':'APPROACHING SECTOR BOUNDARY',edgeDist<80);
   warningTimer-=dt;if(warningTimer<=0)ui.warning.classList.remove('on');toastTimer-=dt;if(toastTimer<=0)ui.toast.classList.remove('toastOn');screenShake=Math.max(0,screenShake-dt*22);flash=Math.max(0,flash-dt);
-  const living=ships.filter(s=>s.team==='enemy'&&!s.dead);if(!living.length)endBattle(true);
+  const living=ships.filter(s=>s.team==='enemy'&&!s.dead);
+  if(!living.length&&!battleEnded){if(victoryCountdown<=0)victoryCountdown=1.35;else{victoryCountdown-=dt;if(victoryCountdown<=0)endBattle(true)}}else victoryCountdown=0;
 }
-function endBattle(win){paused=true;setTimeout(()=>{document.getElementById('overlay').classList.remove('hidden');document.querySelector('.menu h1').innerHTML=win?'SECTOR<br>SECURE':'SHIP<br>LOST';document.querySelector('.menu h2').textContent=win?'Hostile patrol destroyed':'TCS Valiant has been disabled';document.querySelector('.menu p').innerHTML=win?'The battle is won. This V1 is built around the combat layer; campaign progression can be added next.':'The ship was overwhelmed. Use longer-range manoeuvring, torpedo salvos and your PDC envelope more carefully.';document.getElementById('startBtn').textContent='Restart Skirmish';},650)}
+function formatBattleTime(seconds){const t=Math.max(0,Math.round(seconds));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')}
+function showMainMenu(){
+  paused=true;started=false;battleEnded=false;victoryCountdown=0;pointer=null;
+  const result=document.getElementById('resultOverlay');if(result)result.classList.add('hidden');
+  const overlay=document.getElementById('overlay');if(overlay){overlay.style.display='flex';overlay.style.pointerEvents='auto';overlay.classList.remove('hidden')}
+  document.querySelector('#overlay .menu h1').innerHTML='VOID<br>COMMAND';
+  document.querySelector('#overlay .menu h2').textContent='Physics-driven tactical space combat';
+  document.querySelector('#overlay .menu p').innerHTML='Command the <b>TCS Valiant</b> against a hostile patrol. Press and hold anywhere in space to burn toward your finger, drag while holding to steer the thrust vector, and manage the regenerative drive reserve. Around 1G is nearly sustainable; harder burns rapidly drain the reserve and require recovery.';
+  document.getElementById('startBtn').textContent='Start Skirmish';
+  document.getElementById('pauseBtn').textContent='Ⅱ';
+}
+function endBattle(win){
+  if(battleEnded)return;battleEnded=true;paused=true;
+  setTimeout(()=>{
+    const ro=document.getElementById('resultOverlay');
+    document.getElementById('resultTitle').innerHTML=win?'VICTORY':'SHIP<br>LOST';
+    document.getElementById('resultSubtitle').textContent=win?'Sector secure — hostile patrol destroyed':'TCS Valiant has been disabled';
+    document.getElementById('resultText').textContent=win?'All hostile contacts have been eliminated. Your ship remains operational and the sector is secure.':'The ship was overwhelmed. Use longer-range manoeuvring, torpedo salvos and your PDC envelope more carefully.';
+    document.getElementById('resultDifficulty').textContent=(difficultyModes[difficulty]||difficultyModes.combat).label;
+    document.getElementById('resultTime').textContent=formatBattleTime(elapsed);
+    document.getElementById('resultHull').textContent=Math.max(0,Math.round(player.hull))+'%';
+    ro.classList.remove('hidden');
+  },650);
+}
 
 function drawBackground(){
   ctx.fillStyle='#03070a';ctx.fillRect(0,0,W,H);
@@ -323,16 +733,49 @@ function drawBackground(){
   // Distant planetary body anchored in sector space to make travel visible.
   const moon=toScreen(2250,-1450),mr=Math.min(W,H)*.17; if(moon.x>-mr*2&&moon.x<W+mr*2&&moon.y>-mr*2&&moon.y<H+mr*2){const mg=ctx.createRadialGradient(moon.x-mr*.35,moon.y-mr*.3,mr*.12,moon.x,moon.y,mr);mg.addColorStop(0,'rgba(122,142,145,.2)');mg.addColorStop(.72,'rgba(45,57,62,.12)');mg.addColorStop(1,'rgba(10,15,19,0)');ctx.fillStyle=mg;ctx.beginPath();ctx.arc(moon.x,moon.y,mr,0,Math.PI*2);ctx.fill();}
   ctx.strokeStyle='rgba(86,167,178,.07)';ctx.lineWidth=1;const gap=180*world.zoom;const ox=((W/2-world.camX*world.zoom)%gap+gap)%gap,oy=((H/2-world.camY*world.zoom)%gap+gap)%gap;for(let x=ox;x<W;x+=gap){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=oy;y<H;y+=gap){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
-  // Sector boundary is intentionally huge and normally off-screen.
-  const tl=toScreen(-world.width/2,-world.height/2),br=toScreen(world.width/2,world.height/2);ctx.strokeStyle='rgba(255,189,99,.08)';ctx.setLineDash([14,10]);ctx.strokeRect(tl.x,tl.y,br.x-tl.x,br.y-tl.y);ctx.setLineDash([]);
+  // Clearly zone out anything beyond the playable sector. The boundary itself is bright,
+  // with a warning band just inside it so the limit is readable before the ship hits it.
+  const tl=toScreen(-world.width/2,-world.height/2),br=toScreen(world.width/2,world.height/2);
+  const left=tl.x,right=br.x,top=tl.y,bottom=br.y;
+  ctx.save();
+  ctx.fillStyle='rgba(88,18,18,.42)';
+  if(top>0)ctx.fillRect(0,0,W,Math.min(H,top));
+  if(bottom<H)ctx.fillRect(0,Math.max(0,bottom),W,H-Math.max(0,bottom));
+  if(left>0)ctx.fillRect(0,Math.max(0,top),Math.min(W,left),Math.max(0,Math.min(H,bottom)-Math.max(0,top)));
+  if(right<W)ctx.fillRect(Math.max(0,right),Math.max(0,top),W-Math.max(0,right),Math.max(0,Math.min(H,bottom)-Math.max(0,top)));
+  // diagonal hazard marks only in visible out-of-bounds rectangles
+  const hazardRect=(x,y,w,h)=>{if(w<=0||h<=0)return;ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.strokeStyle='rgba(255,104,83,.18)';ctx.lineWidth=1;for(let k=x-h;k<x+w+h;k+=34){ctx.beginPath();ctx.moveTo(k,y);ctx.lineTo(k-h,y+h);ctx.stroke();}ctx.restore();};
+  if(top>0)hazardRect(0,0,W,Math.min(H,top));
+  if(bottom<H)hazardRect(0,Math.max(0,bottom),W,H-Math.max(0,bottom));
+  if(left>0)hazardRect(0,Math.max(0,top),Math.min(W,left),Math.max(0,Math.min(H,bottom)-Math.max(0,top)));
+  if(right<W)hazardRect(Math.max(0,right),Math.max(0,top),W-Math.max(0,right),Math.max(0,Math.min(H,bottom)-Math.max(0,top)));
+  ctx.strokeStyle='rgba(255,102,82,.82)';ctx.lineWidth=3;ctx.setLineDash([16,9]);ctx.strokeRect(left,top,right-left,bottom-top);ctx.setLineDash([]);
+  const band=95*world.zoom;ctx.strokeStyle='rgba(255,189,99,.28)';ctx.lineWidth=Math.max(2,band*2);ctx.strokeRect(left+band,top+band,(right-left)-band*2,(bottom-top)-band*2);
+  ctx.lineWidth=1;ctx.strokeStyle='rgba(255,201,118,.65)';ctx.setLineDash([6,7]);ctx.strokeRect(left+band*2,top+band*2,(right-left)-band*4,(bottom-top)-band*4);ctx.setLineDash([]);
+  ctx.font='800 10px Segoe UI';ctx.fillStyle='rgba(255,173,112,.9)';ctx.textAlign='center';
+  if(top>-30&&top<H)ctx.fillText('SECTOR LIMIT // RESTRICTED SPACE',W/2,Math.max(14,top-8));
+  if(bottom>0&&bottom<H+30)ctx.fillText('SECTOR LIMIT // RESTRICTED SPACE',W/2,Math.min(H-8,bottom+18));
+  ctx.restore();
+}
+
+function drawAsteroid(a){
+  if(a.dead)return;const p=toScreen(a.x,a.y),rr=a.r*world.zoom;if(p.x<-rr-20||p.x>W+rr+20||p.y<-rr-20||p.y>H+rr+20)return;
+  const hp=clamp(a.hp/a.maxHp,0,1);ctx.save();ctx.translate(p.x,p.y);ctx.rotate(a.a);ctx.scale(world.zoom,world.zoom);
+  ctx.beginPath();for(let i=0;i<a.shape.length;i++){const ang=i/a.shape.length*Math.PI*2,r=a.r*a.shape[i];const x=Math.cos(ang)*r,y=Math.sin(ang)*r;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.closePath();
+  const g=ctx.createRadialGradient(-a.r*.28,-a.r*.3,a.r*.08,0,0,a.r*1.05);g.addColorStop(0,hp<.4?'#78665b':'#615c57');g.addColorStop(.62,hp<.4?'#4d403a':'#403d3a');g.addColorStop(1,'#242728');ctx.fillStyle=g;ctx.fill();ctx.strokeStyle=hp<.35?'rgba(255,154,105,.62)':'rgba(157,154,148,.58)';ctx.lineWidth=1.1/world.zoom;ctx.stroke();
+  // Deterministic-looking craters/cracks using the stored seed and radius.
+  const craters=Math.max(2,Math.floor(a.r/24));for(let i=0;i<craters;i++){const ang=(a.seed*.013+i*2.37)%(Math.PI*2),d=a.r*(.18+.42*((i*.37+a.seed*.001)%1)),cr=a.r*(.07+.05*((i*.61)%1));ctx.strokeStyle='rgba(20,22,22,.48)';ctx.lineWidth=1/world.zoom;ctx.beginPath();ctx.arc(Math.cos(ang)*d,Math.sin(ang)*d,cr,0,Math.PI*2);ctx.stroke()}
+  if(hp<.72){ctx.strokeStyle='rgba(208,177,151,'+(hp<.35?.72:.38)+')';ctx.lineWidth=1.1/world.zoom;const cracks=hp<.35?5:3;for(let i=0;i<cracks;i++){const ang=i*1.71+a.seed*.01;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(ang)*a.r*.72,Math.sin(ang)*a.r*.72);ctx.stroke()}}
+  ctx.restore();
 }
 
 function drawShip(s){
+  if(s.dead)return;
   const p=toScreen(s.x,s.y),scale=world.zoom*(s.klass==='DESTROYER'?1.05:1);if(p.x<-100||p.x>W+100||p.y<-100||p.y>H+100)return;
   ctx.save();ctx.translate(p.x,p.y);ctx.rotate(s.a);ctx.scale(scale,scale);
   if(s.hitFlash>0){ctx.shadowBlur=20;ctx.shadowColor='#fff'}
   // engine plume
-  if(Math.hypot(s.vx,s.vy)>5 || (s===player&&burnActive>0)){const glow=ctx.createLinearGradient(-60,0,-15,0);glow.addColorStop(0,'rgba(94,214,242,0)');glow.addColorStop(.65,s.team==='player'?'rgba(116,230,255,.24)':'rgba(255,165,82,.2)');glow.addColorStop(1,s.team==='player'?'rgba(212,252,255,.95)':'rgba(255,228,185,.9)');ctx.fillStyle=glow;ctx.beginPath();ctx.moveTo(-s.radius*1.9,-7);ctx.lineTo(-s.radius*.68,-4);ctx.lineTo(-s.radius*.68,4);ctx.lineTo(-s.radius*1.9,7);ctx.closePath();ctx.fill()}
+  if(Math.hypot(s.vx,s.vy)>5 || (s===player&&holdBurn&&holdBurn.active)){const glow=ctx.createLinearGradient(-60,0,-15,0);glow.addColorStop(0,'rgba(94,214,242,0)');glow.addColorStop(.65,s.team==='player'?'rgba(116,230,255,.24)':'rgba(255,165,82,.2)');glow.addColorStop(1,s.team==='player'?'rgba(212,252,255,.95)':'rgba(255,228,185,.9)');ctx.fillStyle=glow;ctx.beginPath();ctx.moveTo(-s.radius*1.9,-7);ctx.lineTo(-s.radius*.68,-4);ctx.lineTo(-s.radius*.68,4);ctx.lineTo(-s.radius*1.9,7);ctx.closePath();ctx.fill()}
   // hull shadow/body
   ctx.fillStyle=s.team==='player'?'#182b32':'#2b2424';ctx.strokeStyle=s.team==='player'?'#77cbd4':'#b87066';ctx.lineWidth=1;
   ctx.beginPath();ctx.moveTo(s.radius,0);ctx.lineTo(s.radius*.55,-s.radius*.34);ctx.lineTo(-s.radius*.32,-s.radius*.42);ctx.lineTo(-s.radius*.78,-s.radius*.26);ctx.lineTo(-s.radius*.92,0);ctx.lineTo(-s.radius*.78,s.radius*.26);ctx.lineTo(-s.radius*.32,s.radius*.42);ctx.lineTo(s.radius*.55,s.radius*.34);ctx.closePath();ctx.fill();ctx.stroke();
@@ -344,13 +787,12 @@ function drawShip(s){
   ctx.fillStyle=s.pdc>20?'#c8f9f7':'#813f3f';for(const q of [-.38,.1,.46]){ctx.beginPath();ctx.arc(q*s.radius,-s.radius*.37,1.7,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(q*s.radius,s.radius*.37,1.7,0,Math.PI*2);ctx.fill()}
   // railgun spine
   ctx.fillStyle='#8ea6aa';ctx.fillRect(-s.radius*.1,-1,s.radius*.9,2);
-  if(s.dead){ctx.globalAlpha=.55;ctx.fillStyle='#000';ctx.fillRect(-s.radius,-s.radius*.5,s.radius*2,s.radius)}
   ctx.restore();
   ctx.save();ctx.textAlign='center';ctx.font='700 10px Segoe UI';ctx.fillStyle=s.team==='player'?'#bfeef2':'#ff8e85';ctx.fillText(s.name,p.x,p.y-s.radius*world.zoom-14);ctx.font='9px Segoe UI';ctx.fillStyle='#7c9aa2';ctx.fillText(s.klass,p.x,p.y-s.radius*world.zoom-3);
   if(s===selected&&!s.dead){ctx.strokeStyle='rgba(255,91,91,.8)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x,p.y,(s.radius+13)*world.zoom,0,Math.PI*2);ctx.stroke();ctx.setLineDash([4,5]);ctx.beginPath();ctx.arc(p.x,p.y,(s.radius+24)*world.zoom,0,Math.PI*2);ctx.stroke();ctx.setLineDash([])}ctx.restore();
 }
 function drawPlan(){
-  if(!plan||player.dead)return;const a=toScreen(player.x,player.y),b=toScreen(plan.x,plan.y);ctx.save();ctx.strokeStyle='rgba(106,229,238,.62)';ctx.lineWidth=1.4;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.arc(b.x,b.y,10,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(b.x-16,b.y);ctx.lineTo(b.x+16,b.y);ctx.moveTo(b.x,b.y-16);ctx.lineTo(b.x,b.y+16);ctx.stroke();ctx.font='9px Segoe UI';ctx.fillStyle='#96eaf0';ctx.fillText('AIM / BURN CURSOR',b.x+15,b.y-14);ctx.restore();
+  if(!plan||player.dead)return;const a=toScreen(player.x,player.y),b=toScreen(plan.x,plan.y);ctx.save();ctx.strokeStyle='rgba(106,229,238,.62)';ctx.lineWidth=1.4;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.arc(b.x,b.y,10,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.moveTo(b.x-16,b.y);ctx.lineTo(b.x+16,b.y);ctx.moveTo(b.x,b.y-16);ctx.lineTo(b.x,b.y+16);ctx.stroke();ctx.font='9px Segoe UI';ctx.fillStyle='#96eaf0';ctx.fillText(holdBurn&&holdBurn.active?'THRUST '+thrustG.toFixed(1)+'G':'RAIL / THRUST CURSOR',b.x+15,b.y-14);ctx.restore();
   const velEnd=toScreen(player.x+player.vx*1.6,player.y+player.vy*1.6);ctx.strokeStyle='rgba(117,172,182,.35)';ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(velEnd.x,velEnd.y);ctx.stroke();
 }
 function drawEffects(){
@@ -360,80 +802,86 @@ function drawEffects(){
 }
 function drawTargetInfo(){if(!selected||selected.dead)return;const p=toScreen(selected.x,selected.y),d=Math.hypot(selected.x-player.x,selected.y-player.y);ctx.save();ctx.font='9px Segoe UI';ctx.fillStyle='rgba(255,128,115,.92)';ctx.fillText((d/10).toFixed(1)+' km',p.x+24,p.y+34);ctx.strokeStyle='rgba(255,95,95,.18)';ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(W-250,80);ctx.stroke();ctx.restore()}
 function render(){
-  const sx=screenShake?rand(-screenShake,screenShake):0,sy=screenShake?rand(-screenShake,screenShake):0;ctx.save();ctx.translate(sx,sy);drawBackground();drawPlan();for(const s of ships)drawShip(s);drawEffects();drawTargetInfo();ctx.restore();if(flash>0){ctx.fillStyle='rgba(220,250,255,'+(flash*2)+')';ctx.fillRect(0,0,W,H)}drawRadar();
+  const sx=screenShake?rand(-screenShake,screenShake):0,sy=screenShake?rand(-screenShake,screenShake):0;ctx.save();ctx.translate(sx,sy);drawBackground();drawPlan();for(const a of asteroids)drawAsteroid(a);for(const s of ships)drawShip(s);drawEffects();drawTargetInfo();ctx.restore();if(flash>0){ctx.fillStyle='rgba(220,250,255,'+(flash*2)+')';ctx.fillRect(0,0,W,H)}drawRadar();drawCombatReplay();
 }
-function drawRadar(){const rect=radar.getBoundingClientRect(),rw=rect.width,rh=rect.height;rctx.clearRect(0,0,rw,rh);rctx.strokeStyle='rgba(115,220,228,.16)';rctx.lineWidth=1;rctx.beginPath();rctx.arc(rw/2,rh/2,Math.min(rw,rh)*.37,0,Math.PI*2);rctx.stroke();rctx.beginPath();rctx.moveTo(rw/2,3);rctx.lineTo(rw/2,rh-3);rctx.moveTo(3,rh/2);rctx.lineTo(rw-3,rh/2);rctx.stroke();const range=3600;for(const s of ships){if(s.dead)continue;const dx=(s.x-player.x)/range,dy=(s.y-player.y)/range;const x=rw/2+dx*rw*.42,y=rh/2+dy*rh*.42;rctx.fillStyle=s.team==='player'?'#85f0f4':'#ff6f68';rctx.beginPath();rctx.arc(x,y,s.team==='player'?3:2.8,0,Math.PI*2);rctx.fill()}for(const t of torps){const dx=(t.x-player.x)/range,dy=(t.y-player.y)/range;rctx.fillStyle=t.team==='player'?'#ffcf7b':'#ff473d';rctx.fillRect(rw/2+dx*rw*.42-1,rh/2+dy*rh*.42-1,2,2)}}
+function drawRadar(){if(document.body.classList.contains('radarHidden'))return;const rect=radar.getBoundingClientRect(),rw=rect.width,rh=rect.height;if(rw<2||rh<2||!player)return;rctx.clearRect(0,0,rw,rh);const expanded=document.body.classList.contains('radarExpanded'),cx=rw/2,cy=rh/2,rad=Math.min(rw,rh)*.39;rctx.strokeStyle='rgba(115,220,228,.16)';rctx.lineWidth=1;for(const f of expanded?[.33,.66,1]:[1]){rctx.beginPath();rctx.arc(cx,cy,rad*f,0,Math.PI*2);rctx.stroke()}rctx.beginPath();rctx.moveTo(cx,4);rctx.lineTo(cx,rh-4);rctx.moveTo(4,cy);rctx.lineTo(rw-4,cy);rctx.stroke();if(expanded){rctx.fillStyle='rgba(165,226,231,.58)';rctx.font='8px Segoe UI,Arial';rctx.textAlign='center';rctx.fillText('N',cx,10);rctx.fillText('S',cx,rh-4);rctx.textAlign='left';rctx.fillText('W',5,cy-4);rctx.textAlign='right';rctx.fillText('E',rw-5,cy-4);rctx.textAlign='left'}const range=3600;for(const s of ships){if(s.dead)continue;const dx=(s.x-player.x)/range,dy=(s.y-player.y)/range;const x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<2||x>rw-2||y<2||y>rh-2)continue;rctx.fillStyle=s.team==='player'?'#85f0f4':'#ff6f68';rctx.beginPath();rctx.arc(x,y,s.team==='player'?(expanded?4:3):(expanded?3.5:2.8),0,Math.PI*2);rctx.fill()}for(const a of asteroids){if(a.dead)continue;const dx=(a.x-player.x)/range,dy=(a.y-player.y)/range,x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<1||x>rw-1||y<1||y>rh-1)continue;rctx.fillStyle=expanded?'rgba(170,164,153,.68)':'rgba(150,146,138,.52)';const sz=expanded?clamp(a.r/28,1.4,4):clamp(a.r/42,1,2.6);rctx.beginPath();rctx.arc(x,y,sz,0,Math.PI*2);rctx.fill()}for(const t of torps){const dx=(t.x-player.x)/range,dy=(t.y-player.y)/range,x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<1||x>rw-1||y<1||y>rh-1)continue;rctx.fillStyle=t.team==='player'?'#ffcf7b':'#ff473d';rctx.fillRect(x-1,y-1,2,2)}}
 
 function renderSystems(){const defs=[['HULL','hull'],['ARMOUR','armour'],['REACTOR','reactor'],['DRIVE','drive'],['SENSORS','sensors'],['WEAPONS','weapons'],['PDC','pdc'],['LIFE SUP.','life']];ui.systems.innerHTML=defs.map(([n,k])=>{const v=clamp(player[k],0,100),cl=v<35?'danger':v<65?'warn':'';return `<div class="sys ${cl}"><span>${n}</span><div class="bar"><div class="fill" style="width:${v}%"></div></div><span class="value">${Math.round(v)}%</span></div>`}).join('');
   ui.crew.textContent='CREW '+player.crew+'/24';const worst=defs.slice(2).map(x=>[x[0],player[x[1]]]).sort((a,b)=>a[1]-b[1])[0];ui.damage.textContent=worst[1]<80?worst[0]+' DEGRADED — repair crew prioritising':'All compartments nominal';}
 function renderContacts(){const enemies=ships.filter(s=>s.team==='enemy'&&!s.dead);ui.contactCount.textContent=enemies.length+' HOSTILE';ui.contacts.innerHTML='';for(const e of enemies){const d=Math.hypot(e.x-player.x,e.y-player.y),div=document.createElement('div');div.className='contact'+(e===selected?' selected':'');div.innerHTML=`<div class="name">${e.name}</div><div class="meta">${e.klass} // HULL ${Math.max(0,Math.round(e.hull))}%</div><div class="range">${(d/10).toFixed(1)} km</div>`;bindTap(div,()=>{selected=e;renderContacts();toast('TARGET ACQUIRED — '+e.name)});ui.contacts.appendChild(div)}}
-function updateUI(){if(!player)return;renderSystems();renderContacts();ui.vel.textContent=Math.round(Math.hypot(player.vx,player.vy))+' m/s';ui.range.textContent=selected&&!selected.dead?(Math.hypot(selected.x-player.x,selected.y-player.y)/10).toFixed(1)+' km':'—';ui.burn.textContent=gLevels[gIndex]+'G';ui.vector.textContent=plan?Math.round(Math.hypot(plan.x-player.x,plan.y-player.y))+' m':'UNSET';ui.torpSmall.textContent=player.torps+'/'+player.torpMax+' · ∞'+(player.torps<player.torpMax?' · '+Math.max(0,player.torpReloadRate-player.torpReload).toFixed(1)+'s':'');ui.railSmall.textContent=player.railCd>0?'CHG '+player.railCd.toFixed(1)+'s':plan?'AIM READY':'SET AIM';ui.pdcSmall.textContent=pdcMode;ui.gSmall.textContent=gLevels[gIndex]+'G';ui.burnSmall.textContent=burnActive>0?'BURNING '+burnActive.toFixed(1)+'s':plan?'EXECUTE VECTOR':'SET VECTOR'}
+function updateUI(){if(!player)return;renderSystems();renderContacts();const speed=Math.hypot(player.vx,player.vy),course=speed>.5?(Math.atan2(player.vx,-player.vy)*180/Math.PI+360)%360:null,heading=(Math.atan2(Math.cos(player.a),-Math.sin(player.a))*180/Math.PI+360)%360;ui.vel.textContent=Math.round(speed)+' m/s';if(ui.flightData)ui.flightData.textContent='SPD '+Math.round(speed)+' m/s // COURSE '+(course===null?'—':String(Math.round(course)).padStart(3,'0')+'°')+' // HDG '+String(Math.round(heading)%360).padStart(3,'0')+'° // THR '+thrustG.toFixed(1)+'G // RES '+Math.round(thrustReserve)+'%';ui.range.textContent=selected&&!selected.dead?(Math.hypot(selected.x-player.x,selected.y-player.y)/10).toFixed(1)+' km':'—';ui.burn.textContent=thrustG.toFixed(1)+'G';ui.vector.textContent=plan?Math.round(Math.hypot(plan.x-player.x,plan.y-player.y))+' m':'UNSET';ui.torpSmall.textContent=player.torps+'/'+player.torpMax+' · ∞'+(player.torps<player.torpMax?' · '+Math.max(0,player.torpReloadRate-player.torpReload).toFixed(1)+'s':'');ui.railSmall.textContent=player.railCd>0?'CHG '+player.railCd.toFixed(1)+'s':plan?'AIM READY':'SET AIM';ui.pdcSmall.textContent=player.pdcOverheated?'OVERHEAT · '+Math.round(player.pdcHeat)+'%':pdcMode+' · HEAT '+Math.round(player.pdcHeat)+'%';const pb=document.getElementById('pdcBtn');if(pb){pb.classList.toggle('danger',player.pdcOverheated);pb.classList.toggle('warn',!player.pdcOverheated&&player.pdcHeat>=72);pb.classList.toggle('ready',!player.pdcOverheated&&player.pdcHeat<72)}if(ui.gSmall)ui.gSmall.textContent=thrustG.toFixed(1)+'G';if(ui.burnSmall)ui.burnSmall.textContent=holdBurn&&holdBurn.active?'BURNING':'HOLD SCREEN';const tv=document.getElementById('thrustValue');if(tv)tv.textContent=thrustG.toFixed(1)+'G';const tr=document.getElementById('thrustReserveText');if(tr)tr.textContent=Math.round(thrustReserve)+'%';const tf=document.getElementById('thrustReserveFill');if(tf){tf.style.width=clamp(thrustReserve,0,100)+'%';tf.classList.toggle('warn',thrustReserve<40&&thrustReserve>=18);tf.classList.toggle('danger',thrustReserve<18)}}
 
-// Robust input layer: Android/WebView touch + Pointer Events + mouse/click fallback.
-// Some embedded browsers do not reliably synthesize click events after touch-action:none,
-// so controls listen for touchend directly as well as click/pointer input.
-let pointer=null, lastTouchActivation=0;
-function battlefieldRelease(x,y){
-  if(!started||paused||!pointer)return;
-  const dx=x-pointer.x,dy=y-pointer.y,dist=Math.hypot(dx,dy);
+// Hold-to-burn input layer. Short taps retain targeting / railgun aiming.
+let pointer=null,lastTouchActivation=0;
+function hitEnemyAt(x,y){
   let hit=null,hitD=Math.max(50,44*(window.devicePixelRatio||1));
-  for(const s of ships){
-    if(s.team!=='enemy'||s.dead)continue;
-    const p=toScreen(s.x,s.y),d=Math.hypot(x-p.x,y-p.y);
-    if(d<hitD){hit=s;hitD=d}
+  for(const s of ships){if(s.team!=='enemy'||s.dead)continue;const p=toScreen(s.x,s.y),d=Math.hypot(x-p.x,y-p.y);if(d<hitD){hit=s;hitD=d}}
+  return hit;
+}
+function beginBattlefield(x,y,id='input'){
+  if(!started||paused||holdBurn?.down)return;
+  pointer={x,y,t:performance.now()};
+  holdBurn={x,y,started:performance.now(),active:false,down:true,id};
+}
+function moveBattlefield(x,y){
+  if(!holdBurn?.down)return;holdBurn.x=x;holdBurn.y=y;
+  if(holdBurn.active){const w=toWorld(x,y);plan={x:w.x,y:w.y};}
+}
+function endBattlefield(x,y){
+  if(!started||paused||!holdBurn)return;
+  const wasBurning=holdBurn.active || performance.now()-holdBurn.started>=110;
+  holdBurn.down=false;holdBurn.active=false;holdBurn=null;
+  if(!wasBurning){
+    const hit=hitEnemyAt(x,y);
+    if(hit){selected=hit;toast('TARGET ACQUIRED — '+hit.name);renderContacts()}
+    else {const w=toWorld(x,y);plan={x:w.x,y:w.y};toast('RAIL / THRUST CURSOR SET')}
+  } else {
+    const w=toWorld(x,y);plan={x:w.x,y:w.y};toast('THRUST CUT');
   }
-  if(hit){selected=hit;toast('TARGET ACQUIRED — '+hit.name);renderContacts()}
-  else {const w=toWorld(x,y);plan={x:w.x,y:w.y};toast(dist>35?'AIM / BURN VECTOR SET':'AIM CURSOR SET')}
   pointer=null;
 }
-function beginBattlefield(x,y){if(!started||paused)return;pointer={x,y,t:performance.now()}}
-
-// Prefer Pointer Events where available.
 canvas.addEventListener('pointerdown',e=>{
-  if(e.pointerType==='touch') lastTouchActivation=performance.now();
-  e.preventDefault();beginBattlefield(e.clientX,e.clientY);
+  if(e.pointerType==='touch')lastTouchActivation=performance.now();e.preventDefault();beginBattlefield(e.clientX,e.clientY,e.pointerId);
   try{canvas.setPointerCapture(e.pointerId)}catch(_){}
 },{passive:false});
-canvas.addEventListener('pointerup',e=>{e.preventDefault();battlefieldRelease(e.clientX,e.clientY)},{passive:false});
-canvas.addEventListener('pointercancel',()=>{pointer=null});
-
-// Explicit touch fallback for Android WebViews / browsers with incomplete Pointer Events.
-canvas.addEventListener('touchstart',e=>{
-  if(!e.touches.length)return;e.preventDefault();lastTouchActivation=performance.now();
-  const t=e.touches[0];beginBattlefield(t.clientX,t.clientY);
-},{passive:false});
-canvas.addEventListener('touchmove',e=>{e.preventDefault()},{passive:false});
-canvas.addEventListener('touchend',e=>{
-  e.preventDefault();lastTouchActivation=performance.now();
-  const t=e.changedTouches&&e.changedTouches[0];if(t)battlefieldRelease(t.clientX,t.clientY);
-},{passive:false});
-canvas.addEventListener('touchcancel',e=>{e.preventDefault();pointer=null},{passive:false});
+canvas.addEventListener('pointermove',e=>{if(holdBurn?.down){e.preventDefault();moveBattlefield(e.clientX,e.clientY)}},{passive:false});
+canvas.addEventListener('pointerup',e=>{e.preventDefault();endBattlefield(e.clientX,e.clientY)},{passive:false});
+canvas.addEventListener('pointercancel',()=>{if(holdBurn){holdBurn.down=false;holdBurn=null}pointer=null});
+canvas.addEventListener('touchstart',e=>{if(!e.touches.length||holdBurn?.down)return;e.preventDefault();lastTouchActivation=performance.now();const t=e.touches[0];beginBattlefield(t.clientX,t.clientY,'touch')},{passive:false});
+canvas.addEventListener('touchmove',e=>{if(!e.touches.length)return;e.preventDefault();const t=e.touches[0];moveBattlefield(t.clientX,t.clientY)},{passive:false});
+canvas.addEventListener('touchend',e=>{if(!holdBurn?.down)return;e.preventDefault();lastTouchActivation=performance.now();const t=e.changedTouches&&e.changedTouches[0];if(t)endBattlefield(t.clientX,t.clientY)},{passive:false});
+canvas.addEventListener('touchcancel',e=>{e.preventDefault();if(holdBurn){holdBurn.down=false;holdBurn=null}pointer=null},{passive:false});
 canvas.addEventListener('wheel',e=>{e.preventDefault();world.zoom=clamp(world.zoom*(e.deltaY>0?.92:1.08),.55,1.5)},{passive:false});
 
 function bindTap(id,handler){
-  const el=typeof id==='string'?document.getElementById(id):id;
-  if(!el)return;
-  let lastRun=0;
-  const run=(e)=>{
-    if(e){e.preventDefault();e.stopPropagation()}
-    const now=performance.now();if(now-lastRun<220)return;lastRun=now;
-    handler(e);
-  };
+  const el=typeof id==='string'?document.getElementById(id):id;if(!el)return;let lastRun=0;
+  const run=e=>{if(e){e.preventDefault();e.stopPropagation()}const now=performance.now();if(now-lastRun<220)return;lastRun=now;handler(e)};
   el.addEventListener('touchend',e=>{lastTouchActivation=performance.now();run(e)},{passive:false});
   el.addEventListener('pointerup',e=>{if(e.pointerType==='touch'&&performance.now()-lastTouchActivation<350)return;run(e)},{passive:false});
   el.addEventListener('click',e=>{if(performance.now()-lastTouchActivation<450)return;run(e)});
 }
 
-bindTap('burnBtn',()=>{if(!plan){toast('SET THE AIM / BURN CURSOR FIRST');return;}burnActive=clamp(1.2+Math.hypot(plan.x-player.x,plan.y-player.y)/320,.9,3.2);toast(gLevels[gIndex]+'G BURN — EXECUTING')});
+const thrustSlider=document.getElementById('thrustSlider');
+function setThrustFromSlider(){thrustG=Number(thrustSlider.value);const tv=document.getElementById('thrustValue');if(tv)tv.textContent=thrustG.toFixed(1)+'G';const tr=document.getElementById('thrustReserveText');if(tr)tr.textContent=Math.round(thrustReserve)+'%';const tf=document.getElementById('thrustReserveFill');if(tf){tf.style.width=clamp(thrustReserve,0,100)+'%';tf.classList.toggle('warn',thrustReserve<40&&thrustReserve>=18);tf.classList.toggle('danger',thrustReserve<18)}}
+if(thrustSlider){
+  thrustSlider.addEventListener('input',e=>{e.stopPropagation();setThrustFromSlider()});
+  thrustSlider.addEventListener('pointerdown',e=>e.stopPropagation());
+  thrustSlider.addEventListener('touchstart',e=>e.stopPropagation(),{passive:true});
+  setThrustFromSlider();
+}
+
 bindTap('torpBtn',fireTorpedoSalvo);bindTap('railBtn',fireRail);
 bindTap('pdcBtn',()=>{const modes=['AUTO','CONSERVE','OFF','FOCUS'];pdcMode=modes[(modes.indexOf(pdcMode)+1)%modes.length];toast('PDC MODE — '+pdcMode)});
-bindTap('gBtn',()=>{gIndex=(gIndex+1)%gLevels.length;toast('THRUST LIMIT — '+gLevels[gIndex]+'G')});
+bindTap('menuBtn',showMainMenu);
+bindTap('radarBtn',()=>{const hidden=document.body.classList.toggle('radarHidden');if(hidden)document.body.classList.remove('radarExpanded');resize();toast(hidden?'RADAR OFF':'RADAR ON')});
+bindTap('radar',()=>{if(document.body.classList.contains('radarHidden'))return;const expanded=document.body.classList.toggle('radarExpanded');resize();toast(expanded?'RADAR EXPANDED':'RADAR COMPACT')});
 bindTap('hudBtn',()=>{document.body.classList.toggle('cleanHud');toast(document.body.classList.contains('cleanHud')?'HUD MINIMISED':'HUD RESTORED')});
 bindTap('pauseBtn',()=>{if(!started)return;paused=!paused;document.getElementById('pauseBtn').textContent=paused?'▶':'Ⅱ';toast(paused?'TACTICAL PAUSE':'COMBAT RESUMED')});
 bindTap('fsBtn',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen()}catch(e){toast('FULLSCREEN UNAVAILABLE')}});
 document.querySelectorAll('.diffBtn').forEach(btn=>bindTap(btn,()=>setDifficulty(btn.dataset.difficulty)));
 setDifficulty(difficulty);
 function startVoidCommand(){
+  const ro=document.getElementById('resultOverlay');if(ro)ro.classList.add('hidden');
   const overlay=document.getElementById('overlay');
   if(overlay){overlay.classList.add('hidden');overlay.style.display='none';overlay.style.pointerEvents='none'}
   document.querySelector('.menu h1').innerHTML='VOID<br>COMMAND';
@@ -443,6 +891,8 @@ function startVoidCommand(){
 }
 window.__startVoidCommand=startVoidCommand;
 bindTap('startBtn',startVoidCommand);
+bindTap('againBtn',startVoidCommand);
+bindTap('resultMenuBtn',showMainMenu);
 
 // Last-resort delegated capture handler for local-file Android viewers/WebViews.
 // This fires before decorative/UI layers can interfere with button bubbling.
@@ -460,7 +910,7 @@ if(introOverlay){
 }
 
 
-function loop(t){const dt=Math.min(.033,((t-last)||16.7)/1000);last=t;tick(dt);render();if(started&&!paused)updateUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
+function loop(t){const dt=Math.min(.033,((t-last)||16.7)/1000);last=t;updateCombatReplay(dt);const simDt=replay?.active?dt*.30:dt;tick(simDt);render();if(started&&!paused)updateUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
 </script>
 </body>
