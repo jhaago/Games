@@ -57,6 +57,15 @@
   .menu p{max-width:610px;color:#9bb6bd;font-size:13px;line-height:1.55}.menuRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;pointer-events:auto}.menuBtn{padding:13px 19px;border:1px solid rgba(104,220,228,.35);background:#0a1c23;color:#dffcff;text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:800;cursor:pointer}.menuBtn.primary{background:linear-gradient(180deg,#12323b,#0a1e25);border-color:rgba(112,232,239,.7)}.difficultyTitle{margin-top:18px;color:#6f9ca6;font-size:9px;letter-spacing:.25em;text-transform:uppercase}.difficultyGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:7px}.diffBtn{padding:9px 5px;border:1px solid rgba(104,220,228,.2);background:rgba(5,18,24,.72);color:#7e9ea6;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;touch-action:none}.diffBtn.active{color:#e8ffff;border-color:rgba(112,232,239,.72);background:rgba(18,50,59,.9);box-shadow:inset 0 0 16px rgba(75,215,226,.08)}.diffHint{margin-top:6px;color:#7998a0;font-size:10px;min-height:16px}
   .resultStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:20px 0 6px}.resultStat{border:1px solid rgba(110,213,223,.12);background:rgba(255,255,255,.018);padding:11px 10px}.resultStat span{display:block;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#729aa3}.resultStat b{display:block;margin-top:5px;font-size:18px;color:#e8feff;font-weight:700}.help{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:20px}.help div{padding:10px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.015);font-size:10px;color:#809da5;line-height:1.45}.help b{display:block;color:#bfeef0;letter-spacing:.09em;margin-bottom:4px}
   #toast{position:fixed;left:50%;bottom:66px;transform:translateX(-50%) translateY(8px);padding:6px 9px;border:1px solid rgba(113,219,228,.18);background:rgba(4,13,18,.72);font-size:8px;letter-spacing:.08em;text-transform:uppercase;opacity:0;transition:.18s;z-index:10}.toastOn{opacity:1!important;transform:translateX(-50%) translateY(0)!important}
+  /* Campaign / shipyard */
+  #campaignOverlay{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:rgba(0,4,8,.91);backdrop-filter:blur(5px);padding:12px;overflow:auto;touch-action:pan-y}
+  #campaignOverlay.hidden{display:none}.campaignMenu{width:min(1120px,96vw);max-height:94vh;overflow:auto;padding:22px 24px}.campaignMenu h1{font-size:clamp(26px,4vw,48px)}
+  .campaignTop{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}.campaignTop .menuRow{margin-top:0;flex:none}.resourceRow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 14px}.resourcePill{border:1px solid rgba(105,216,228,.22);background:rgba(4,18,24,.76);padding:8px 11px;min-width:120px}.resourcePill span{display:block;color:#658e98;font-size:8px;letter-spacing:.18em;text-transform:uppercase}.resourcePill b{display:block;color:#e6ffff;font-size:15px;margin-top:2px}
+  .campaignViewTabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}.campaignTab{padding:12px 14px;border:1px solid rgba(104,220,228,.24);background:rgba(5,18,24,.82);color:#7f9fa7;font-size:10px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;touch-action:none}.campaignTab.active{color:#ecffff;border-color:rgba(112,232,239,.72);background:linear-gradient(180deg,rgba(18,52,62,.96),rgba(8,29,36,.96));box-shadow:inset 0 0 18px rgba(74,218,229,.08)}.campaignSection.viewHidden{display:none!important}.shipyardIntro{border:1px solid rgba(105,216,228,.2);background:rgba(8,31,39,.72);padding:10px 11px;margin-bottom:9px;color:#91b9c1;font-size:9px;line-height:1.45}.shipyardIntro b{display:block;color:#e7ffff;font-size:11px;letter-spacing:.12em;margin-bottom:3px}.campaignBody{display:block}.campaignSection{border:1px solid rgba(102,215,227,.18);background:rgba(3,14,20,.66);padding:12px}.campaignSection h3{margin:0 0 9px;color:#a9dce3;font-size:10px;letter-spacing:.2em;text-transform:uppercase}.missionList{display:grid;gap:6px}.missionCard{display:grid;grid-template-columns:34px 1fr auto;gap:9px;align-items:center;padding:8px 9px;border:1px solid rgba(102,215,227,.14);background:rgba(7,24,31,.72);cursor:pointer;touch-action:none}.missionCard:hover,.missionCard.current{border-color:rgba(111,229,237,.52);background:rgba(13,38,46,.82)}.missionCard.locked{opacity:.38;cursor:default}.missionNum{width:30px;height:30px;border:1px solid rgba(110,220,229,.24);display:grid;place-items:center;color:#7fd9e2;font-size:10px;font-weight:900}.missionText b{display:block;color:#e9ffff;font-size:10px;letter-spacing:.08em}.missionText span{display:block;color:#6f9199;font-size:8px;margin-top:2px;line-height:1.35}.missionReward{text-align:right;color:#8db7bf;font-size:8px;line-height:1.45}.missionReward b{color:#e8bd72;font-size:9px}.missionDone{color:#7fe2bd!important}
+  .conditionBox{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:end;margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid rgba(100,214,225,.12)}.conditionMetric span{display:block;color:#658e98;font-size:8px;letter-spacing:.14em}.conditionMetric b{font-size:16px;color:#e7ffff}.conditionMetric .bar{height:4px;margin-top:4px}.conditionMetric .fill{background:#57d9e6}.conditionMetric.warn .fill{background:#e6a557}.conditionMetric.danger .fill{background:#ef665e}
+  .upgradeGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.upgradeCard{border:1px solid rgba(102,215,227,.18);background:rgba(6,22,29,.82);padding:10px}.upgradeCard:hover{border-color:rgba(102,215,227,.35)}.upgradeHead{display:flex;justify-content:space-between;gap:8px;align-items:center}.upgradeHead b{color:#dffbff;font-size:9px;letter-spacing:.08em}.upgradeLevel{color:#75d8e3;font-size:8px}.upgradeDesc{color:#7d9ea6;font-size:8px;line-height:1.4;min-height:22px;margin:4px 0 5px}.upgradeEffect{color:#b4dbe0;font-size:8px;line-height:1.35;margin:0 0 7px;padding:5px 6px;border-left:2px solid rgba(88,211,222,.35);background:rgba(70,170,180,.045)}.upgradePips{display:flex;gap:3px;margin-bottom:6px}.upgradePips i{width:16px;height:3px;background:#18323a;border:1px solid rgba(96,195,205,.12)}.upgradePips i.on{background:#55d4df}.upgradeBuy{width:100%;padding:9px 7px;border:1px solid rgba(102,215,227,.28);background:#0a252d;color:#caeef2;font-size:8px;font-weight:900;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;touch-action:none}.upgradeBuy.ready{border-color:rgba(104,230,185,.62);background:rgba(11,54,47,.92);color:#dffff4}.upgradeBuy:disabled{opacity:.58;color:#77949b;background:#07191f}.upgradeNeed{display:block;color:#6d8d95;font-size:7px;margin-top:4px;text-align:center}.campaignNote{margin-top:7px;color:#668a93;font-size:8px;line-height:1.4}.campaignReward{margin-top:10px;border:1px solid rgba(225,181,98,.22);background:rgba(43,31,13,.48);padding:9px 11px;color:#e6c47f;font-size:11px;letter-spacing:.05em}.campaignReward.hidden{display:none}
+  @media(max-width:900px){.campaignMenu{max-height:96vh}.upgradeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:600px){.upgradeGrid{grid-template-columns:1fr}.campaignTop{flex-direction:column}.conditionBox{grid-template-columns:1fr 1fr}.conditionBox .menuBtn{grid-column:1/-1}.campaignMenu{padding:16px}.resourcePill{min-width:94px}}
   @media(max-width:820px){body.radarExpanded #radarPanel{width:min(300px,52vw);height:min(220px,48vh)}#shipPanel{width:164px}.sys{grid-template-columns:47px 1fr 24px}#contactPanel{width:150px}#bottomHud{width:calc(100% - 16px);min-width:0;grid-template-columns:112px 1fr 92px;left:8px;right:8px;transform:none}.controls{grid-template-columns:repeat(3,1fr)}#thrustPanel{padding:5px 6px}.thrustReadout b{font-size:10px}#topButtons{bottom:62px}.help{grid-template-columns:1fr}.menu{padding:25px 24px}.menu p{font-size:12px}.difficultyGrid{grid-template-columns:repeat(3,1fr)}}
   @media(max-height:620px){#shipPanel{transform:scale(.86);transform-origin:top left}#contactPanel{transform:scale(.86);transform-origin:top right}#bottomHud{bottom:4px}.help{display:none}.menu p{max-width:680px}.menu{padding-top:24px;padding-bottom:24px}#topButtons{bottom:58px}}
 
@@ -215,7 +224,7 @@
       <button class="diffBtn" data-difficulty="command">Command</button>
     </div>
     <div class="diffHint" id="diffHint">Combat: balanced · 2 hostiles. Railguns average about 3 clean hits against a standard frigate.</div>
-    <div class="menuRow"><button class="menuBtn primary" id="startBtn">Start Skirmish</button></div>
+    <div class="menuRow"><button class="menuBtn primary" id="startBtn">Start Skirmish</button><button class="menuBtn" id="campaignBtn">Campaign</button></div>
   </div>
 </div>
 
@@ -229,12 +238,51 @@
       <div class="resultStat"><span>Battle Time</span><b id="resultTime">0:00</b></div>
       <div class="resultStat"><span>Hull Remaining</span><b id="resultHull">100%</b></div>
     </div>
+    <div class="campaignReward hidden" id="campaignReward"></div>
     <div class="menuRow">
       <button class="menuBtn primary" id="againBtn">Fight Again</button>
       <button class="menuBtn" id="resultMenuBtn">Main Menu</button>
     </div>
   </div>
 </div>
+
+<div id="campaignOverlay" class="hidden">
+  <div class="menu campaignMenu">
+    <div class="campaignTop">
+      <div><h1>VOID<br>COMMAND</h1><h2>Campaign // TCS Valiant</h2></div>
+      <div class="menuRow"><button class="menuBtn" id="campaignBackBtn">Main Menu</button></div>
+    </div>
+    <div class="campaignViewTabs">
+      <button class="campaignTab active" id="campaignMissionsTab">Mission Board</button>
+      <button class="campaignTab" id="campaignUpgradesTab">Ship Upgrades</button>
+    </div>
+    <div class="resourceRow">
+      <div class="resourcePill"><span>Salvage</span><b id="campaignSalvage">0</b></div>
+      <div class="resourcePill"><span>Research Data</span><b id="campaignResearch">0</b></div>
+      <div class="resourcePill"><span>Missions Cleared</span><b id="campaignCleared">0 / 10</b></div>
+      <div class="resourcePill"><span>Difficulty</span><b id="campaignDifficulty">Combat</b></div>
+    </div>
+    <div class="campaignBody">
+      <section class="campaignSection" id="missionSection">
+        <h3>Mission Board</h3>
+        <div class="missionList" id="missionList"></div>
+        <div class="campaignNote">First completion gives the full salvage and research reward. Replaying a cleared mission gives 35% salvage and no additional research.</div>
+      </section>
+      <section class="campaignSection viewHidden" id="shipyardSection">
+        <h3>Shipyard // Persistent TCS Valiant</h3>
+        <div class="shipyardIntro"><b>SELECT A SYSTEM TO UPGRADE</b>Win campaign missions to earn salvage and research. Each card below shows your current Mark, the next improvement, and exactly what is required to buy it.</div>
+        <div class="conditionBox">
+          <div class="conditionMetric" id="campaignHullMetric"><span>Hull Condition</span><b id="campaignHull">100%</b><div class="bar"><div class="fill" id="campaignHullBar" style="width:100%"></div></div></div>
+          <div class="conditionMetric" id="campaignArmourMetric"><span>Armour Condition</span><b id="campaignArmour">100%</b><div class="bar"><div class="fill" id="campaignArmourBar" style="width:100%"></div></div></div>
+          <button class="menuBtn" id="repairBtn">Full Service</button>
+        </div>
+        <div class="upgradeGrid" id="upgradeGrid"></div>
+        <div class="campaignNote">Upgrades persist locally on this device. Higher marks unlock as research data is recovered. Ship damage also persists until repaired; emergency dockyard stabilisation prevents a failed campaign from becoming unwinnable.</div>
+      </section>
+    </div>
+  </div>
+</div>
+
 <script>
 (() => {
 'use strict';
@@ -242,6 +290,7 @@ const canvas = document.getElementById('game'), ctx = canvas.getContext('2d');
 const radar = document.getElementById('radar'), rctx = radar.getContext('2d');
 const DPR = () => Math.min(window.devicePixelRatio || 1, 1.7);
 let W=0,H=0,dpr=1,last=0,paused=false,started=false,difficulty='combat',elapsed=0,battleEnded=false,victoryCountdown=0;
+let gameMode='skirmish',activeMissionIndex=-1,lastCampaignReward=null;
 let screenShake=0,flash=0,warningTimer=0,toastTimer=0;
 let combatHistory=[],historySampleClock=0,replay=null,replayQueue=[];
 const ui={
@@ -273,7 +322,9 @@ const shipSpriteCache=new Map();
 let particles=[],tracers=[],torps=[],ships=[],asteroids=[],selected=null,plan=null,burnActive=0,pdcMode='AUTO',gIndex=0,repairJob=null;
 const gLevels=[1,3,6,10];
 let thrustG=3,holdBurn=null,thrustReserve=100,thrustReserveMax=100,thrustReserveDry=false;
-const thrustRechargeRate=4.5,thrustDrainPerG=4.75,thrustRestartLevel=12;
+const baseThrustRechargeRate=4.5,thrustDrainPerG=4.75,thrustRestartLevel=12;
+function campaignUpgrade(key){return gameMode==='campaign'?(campaign.upgrades[key]||0):0}
+function currentThrustRechargeRate(){return baseThrustRechargeRate+campaignUpgrade('drive')*.72+campaignUpgrade('reactor')*.18}
 const difficultyModes={
   // The lower modes are intentionally generous. Difficulty now changes the whole encounter,
   // not just enemy aim: patrol size, aggression, torpedo pressure, PDC efficiency and repair help.
@@ -283,6 +334,77 @@ const difficultyModes={
   veteran:{label:'Veteran',railHits:4,enemyAccel:.84,enemyRailHit:.31,enemyRailDamage:.88,torpAggro:.78,enemyPdc:.91,playerPdc:1.06,enemyTorpDamage:.90,enemyReload:1.15,enemyCount:3,playerHull:104,playerArmour:102,repairTime:5.4,repairAmount:30},
   command:{label:'Command',railHits:5,enemyAccel:1.00,enemyRailHit:.40,enemyRailDamage:1.00,torpAggro:.96,enemyPdc:1.00,playerPdc:1.00,enemyTorpDamage:1.00,enemyReload:1.00,enemyCount:3,playerHull:100,playerArmour:100,repairTime:6.0,repairAmount:28}
 };
+
+const CAMPAIGN_KEY='void_command_campaign_v1';
+const campaignMissions=[
+  {name:'FIRST CONTACT',brief:'Intercept a lone hostile corvette and prove the Valiant in combat.',reward:900,research:1,asteroids:.72,enemies:['CORVETTE']},
+  {name:'BROKEN ORBIT',brief:'A frigate is probing the outer navigation lane.',reward:1150,research:1,asteroids:.88,enemies:['FRIGATE']},
+  {name:'TWIN KNIVES',brief:'Two fast corvettes are hunting traffic through the sector.',reward:1400,research:2,asteroids:.82,enemies:['CORVETTE','CORVETTE']},
+  {name:'BELT AMBUSH',brief:'Fight through a dense asteroid belt against a mixed patrol.',reward:1700,research:2,asteroids:1.35,enemies:['FRIGATE','CORVETTE']},
+  {name:'LONG SPEAR',brief:'Two frigates hold the line. Break their overlapping defensive fire.',reward:2050,research:2,asteroids:1.0,enemies:['FRIGATE','FRIGATE']},
+  {name:'HUNTER-KILLER',brief:'A destroyer has entered the sector. Use cover and saturation attacks.',reward:2400,research:3,asteroids:1.12,enemies:['DESTROYER']},
+  {name:'CROSSFIRE',brief:'A three-ship patrol will force careful PDC heat and thrust management.',reward:2800,research:3,asteroids:.94,enemies:['FRIGATE','CORVETTE','FRIGATE']},
+  {name:'RED CORRIDOR',brief:'A destroyer escorts a frigate through a hazardous debris corridor.',reward:3250,research:4,asteroids:1.5,enemies:['DESTROYER','FRIGATE']},
+  {name:'WOLF PACK',brief:'Multiple hostiles converge from separate bearings.',reward:3800,research:4,asteroids:1.05,enemies:['FRIGATE','CORVETTE','DESTROYER','CORVETTE']},
+  {name:'COMMAND SHIP',brief:'Destroy the hostile cruiser and its escorts to secure the campaign sector.',reward:4800,research:5,asteroids:1.2,enemies:['CRUISER','DESTROYER','FRIGATE']}
+];
+const upgradeDefs={
+  drive:{name:'Drive Capacitors',desc:'Larger drive reserve and faster regenerative recharge.',cost:[650,950,1400,2050,2900],req:[0,1,3,7,12]},
+  reactor:{name:'Reactor',desc:'Faster railgun cycling, PDC cooling and drive recovery.',cost:[700,1050,1550,2200,3100],req:[0,2,4,8,13]},
+  armour:{name:'Hull & Armour',desc:'Adds structural hull and layered armour capacity.',cost:[750,1100,1650,2350,3300],req:[0,1,4,8,14]},
+  pdc:{name:'PDC Array',desc:'Improves interception tracking, heat efficiency and cooling.',cost:[700,1050,1500,2150,3000],req:[0,2,5,9,14]},
+  rail:{name:'Railgun',desc:'Higher kinetic energy and shorter recharge cycle.',cost:[800,1200,1750,2500,3500],req:[1,3,6,10,15]},
+  torpedo:{name:'Torpedo Systems',desc:'Faster reload, stronger warheads and larger ready racks.',cost:[700,1050,1550,2250,3150],req:[0,2,5,9,14]},
+  sensors:{name:'Sensors',desc:'Better PDC tracking, firing tolerance and radar reach.',cost:[600,900,1350,1950,2750],req:[0,1,4,7,12]},
+  damage:{name:'Damage Control',desc:'Faster combat repairs with larger restored system capacity.',cost:[600,900,1350,1900,2700],req:[0,2,4,8,13]}
+};
+const upgradeEffects={
+  drive:['+12% drive reserve · faster recharge','+12% reserve · stronger recovery','+12% reserve · improved high-G endurance','+12% reserve · rapid capacitor recovery','Maximum drive-capacitor performance'],
+  reactor:['Faster railgun/PDC/drive recovery','Further weapon-cycle and cooling improvement','Higher sustained combat power','Fast system recovery under load','Maximum reactor combat output'],
+  armour:['More hull + armour capacity','Additional layered protection','Improved structural survivability','Heavy armour reinforcement','Maximum hull and armour package'],
+  pdc:['Better interception + lower heat','Improved tracking and thermal efficiency','Faster cooling under sustained fire','High-efficiency defensive envelope','Maximum PDC defensive performance'],
+  rail:['+10% kinetic damage · shorter cooldown','Further damage + cycle improvement','High-energy penetrator upgrade','Heavy railgun power package','Maximum railgun performance'],
+  torpedo:['Stronger warheads · faster reload','Improved reload and guidance package','Larger salvo potential','High-output torpedo system','Maximum torpedo system'],
+  sensors:['Better PDC tracking + rail tolerance','Longer radar and improved targeting','Advanced fire-control solution','High-resolution combat sensors','Maximum sensor package'],
+  damage:['Faster repair cycles · larger repairs','Improved repair team effectiveness','Advanced automated damage control','Rapid combat restoration','Maximum damage-control capability']
+};
+let campaignView='missions';
+function setCampaignView(view){
+  campaignView=view==='shipyard'?'shipyard':'missions';
+  const ms=document.getElementById('missionSection'),ss=document.getElementById('shipyardSection');
+  if(ms)ms.classList.toggle('viewHidden',campaignView!=='missions');
+  if(ss)ss.classList.toggle('viewHidden',campaignView!=='shipyard');
+  const mt=document.getElementById('campaignMissionsTab'),ut=document.getElementById('campaignUpgradesTab');
+  if(mt)mt.classList.toggle('active',campaignView==='missions');
+  if(ut)ut.classList.toggle('active',campaignView==='shipyard');
+  const cm=document.querySelector('.campaignMenu');if(cm)cm.scrollTop=0;
+}
+function newCampaign(){return{version:1,salvage:0,research:0,unlocked:1,completed:{},hullPct:100,armourPct:100,systems:{reactor:100,drive:100,sensors:100,weapons:100,pdc:100,life:100},upgrades:{drive:0,reactor:0,armour:0,pdc:0,rail:0,torpedo:0,sensors:0,damage:0}}}
+function loadCampaign(){try{const raw=localStorage.getItem(CAMPAIGN_KEY);if(!raw)return newCampaign();const c=JSON.parse(raw),d=newCampaign();return{...d,...c,systems:{...d.systems,...(c.systems||{})},upgrades:{...d.upgrades,...(c.upgrades||{})},completed:{...(c.completed||{})}}}catch(e){return newCampaign()}}
+let campaign=loadCampaign();
+function saveCampaign(){try{localStorage.setItem(CAMPAIGN_KEY,JSON.stringify(campaign))}catch(e){}}
+function campaignRepairCost(){const sys=Object.values(campaign.systems);const missing=(100-campaign.hullPct)+(100-campaign.armourPct)+sys.reduce((a,v)=>a+(100-v)*.45,0);return Math.max(0,Math.ceil(missing*2.8/10)*10)}
+function persistCampaignCondition(){if(gameMode!=='campaign'||!player)return;campaign.hullPct=clamp(player.hull/Math.max(1,player.maxHull)*100,0,100);campaign.armourPct=clamp(player.armour/Math.max(1,player.maxArmour)*100,0,100);for(const k of Object.keys(campaign.systems))campaign.systems[k]=clamp(player[k],0,100);saveCampaign()}
+function emergencyStabilise(){if(campaign.hullPct>=22)return false;campaign.hullPct=58;campaign.armourPct=Math.max(campaign.armourPct,35);for(const k of Object.keys(campaign.systems))campaign.systems[k]=Math.max(campaign.systems[k],62);saveCampaign();return true}
+function renderCampaign(){
+  emergencyStabilise();
+  const diff=difficultyModes[difficulty]||difficultyModes.combat;
+  document.getElementById('campaignSalvage').textContent=campaign.salvage.toLocaleString();
+  document.getElementById('campaignResearch').textContent=campaign.research;
+  document.getElementById('campaignDifficulty').textContent=diff.label;
+  const cleared=Object.values(campaign.completed).filter(Boolean).length;document.getElementById('campaignCleared').textContent=cleared+' / '+campaignMissions.length;
+  const hull=Math.round(campaign.hullPct),arm=Math.round(campaign.armourPct);document.getElementById('campaignHull').textContent=hull+'%';document.getElementById('campaignArmour').textContent=arm+'%';document.getElementById('campaignHullBar').style.width=hull+'%';document.getElementById('campaignArmourBar').style.width=arm+'%';
+  for(const [id,v] of [['campaignHullMetric',hull],['campaignArmourMetric',arm]]){const el=document.getElementById(id);el.classList.toggle('warn',v<65&&v>=35);el.classList.toggle('danger',v<35)}
+  const rc=campaignRepairCost(),rb=document.getElementById('repairBtn');rb.textContent=rc?('Full Service · '+rc):'Ship Fully Serviced';rb.disabled=!rc;
+  const ml=document.getElementById('missionList');ml.innerHTML='';campaignMissions.forEach((m,i)=>{const unlocked=i<campaign.unlocked,done=!!campaign.completed[i],card=document.createElement('div');card.className='missionCard'+(!unlocked?' locked':'')+(activeMissionIndex===i?' current':'');card.innerHTML=`<div class="missionNum">${String(i+1).padStart(2,'0')}</div><div class="missionText"><b>${m.name}${done?'  ✓':''}</b><span>${m.brief}</span></div><div class="missionReward"><b>${done?'REPLAY':m.reward.toLocaleString()+' SALVAGE'}</b><br>${done?Math.round(m.reward*.35).toLocaleString()+' salvage':m.research+' research'}</div>`;if(done)card.querySelector('.missionText b').classList.add('missionDone');if(unlocked)bindTap(card,()=>startCampaignMission(i));ml.appendChild(card)});
+  const ug=document.getElementById('upgradeGrid');ug.innerHTML='';for(const [key,d] of Object.entries(upgradeDefs)){const lv=campaign.upgrades[key]||0,card=document.createElement('div');card.className='upgradeCard';const pips=Array.from({length:5},(_,i)=>`<i class="${i<lv?'on':''}"></i>`).join('');let label='MAXIMUM MARK',can=false,need='Fully upgraded';if(lv<5){const cost=d.cost[lv],req=d.req[lv];const needSalvage=Math.max(0,cost-campaign.salvage),needResearch=Math.max(0,req-campaign.research);can=needSalvage===0&&needResearch===0;label=can?`UPGRADE TO MK ${lv+1} · ${cost.toLocaleString()} SALVAGE`:`LOCKED · ${cost.toLocaleString()} SALVAGE${req?' · R'+req:''}`;const bits=[];if(needSalvage)bits.push(`${needSalvage.toLocaleString()} more salvage`);if(needResearch)bits.push(`${needResearch} more research`);need=bits.join(' · ')||'Ready to install'}const effect=(upgradeEffects[key]&&upgradeEffects[key][Math.min(lv,4)])||d.desc;card.innerHTML=`<div class="upgradeHead"><b>${d.name}</b><span class="upgradeLevel">CURRENT MK ${lv} / 5</span></div><div class="upgradeDesc">${d.desc}</div><div class="upgradeEffect"><b>NEXT:</b> ${lv<5?effect:'Maximum specification installed'}</div><div class="upgradePips">${pips}</div><button class="upgradeBuy ${can?'ready':''}" ${can?'':'disabled'}>${label}</button><span class="upgradeNeed">${need}</span>`;if(lv<5){const b=card.querySelector('button');bindTap(b,()=>buyCampaignUpgrade(key))}ug.appendChild(card)}
+}
+function openCampaign(view='missions'){gameMode='campaign';started=false;paused=true;document.getElementById('overlay').classList.add('hidden');document.getElementById('overlay').style.display='none';const ro=document.getElementById('resultOverlay');if(ro)ro.classList.add('hidden');const co=document.getElementById('campaignOverlay');co.classList.remove('hidden');renderCampaign();setCampaignView(view)}
+function closeCampaign(){document.getElementById('campaignOverlay').classList.add('hidden');showMainMenu()}
+function buyCampaignUpgrade(key){const d=upgradeDefs[key],lv=campaign.upgrades[key]||0;if(!d||lv>=5)return;const cost=d.cost[lv],req=d.req[lv];if(campaign.salvage<cost||campaign.research<req)return;campaign.salvage-=cost;campaign.upgrades[key]=lv+1;saveCampaign();renderCampaign();toast(d.name.toUpperCase()+' UPGRADED')}
+function repairCampaignShip(){const cost=campaignRepairCost();if(!cost)return;if(campaign.salvage>=cost){campaign.salvage-=cost;campaign.hullPct=campaign.armourPct=100;for(const k of Object.keys(campaign.systems))campaign.systems[k]=100;saveCampaign();renderCampaign();toast('FULL SERVICE COMPLETE')}else if(campaign.hullPct<55){campaign.salvage=0;campaign.hullPct=Math.max(campaign.hullPct,65);campaign.armourPct=Math.max(campaign.armourPct,42);for(const k of Object.keys(campaign.systems))campaign.systems[k]=Math.max(campaign.systems[k],70);saveCampaign();renderCampaign();toast('EMERGENCY DOCKYARD REFIT')}else toast('INSUFFICIENT SALVAGE')}
+function startCampaignMission(index){if(index<0||index>=campaignMissions.length||index>=campaign.unlocked)return;gameMode='campaign';activeMissionIndex=index;document.getElementById('campaignOverlay').classList.add('hidden');const ro=document.getElementById('resultOverlay');if(ro)ro.classList.add('hidden');started=true;paused=false;resetBattle()}
+
 const classRailToughness={CORVETTE:.86,FRIGATE:1,DESTROYER:1.22,CRUISER:1.42};
 function railDamageFor(target){
   const mode=difficultyModes[difficulty]||difficultyModes.combat;
@@ -292,7 +414,7 @@ function railDamageFor(target){
   // damage() lets armour absorb part of a rail impact. This coefficient targets the requested
   // average kill count while still allowing armour/class and a small shot-to-shot variation.
   const nominal=maxHull/(desiredHits*.72);
-  return nominal*rand(.92,1.08);
+  return nominal*rand(.92,1.08)*(1+campaignUpgrade('rail')*.10);
 }
 function setDifficulty(key){
   if(!difficultyModes[key])return;
@@ -314,18 +436,18 @@ function makeAsteroid(x,y,r,vx=rand(-12,12),vy=rand(-12,12),generation=0){
   for(let i=0;i<verts;i++)shape.push(rand(.76,1.08));
   return {x,y,r,vx,vy,a:rand(0,Math.PI*2),spin:rand(-.18,.18),mass,hp,maxHp:hp,dead:false,generation,shape,seed:rand(0,9999)};
 }
-function spawnAsteroidField(){
+function spawnAsteroidField(mult=1){
   asteroids=[];
   const forbidden=[{x:0,y:0,r:430},{x:1450,y:-560,r:300},{x:2550,y:920,r:330},{x:-2100,y:-1250,r:300}];
   const chooseR=()=>{const q=Math.random();return q<.54?rand(14,30):q<.88?rand(32,62):rand(66,112)};
   let tries=0;
-  while(asteroids.length<46&&tries++<500){
+  while(asteroids.length<Math.max(16,Math.round(46*mult))&&tries++<700){
     const x=rand(-world.width*.46,world.width*.46),y=rand(-world.height*.45,world.height*.45),r=chooseR();
     if(forbidden.some(f=>Math.hypot(x-f.x,y-f.y)<f.r+r))continue;
     asteroids.push(makeAsteroid(x,y,r));
   }
   // A few deliberately positioned groups make cover relevant early in a match.
-  [[720,-260,52],[930,-170,24],[1710,120,78],[-930,-620,42],[-1260,-760,24],[2170,520,35]].forEach(([x,y,r])=>asteroids.push(makeAsteroid(x,y,r,rand(-7,7),rand(-7,7))));
+  if(mult>.7)[[720,-260,52],[930,-170,24],[1710,120,78],[-930,-620,42],[-1260,-760,24],[2170,520,35]].forEach(([x,y,r])=>asteroids.push(makeAsteroid(x,y,r,rand(-7,7),rand(-7,7))));
 }
 function segmentCircleHit(x1,y1,x2,y2,cx,cy,r){
   const dx=x2-x1,dy=y2-y1,fx=x1-cx,fy=y1-cy;
@@ -367,7 +489,7 @@ function damageAsteroid(a,amount,impulseX=0,impulseY=0,kind='KINETIC'){
   const n=Math.round(clamp(amount*.22,3,22));burst(a.x+rand(-a.r*.22,a.r*.22),a.y+rand(-a.r*.22,a.r*.22),n,kind==='TORPEDO'?'#ffb06a':'#c3bbb1');
   if(a.hp<=0)fractureAsteroid(a,kind);
 }
-function shipMass(s){return s.klass==='DESTROYER'?190:s.klass==='FRIGATE'?125:82;}
+function shipMass(s){return s.klass==='CRUISER'?285:s.klass==='DESTROYER'?190:s.klass==='FRIGATE'?125:82;}
 function updateAsteroids(dt){
   const hw=world.width/2,hh=world.height/2;
   for(const a of asteroids){if(a.dead)continue;a.x+=a.vx*dt;a.y+=a.vy*dt;a.a+=a.spin*dt;
@@ -396,21 +518,44 @@ function makeShip(name,x,y,team,klass='CORVETTE'){
   return {name,x,y,vx:team==='player'?34:-18,vy:team==='player'?6:rand(-8,8),a:team==='player'?0:Math.PI,team,klass,dead:false,
     hull:100,maxHull:100,armour:100,maxArmour:100,reactor:100,drive:100,sensors:100,weapons:100,pdc:100,life:100,crew:team==='player'?24:18,
     torps:team==='player'?8:6,torpMax:team==='player'?8:6,torpReload:0,torpReloadRate:team==='player'?1.65:2.4,
-    railCd:0,torpCd:team==='player'?0:rand(4,8),pdcCd:0,pdcHeat:0,pdcOverheated:false,aiPhase:rand(0,10),hitFlash:0,heat:0,lastHit:'',deathTimer:0,radius:klass==='DESTROYER'?38:30};
+    railCd:0,torpCd:team==='player'?0:rand(4,8),pdcCd:0,pdcHeat:0,pdcOverheated:false,aiPhase:rand(0,10),hitFlash:0,heat:0,lastHit:'',deathTimer:0,radius:klass==='CRUISER'?52:klass==='DESTROYER'?38:klass==='FRIGATE'?32:28};
+}
+function configureEnemy(e,klass,i){
+  if(klass==='CORVETTE'){e.hull=e.maxHull=86;e.armour=e.maxArmour=72;e.torps=e.torpMax=5;e.radius=28}
+  else if(klass==='FRIGATE'){e.hull=e.maxHull=100;e.armour=e.maxArmour=100;e.torps=e.torpMax=7;e.radius=33}
+  else if(klass==='DESTROYER'){e.hull=e.maxHull=125;e.armour=e.maxArmour=120;e.torps=e.torpMax=9;e.radius=42}
+  else if(klass==='CRUISER'){e.hull=e.maxHull=160;e.armour=e.maxArmour=155;e.torps=e.torpMax=12;e.radius=52;e.torpReloadRate=2.8}
+  e.aiPhase+=i*.9;
+}
+function applyCampaignShipState(){
+  const u=campaign.upgrades,mode=difficultyModes[difficulty]||difficultyModes.combat;
+  player.maxHull=mode.playerHull+u.armour*10;player.maxArmour=mode.playerArmour+u.armour*15;
+  player.hull=player.maxHull*clamp(campaign.hullPct,0,100)/100;player.armour=player.maxArmour*clamp(campaign.armourPct,0,100)/100;
+  for(const k of Object.keys(campaign.systems))player[k]=clamp(campaign.systems[k],0,100);
+  player.torpMax=8+Math.floor((u.torpedo+1)/2);player.torps=player.torpMax;player.torpReloadRate=1.65*(1-u.torpedo*.075-u.reactor*.025);
+  thrustReserveMax=100+u.drive*12;thrustReserve=thrustReserveMax;
 }
 function resetBattle(){
-  particles=[];tracers=[];torps=[];ships=[];asteroids=[];selected=null;plan=null;burnActive=0;pdcMode='AUTO';gIndex=0;repairJob=null;elapsed=0;screenShake=0;battleEnded=false;victoryCountdown=0;holdBurn=null;thrustG=Number(document.getElementById('thrustSlider')?.value||3);thrustReserve=thrustReserveMax;thrustReserveDry=false;combatHistory=[];historySampleClock=0;replay=null;replayQueue=[];
+  particles=[];tracers=[];torps=[];ships=[];asteroids=[];selected=null;plan=null;burnActive=0;pdcMode='AUTO';gIndex=0;repairJob=null;elapsed=0;screenShake=0;battleEnded=false;victoryCountdown=0;holdBurn=null;thrustG=Number(document.getElementById('thrustSlider')?.value||3);thrustReserveMax=100;thrustReserve=thrustReserveMax;thrustReserveDry=false;combatHistory=[];historySampleClock=0;replay=null;replayQueue=[];
   const mode=difficultyModes[difficulty]||difficultyModes.combat;
   player=makeShip('TCS VALIANT',0,0,'player','CORVETTE');
-  player.hull=player.maxHull=mode.playerHull;player.armour=player.maxArmour=mode.playerArmour;
-  const e1=makeShip('KRS RAZIN',1450,-560,'enemy','FRIGATE');e1.radius=33;e1.torps=7;e1.torpMax=7;
-  const e2=makeShip('KRS SULAK',2550,920,'enemy','DESTROYER');e2.radius=42;e2.hull=e2.maxHull=125;e2.armour=e2.maxArmour=120;e2.torps=9;e2.torpMax=9;
-  const e3=makeShip('KRS VESNA',-2100,-1250,'enemy','CORVETTE');e3.radius=28;e3.torps=5;e3.torpMax=5;
-  const enemies=[e1,e2,e3].slice(0,mode.enemyCount);
-  for(const e of enemies)e.torpReloadRate*=mode.enemyReload;
-  ships=[player,...enemies];spawnAsteroidField();selected=e1;
+  let enemies=[];
+  if(gameMode==='campaign'&&activeMissionIndex>=0){
+    const mission=campaignMissions[activeMissionIndex];applyCampaignShipState();
+    const pos=[[1450,-560],[2450,850],[-2050,-1150],[1150,1450],[-2450,820]];
+    const names=['KRS RAZIN','KRS SULAK','KRS VESNA','KRS NAZAR','KRS DREK'];
+    enemies=mission.enemies.map((klass,i)=>{const [x,y]=pos[i%pos.length],e=makeShip(names[i]||('KRS CONTACT '+(i+1)),x,y,'enemy',klass);configureEnemy(e,klass,i);e.torpReloadRate*=mode.enemyReload;return e});
+    spawnAsteroidField(mission.asteroids||1);
+  }else{
+    player.hull=player.maxHull=mode.playerHull;player.armour=player.maxArmour=mode.playerArmour;
+    const e1=makeShip('KRS RAZIN',1450,-560,'enemy','FRIGATE');configureEnemy(e1,'FRIGATE',0);
+    const e2=makeShip('KRS SULAK',2550,920,'enemy','DESTROYER');configureEnemy(e2,'DESTROYER',1);
+    const e3=makeShip('KRS VESNA',-2100,-1250,'enemy','CORVETTE');configureEnemy(e3,'CORVETTE',2);
+    enemies=[e1,e2,e3].slice(0,mode.enemyCount);for(const e of enemies)e.torpReloadRate*=mode.enemyReload;spawnAsteroidField();
+  }
+  ships=[player,...enemies];selected=enemies[0]||null;
   world.camX=player.x;world.camY=player.y;world.zoom=clamp(Math.min(W/1250,H/820),.62,.9);
-  renderContacts();toast('TARGET ACQUIRED — KRS RAZIN');
+  renderContacts();toast(gameMode==='campaign'?('MISSION '+(activeMissionIndex+1)+' — '+campaignMissions[activeMissionIndex].name):(selected?'TARGET ACQUIRED — '+selected.name:'SECTOR CLEAR'));
 }
 let player=makeShip('TCS VALIANT',0,0,'player');
 
@@ -582,7 +727,7 @@ function launchTorp(from,to,enemy=false){
 }
 function fireTorpedoSalvo(){
   if(!started||paused)return;if(!selected||selected.dead){toast('SELECT A HOSTILE CONTACT');return;}if(player.torps<=0){toast('TORPEDO RACK RELOADING — ∞ RESERVE');return;}if(player.torpCd>0){toast('TORPEDO TUBE CYCLING');return;}
-  const count=Math.min(3,player.torps);for(let i=0;i<count;i++)setTimeout(()=>launchTorp(player,selected,false),i*165);toast('TORPEDO SALVO — '+count+' AWAY · AUTO RELOAD');
+  const count=Math.min(3+Math.floor(campaignUpgrade('torpedo')/2),player.torps);for(let i=0;i<count;i++)setTimeout(()=>launchTorp(player,selected,false),i*165);toast('TORPEDO SALVO — '+count+' AWAY · AUTO RELOAD');
 }
 function fireRail(){
   if(!started||paused)return;
@@ -590,10 +735,10 @@ function fireRail(){
   if(player.railCd>0){toast('RAILGUN CHARGING');return;}
   if(player.weapons<18){toast('RAILGUN OFFLINE');return;}
   const aim=norm(plan.x-player.x,plan.y-player.y),railRange=1850;
-  player.railCd=4.4*(1+(100-player.reactor)/180);player.heat+=22;player.a=Math.atan2(aim.y,aim.x);
+  player.railCd=4.4*(1+(100-player.reactor)/180)*(1-campaignUpgrade('rail')*.055-campaignUpgrade('reactor')*.025);player.heat+=22;player.a=Math.atan2(aim.y,aim.x);
   const muzzle={x:player.x+aim.x*(player.radius+15),y:player.y+aim.y*(player.radius+15)};
   let best=null,bestAlong=Infinity;
-  for(const enemy of ships){if(enemy.team!=='enemy'||enemy.dead)continue;const rx=enemy.x-muzzle.x,ry=enemy.y-muzzle.y,along=rx*aim.x+ry*aim.y;if(along<0||along>railRange)continue;const perp=Math.abs(rx*aim.y-ry*aim.x),tolerance=enemy.radius+10+(100-player.sensors)*.04;if(perp<=tolerance&&along<bestAlong){best=enemy;bestAlong=along;}}
+  for(const enemy of ships){if(enemy.team!=='enemy'||enemy.dead)continue;const rx=enemy.x-muzzle.x,ry=enemy.y-muzzle.y,along=rx*aim.x+ry*aim.y;if(along<0||along>railRange)continue;const perp=Math.abs(rx*aim.y-ry*aim.x),tolerance=enemy.radius+10+(100-player.sensors)*.04+campaignUpgrade('sensors')*2.2;if(perp<=tolerance&&along<bestAlong){best=enemy;bestAlong=along;}}
   const far={x:muzzle.x+aim.x*railRange,y:muzzle.y+aim.y*railRange};
   const rockHit=firstAsteroidOnSegment(muzzle.x,muzzle.y,far.x,far.y,2);
   const rockAlong=rockHit?railRange*rockHit.hit.t:Infinity;
@@ -612,7 +757,7 @@ function fireRail(){
 function updateAI(s,dt){
   if(s.dead)return;s.aiPhase+=dt;s.torpCd-=dt;s.railCd-=dt;
   const dx=player.x-s.x,dy=player.y-s.y,d=Math.hypot(dx,dy)||1,nx=dx/d,ny=dy/d;
-  const desired=520+(s.klass==='DESTROYER'?80:0);const radial=clamp((d-desired)/desired,-1,1);const side=Math.sin(s.aiPhase*.55)*.55;
+  const desired=520+(s.klass==='CRUISER'?145:s.klass==='DESTROYER'?80:0);const radial=clamp((d-desired)/desired,-1,1);const side=Math.sin(s.aiPhase*.55)*.55;
   const mode=difficultyModes[difficulty]||difficultyModes.combat;const acc=7.4*mode.enemyAccel*(s.drive/100);
   s.vx+=(nx*radial + -ny*side)*acc*dt;s.vy+=(ny*radial + nx*side)*acc*dt;
   s.a+=clamp(angDiff(s.a,Math.atan2(dy,dx)),-1.2*dt,1.2*dt);
@@ -624,7 +769,7 @@ function updateShip(s,dt){
   s.railCd=Math.max(0,s.railCd-dt);s.torpCd=Math.max(0,s.torpCd-dt);s.pdcCd=Math.max(0,s.pdcCd-dt);s.hitFlash=Math.max(0,s.hitFlash-dt);s.heat=Math.max(0,s.heat-dt*6);
   // PDC thermal loop: sustained defence heats the barrels/feed system. Overheated mounts
   // remain locked until they cool well below the red line, preventing rapid on/off flicker.
-  s.pdcHeat=Math.max(0,s.pdcHeat-dt*(s.pdcOverheated?20:11));
+  const coolBonus=s===player?(1+campaignUpgrade('pdc')*.12+campaignUpgrade('reactor')*.045):1;s.pdcHeat=Math.max(0,s.pdcHeat-dt*(s.pdcOverheated?20:11)*coolBonus);
   if(s.pdcOverheated&&s.pdcHeat<=38){s.pdcOverheated=false;if(s===player)toast('PDC COOLED — DEFENCE RESTORED');}
   if(s.torps<s.torpMax){s.torpReload+=dt;if(s.torpReload>=s.torpReloadRate){s.torpReload-=s.torpReloadRate;s.torps=Math.min(s.torpMax,s.torps+1)}}else s.torpReload=0;
   s.x+=s.vx*dt;s.y+=s.vy*dt;
@@ -634,7 +779,7 @@ function updateShip(s,dt){
 function updatePlayer(dt){
   // The drive reserve is regenerative rather than consumable fuel. At ~1G the recharge
   // almost matches the draw, while higher thrust settings progressively empty the store.
-  thrustReserve=clamp(thrustReserve+thrustRechargeRate*dt,0,thrustReserveMax);
+  thrustReserve=clamp(thrustReserve+currentThrustRechargeRate()*dt,0,thrustReserveMax);
   if(thrustReserveDry&&thrustReserve>=thrustRestartLevel){thrustReserveDry=false;toast('DRIVE RESERVE RECOVERED')}
   if(holdBurn&&holdBurn.down){
     if(!holdBurn.active && performance.now()-holdBurn.started>=110)holdBurn.active=true;
@@ -668,7 +813,7 @@ function updateTorps(dt){
     const rock=firstAsteroidOnSegment(ox,oy,nx,ny,t.radius||4);
     if(rock){t.x=rock.hit.x;t.y=rock.hit.y;t.dead=true;const v=norm(t.vx,t.vy);damageAsteroid(rock.asteroid,rand(48,72),v.x*250,v.y*250,'TORPEDO');burst(t.x,t.y,42,'#ff9e57');screenShake=Math.max(screenShake,5);continue;}
     t.x=nx;t.y=ny;trail(ox,oy,t.x,t.y,t.team==='player'?'#ffc673':'#ff7e67',.28,1.3);
-    const d=Math.hypot(t.x-t.target.x,t.y-t.target.y);if(d<t.target.radius+8){t.dead=true;let torpDamage=rand(30,46);if(t.target===player)torpDamage*=(difficultyModes[difficulty]||difficultyModes.combat).enemyTorpDamage;damage(t.target,torpDamage,'TORPEDO');if(t.target===player)warn('TORPEDO IMPACT — HULL DAMAGE',true);}
+    const d=Math.hypot(t.x-t.target.x,t.y-t.target.y);if(d<t.target.radius+8){t.dead=true;let torpDamage=rand(30,46);if(t.target===player)torpDamage*=(difficultyModes[difficulty]||difficultyModes.combat).enemyTorpDamage;else if(t.team==='player')torpDamage*=1+campaignUpgrade('torpedo')*.075;damage(t.target,torpDamage,'TORPEDO');if(t.target===player)warn('TORPEDO IMPACT — HULL DAMAGE',true);}
   }
   torps=torps.filter(t=>!t.dead);
 }
@@ -680,7 +825,7 @@ function pdcDefense(ship,dt){
 
   // Missile defence always has priority. If there is an incoming torpedo inside the
   // defensive envelope, PDCs engage it before they will shoot at another ship.
-  const defenseRange=255*(.72+.28*ship.sensors/100);
+  const defenseRange=255*(.72+.28*ship.sensors/100)*(ship===player?(1+campaignUpgrade('sensors')*.035):1);
   let missiles=torps.filter(t=>!t.dead&&t.team!==ship.team&&Math.hypot(t.x-ship.x,t.y-ship.y)<defenseRange);
   missiles.sort((a,b)=>Math.hypot(a.x-ship.x,a.y-ship.y)-Math.hypot(b.x-ship.x,b.y-ship.y));
 
@@ -693,15 +838,15 @@ function pdcDefense(ship,dt){
     const a=Math.atan2(t.y-ship.y,t.x-ship.x)+rand(-.035,.035);
     const sx=ship.x+Math.cos(a)*ship.radius*.65,sy=ship.y+Math.sin(a)*ship.radius*.65;
     const ex=t.x+rand(-7,7),ey=t.y+rand(-7,7),rockBlock=firstAsteroidOnSegment(sx,sy,ex,ey,1.5);
-    if(rockBlock){trail(sx,sy,rockBlock.hit.x,rockBlock.hit.y,ship.team==='player'?'#ffce77':'#ff9b76',.075,1.1);const n=norm(ex-sx,ey-sy);damageAsteroid(rockBlock.asteroid,rand(.8,1.7),n.x*7,n.y*7,'PDC');ship.pdcHeat=clamp(ship.pdcHeat+6.8,0,110);if(ship.pdcHeat>=100){ship.pdcOverheated=true;ship.pdcCd=.45;if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);}return;}
+    if(rockBlock){trail(sx,sy,rockBlock.hit.x,rockBlock.hit.y,ship.team==='player'?'#ffce77':'#ff9b76',.075,1.1);const n=norm(ex-sx,ey-sy);damageAsteroid(rockBlock.asteroid,rand(.8,1.7),n.x*7,n.y*7,'PDC');ship.pdcHeat=clamp(ship.pdcHeat+6.8*(ship===player?Math.max(.62,1-campaignUpgrade('pdc')*.065):1),0,110);if(ship.pdcHeat>=100){ship.pdcOverheated=true;ship.pdcCd=.45;if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);}return;}
     trail(sx,sy,ex,ey,ship.team==='player'?'#ffce77':'#ff9b76',.075,1.1);
-    ship.pdcHeat=clamp(ship.pdcHeat+6.8,0,110);
+    ship.pdcHeat=clamp(ship.pdcHeat+6.8*(ship===player?Math.max(.62,1-campaignUpgrade('pdc')*.065):1),0,110);
 
     const tracking=(ship.pdc/100)*(.64+.36*ship.sensors/100);
     const rangeFactor=clamp(1-dist/defenseRange,.12,1);
     let chance=(.055+.125*tracking)*(.72+.48*rangeFactor);
     const diff=difficultyModes[difficulty]||difficultyModes.combat;
-    chance*=ship.team==='enemy'?diff.enemyPdc:diff.playerPdc;
+    chance*=ship.team==='enemy'?diff.enemyPdc:diff.playerPdc;if(ship===player)chance*=1+campaignUpgrade('pdc')*.055+campaignUpgrade('sensors')*.025;
     if(ship===player&&pdcMode==='FOCUS')chance*=1.18;
     if(ship===player&&pdcMode==='CONSERVE')chance*=.92;
     chance=clamp(chance,.025,.28);
@@ -740,18 +885,18 @@ function pdcDefense(ship,dt){
     const spread=4+dist*.018;
     const ex=tx+rand(-spread,spread),ey=ty+rand(-spread,spread);
     const sx=ship.x+Math.cos(a)*ship.radius*.68,sy=ship.y+Math.sin(a)*ship.radius*.68,rockBlock=firstAsteroidOnSegment(sx,sy,ex,ey,1.5);
-    if(rockBlock){trail(sx,sy,rockBlock.hit.x,rockBlock.hit.y,ship.team==='player'?'#ffd38a':'#ff8e70',.07,1.15);const n=norm(ex-sx,ey-sy);damageAsteroid(rockBlock.asteroid,rand(.7,1.5),n.x*6,n.y*6,'PDC');ship.pdcCd=.105+(100-ship.pdc)/620;ship.pdcHeat=clamp(ship.pdcHeat+4.1,0,110);if(ship.pdcHeat>=100){ship.pdcOverheated=true;ship.pdcCd=.45;if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);}return;}
+    if(rockBlock){trail(sx,sy,rockBlock.hit.x,rockBlock.hit.y,ship.team==='player'?'#ffd38a':'#ff8e70',.07,1.15);const n=norm(ex-sx,ey-sy);damageAsteroid(rockBlock.asteroid,rand(.7,1.5),n.x*6,n.y*6,'PDC');ship.pdcCd=.105+(100-ship.pdc)/620;ship.pdcHeat=clamp(ship.pdcHeat+4.1*(ship===player?Math.max(.62,1-campaignUpgrade('pdc')*.065):1),0,110);if(ship.pdcHeat>=100){ship.pdcOverheated=true;ship.pdcCd=.45;if(ship===player)warn('PDC OVERHEAT — COOLING REQUIRED',true);}return;}
     trail(sx,sy,ex,ey,ship.team==='player'?'#ffd38a':'#ff8e70',.07,1.15);
 
     // Offensive fire has a slightly slower cadence and lower heat per burst than
     // emergency missile interception, but sustained firing will still overheat.
     ship.pdcCd=.105+(100-ship.pdc)/620;
-    ship.pdcHeat=clamp(ship.pdcHeat+4.1,0,110);
+    ship.pdcHeat=clamp(ship.pdcHeat+4.1*(ship===player?Math.max(.62,1-campaignUpgrade('pdc')*.065):1),0,110);
 
     const tracking=(ship.pdc/100)*(.58+.42*ship.sensors/100);
     const rangeFactor=clamp(1-dist/attackRange,.08,1);
     let hitChance=(.22+.28*tracking)*(.48+.52*rangeFactor);
-    if(ship===player&&pdcMode==='FOCUS')hitChance*=1.16;
+    if(ship===player){hitChance*=1+campaignUpgrade('pdc')*.04+campaignUpgrade('sensors')*.02;if(pdcMode==='FOCUS')hitChance*=1.16;}
     hitChance=clamp(hitChance,.14,.58);
     if(Math.random()<hitChance){
       const diff=difficultyModes[difficulty]||difficultyModes.combat;
@@ -769,7 +914,7 @@ function pdcDefense(ship,dt){
 }
 
 function updateRepair(dt){if(!repairJob)return;repairJob.t-=dt;ui.repair.textContent=repairJob.key.toUpperCase()+' '+Math.max(0,repairJob.t).toFixed(1)+'s';if(repairJob.t<=0){player[repairJob.key]=clamp(player[repairJob.key]+(repairJob.amount||28),0,100);toast(repairJob.key.toUpperCase()+' RESTORED');repairJob=null;ui.repair.textContent='IDLE';}}
-function startAutoRepair(){if(repairJob)return;const keys=['drive','pdc','sensors','weapons','reactor','life'];keys.sort((a,b)=>player[a]-player[b]);if(player[keys[0]]<92){const m=difficultyModes[difficulty]||difficultyModes.combat;repairJob={key:keys[0],t:m.repairTime,amount:m.repairAmount};}}
+function startAutoRepair(){if(repairJob)return;const keys=['drive','pdc','sensors','weapons','reactor','life'];keys.sort((a,b)=>player[a]-player[b]);if(player[keys[0]]<92){const m=difficultyModes[difficulty]||difficultyModes.combat;repairJob={key:keys[0],t:m.repairTime*(1-campaignUpgrade('damage')*.075),amount:m.repairAmount+campaignUpgrade('damage')*4};}}
 
 function tick(dt){
   if(!started||paused)return;elapsed+=dt;historySampleClock+=dt;if(historySampleClock>=.055)snapshotCombat();updatePlayer(dt);for(const s of ships){updateShip(s,dt);if(s.team==='enemy')updateAI(s,dt)}world.camX=player.x;world.camY=player.y;updateAsteroids(dt);updateTorps(dt);for(const s of ships)pdcDefense(s,dt);updateRepair(dt);if(!repairJob&&elapsed%9<dt)startAutoRepair();
@@ -785,25 +930,34 @@ function tick(dt){
 }
 function formatBattleTime(seconds){const t=Math.max(0,Math.round(seconds));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')}
 function showMainMenu(){
-  paused=true;started=false;battleEnded=false;victoryCountdown=0;pointer=null;
+  paused=true;started=false;battleEnded=false;victoryCountdown=0;pointer=null;gameMode='skirmish';activeMissionIndex=-1;const co=document.getElementById('campaignOverlay');if(co)co.classList.add('hidden');
   const result=document.getElementById('resultOverlay');if(result)result.classList.add('hidden');
   const overlay=document.getElementById('overlay');if(overlay){overlay.style.display='flex';overlay.style.pointerEvents='auto';overlay.classList.remove('hidden')}
   document.querySelector('#overlay .menu h1').innerHTML='VOID<br>COMMAND';
   document.querySelector('#overlay .menu h2').textContent='Physics-driven tactical space combat';
   document.querySelector('#overlay .menu p').innerHTML='Command the <b>TCS Valiant</b> against a hostile patrol. Press and hold anywhere in space to burn toward your finger, drag while holding to steer the thrust vector, and manage the regenerative drive reserve. Around 1G is nearly sustainable; harder burns rapidly drain the reserve and require recovery.';
-  document.getElementById('startBtn').textContent='Start Skirmish';
+  document.getElementById('startBtn').textContent='Start Skirmish';const cr=document.getElementById('campaignReward');if(cr)cr.classList.add('hidden');
   document.getElementById('pauseBtn').textContent='Ⅱ';
 }
 function endBattle(win){
   if(battleEnded)return;battleEnded=true;paused=true;
+  if(gameMode==='campaign')persistCampaignCondition();
+  let rewardText='';
+  if(gameMode==='campaign'&&activeMissionIndex>=0){
+    const m=campaignMissions[activeMissionIndex],first=!campaign.completed[activeMissionIndex];
+    if(win){const salvage=first?m.reward:Math.round(m.reward*.35),research=first?m.research:0;campaign.salvage+=salvage;if(first){campaign.research+=research;campaign.completed[activeMissionIndex]=true;campaign.unlocked=Math.max(campaign.unlocked,Math.min(campaignMissions.length,activeMissionIndex+2))}lastCampaignReward={salvage,research,first};saveCampaign();rewardText=`SALVAGE +${salvage.toLocaleString()}${research?'  //  RESEARCH +'+research:''}${first?'  //  NEXT MISSION UNLOCKED':''}`}
+    else{const stabilised=emergencyStabilise();lastCampaignReward=null;rewardText=stabilised?'EMERGENCY STABILISATION COMPLETED — SHIPYARD ACCESS RESTORED':'NO MISSION REWARD — DAMAGE HAS BEEN SAVED'}
+  }
   setTimeout(()=>{
-    const ro=document.getElementById('resultOverlay');
-    document.getElementById('resultTitle').innerHTML=win?'VICTORY':'SHIP<br>LOST';
-    document.getElementById('resultSubtitle').textContent=win?'Sector secure — hostile patrol destroyed':'TCS Valiant has been disabled';
-    document.getElementById('resultText').textContent=win?'All hostile contacts have been eliminated. Your ship remains operational and the sector is secure.':'The ship was overwhelmed. Use longer-range manoeuvring, torpedo salvos and your PDC envelope more carefully.';
+    const ro=document.getElementById('resultOverlay'),cr=document.getElementById('campaignReward');
+    document.getElementById('resultTitle').innerHTML=win?(gameMode==='campaign'?'MISSION<br>COMPLETE':'VICTORY'):'SHIP<br>LOST';
+    document.getElementById('resultSubtitle').textContent=win?(gameMode==='campaign'?campaignMissions[activeMissionIndex].name:'Sector secure — hostile patrol destroyed'):'TCS Valiant has been disabled';
+    document.getElementById('resultText').textContent=win?(gameMode==='campaign'?'Hostile contacts eliminated. The Valiant can now return directly to Ship Upgrades to spend salvage and research.':'All hostile contacts have been eliminated. Your ship remains operational and the sector is secure.'):(gameMode==='campaign'?'The Valiant has been recovered. Combat damage persists into the campaign until repaired.':'The ship was overwhelmed. Use longer-range manoeuvring, torpedo salvos and your PDC envelope more carefully.');
     document.getElementById('resultDifficulty').textContent=(difficultyModes[difficulty]||difficultyModes.combat).label;
     document.getElementById('resultTime').textContent=formatBattleTime(elapsed);
-    document.getElementById('resultHull').textContent=Math.max(0,Math.round(player.hull))+'%';
+    document.getElementById('resultHull').textContent=Math.max(0,Math.round(player.hull/player.maxHull*100))+'%';
+    if(cr){cr.textContent=rewardText;cr.classList.toggle('hidden',gameMode!=='campaign')}
+    const ab=document.getElementById('againBtn');ab.textContent=gameMode==='campaign'?'Return to Shipyard':'Fight Again';
     ro.classList.remove('hidden');
   },650);
 }
@@ -835,7 +989,7 @@ function drawAsteroid(a){
 }
 
 function makeShipSprite(klass,team){
-  const key=klass+'_'+team;if(shipSpriteCache.has(key))return shipSpriteCache.get(key);const c=document.createElement('canvas');c.width=320;c.height=120;const g=c.getContext('2d');g.translate(160,60);const enemy=team==='enemy',long=klass==='DESTROYER'?132:klass==='FRIGATE'?112:96,w=klass==='DESTROYER'?33:klass==='FRIGATE'?29:25;
+  const key=klass+'_'+team;if(shipSpriteCache.has(key))return shipSpriteCache.get(key);const c=document.createElement('canvas');c.width=320;c.height=120;const g=c.getContext('2d');g.translate(160,60);const enemy=team==='enemy',long=klass==='CRUISER'?148:klass==='DESTROYER'?132:klass==='FRIGATE'?112:96,w=klass==='CRUISER'?39:klass==='DESTROYER'?33:klass==='FRIGATE'?29:25;
   g.shadowBlur=14;g.shadowColor='rgba(0,0,0,.88)';g.fillStyle='rgba(0,0,0,.58)';g.beginPath();g.ellipse(5,5,long*.72,w*.9,0,0,Math.PI*2);g.fill();g.shadowBlur=0;
   const hull=g.createLinearGradient(0,-w,long*.8,w);hull.addColorStop(0,enemy?'#766c63':'#88979a');hull.addColorStop(.28,enemy?'#463f3b':'#4c5d61');hull.addColorStop(.72,enemy?'#24272a':'#27343a');hull.addColorStop(1,'#111820');g.fillStyle=hull;g.strokeStyle=enemy?'rgba(245,155,124,.42)':'rgba(174,230,240,.48)';g.lineWidth=1.2;
   g.beginPath();g.moveTo(long*.77,0);g.lineTo(long*.57,-w*.42);g.lineTo(long*.16,-w*.62);g.lineTo(-long*.45,-w*.54);g.lineTo(-long*.72,-w*.31);g.lineTo(-long*.82,-w*.15);g.lineTo(-long*.82,w*.15);g.lineTo(-long*.72,w*.31);g.lineTo(-long*.45,w*.54);g.lineTo(long*.16,w*.62);g.lineTo(long*.57,w*.42);g.closePath();g.fill();g.stroke();
@@ -843,8 +997,7 @@ function makeShipSprite(klass,team){
   g.fillStyle=enemy?'#37312f':'#34474d';g.fillRect(-long*.66,-w*.13,long*1.24,w*.26);g.fillStyle=enemy?'#5b4a42':'#62777b';g.fillRect(-long*.42,-w*.08,long*.88,w*.16);g.fillStyle='rgba(229,245,246,.22)';g.fillRect(-long*.26,-w*.045,long*.62,w*.07);
   const modules=klass==='DESTROYER'?8:klass==='FRIGATE'?7:6;for(let i=0;i<modules;i++){const x=-long*.55+i*(long*1.03/(modules-1)),mw=long*.09+(i%2)*2,mh=w*(.34+(i%3)*.055);g.fillStyle=i%2?(enemy?'#403833':'#3c5055'):(enemy?'#332e2c':'#304146');g.strokeStyle='rgba(220,238,238,.12)';g.lineWidth=.8;g.fillRect(x-mw/2,-mh,mw,mh*.72);g.strokeRect(x-mw/2,-mh,mw,mh*.72);g.fillRect(x-mw/2,mh*.28,mw,mh*.72);g.strokeRect(x-mw/2,mh*.28,mw,mh*.72)}
   // Side weapon/utility pods.
-  for(const side of [-1,1]){for(const q of [-.38,-.04,.29]){const x=q*long,y=side*w*.64;g.fillStyle='#171f23';g.fillRect(x-long*.055,y-side*w*.08,long*.11,side*w*.16);g.strokeStyle=enemy?'#8d5549':'#547a82';g.strokeRect(x-long*.055,Math.min(y,y-side*w*.08),long*.11,Math.abs(w*.08))}}
-  // PDC mounts and warning/navigation lights.
+  for(const side of [-1,1]){for(const q of [-.38,-.04,.29]){const x=q*long,y=side*w*.64;g.fillStyle='#171f23';g.fillRect(x-long*.055,y-side*w*.08,long*.11,side*w*.16);g.strokeStyle=enemy?'#8d5549':'#547a82';g.strokeRect(x-long*.055,Math.min(y,y-side*w*.08),long*.11,Math.abs(w*.08))}}  // PDC mounts and warning/navigation lights.
   for(const side of [-1,1])for(const q of [-.36,.02,.38]){const x=q*long,y=side*w*.6;g.fillStyle=enemy?'#ff6a52':'#c8fbff';g.shadowBlur=5;g.shadowColor=g.fillStyle;g.beginPath();g.arc(x,y,1.5,0,Math.PI*2);g.fill();g.shadowBlur=0}
   // Railgun spine and bow sensor nose.
   g.fillStyle='#9fa9aa';g.fillRect(-long*.12,-1.1,long*.82,2.2);g.fillStyle=enemy?'#d46e55':'#7ce8ff';g.beginPath();g.arc(long*.67,0,2.3,0,Math.PI*2);g.fill();
@@ -857,9 +1010,9 @@ function drawTargetBrackets(p,r){ctx.save();ctx.strokeStyle='rgba(255,72,64,.96)
 
 function drawShip(s){
   if(s.dead)return;const p=toScreen(s.x,s.y),scale=world.zoom*(s.klass==='DESTROYER'?1.08:s.klass==='FRIGATE'?1.03:1);if(p.x<-140||p.x>W+140||p.y<-140||p.y>H+140)return;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(s.a);ctx.scale(scale,scale);
-  const radius=s.radius,engines=s.klass==='DESTROYER'?3:2,driveOn=(s===player&&holdBurn&&holdBurn.active)||Math.hypot(s.vx,s.vy)>8;
+  const radius=s.radius,engines=s.klass==='CRUISER'?4:s.klass==='DESTROYER'?3:2,driveOn=(s===player&&holdBurn&&holdBurn.active)||Math.hypot(s.vx,s.vy)>8;
   if(driveOn){for(let i=0;i<engines;i++){const yy=(i-(engines-1)/2)*radius*.36,pl=radius*(s===player&&holdBurn&&holdBurn.active?2.15:1.45)*rand(.9,1.08);ctx.save();ctx.globalCompositeOperation='lighter';const pg=ctx.createLinearGradient(-radius*.78,yy,-radius*.78-pl,yy);pg.addColorStop(0,s.team==='player'?'rgba(239,255,255,.98)':'rgba(255,244,220,.98)');pg.addColorStop(.18,s.team==='player'?'rgba(70,198,255,.92)':'rgba(255,150,69,.88)');pg.addColorStop(.62,s.team==='player'?'rgba(32,109,255,.27)':'rgba(255,82,37,.22)');pg.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=pg;ctx.shadowBlur=16;ctx.shadowColor=s.team==='player'?'#36bfff':'#ff7c42';ctx.beginPath();ctx.moveTo(-radius*.68,yy-radius*.09);ctx.lineTo(-radius*.68-pl,yy);ctx.lineTo(-radius*.68,yy+radius*.09);ctx.closePath();ctx.fill();ctx.restore()}}
-  const sprite=makeShipSprite(s.klass,s.team),dw=radius*3.45,dh=radius*1.28;ctx.drawImage(sprite,-dw*.56,-dh*.5,dw,dh);
+  const sprite=makeShipSprite(s.klass,s.team),dw=radius*3.45,dh=radius*1.28;ctx.drawImage(sprite,-dw*.56,-dh*.5,dw,dh);if(s===player&&gameMode==='campaign'){const u=campaign.upgrades;ctx.save();ctx.strokeStyle='rgba(103,226,237,.35)';ctx.lineWidth=.75;for(let i=0;i<u.armour;i++){const x=(-.25+i*.13)*radius*2;ctx.strokeRect(x,-radius*.31,radius*.22,radius*.62)}ctx.fillStyle='#9ff4f7';for(let i=0;i<u.pdc;i++){const x=(-.15+i*.11)*radius*1.4,y=(i%2?1:-1)*radius*.42;ctx.beginPath();ctx.arc(x,y,1.1,0,Math.PI*2);ctx.fill()}ctx.restore();}
   if(s.hitFlash>0){ctx.globalCompositeOperation='screen';ctx.globalAlpha=clamp(s.hitFlash*4,0,.85);ctx.fillStyle='#ffffff';ctx.beginPath();ctx.ellipse(0,0,radius*1.05,radius*.42,0,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1}
   const hullPct=clamp(s.hull/(s.maxHull||100),0,1);if(hullPct<.72){const marks=hullPct<.35?5:3;for(let i=0;i<marks;i++){const x=(-.3+i*.19)*radius*2,y=((i%2?1:-1)*(.12+.05*i))*radius;ctx.strokeStyle='rgba(10,10,10,.85)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x-5,y-2);ctx.lineTo(x+6,y+3);ctx.stroke();if(hullPct<.42&&i%2===0){ctx.fillStyle='rgba(255,123,66,.85)';ctx.shadowBlur=9;ctx.shadowColor='#ff5c32';ctx.beginPath();ctx.arc(x,y,1.6,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0}}}
   ctx.restore();
@@ -877,7 +1030,7 @@ function drawEffects(){
   for(const p of particles){const q=toScreen(p.x,p.y),alpha=clamp(p.life/p.max,0,1);ctx.save();ctx.globalAlpha=alpha;if(p.size>2.8){ctx.shadowBlur=9;ctx.shadowColor=p.color;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(q.x,q.y,p.size*world.zoom*.55,0,Math.PI*2);ctx.fill()}else{ctx.fillStyle=p.color;ctx.fillRect(q.x,q.y,Math.max(.7,p.size*world.zoom),Math.max(.7,p.size*world.zoom))}ctx.restore()}ctx.globalAlpha=1;
 }
 function drawTargetInfo(){if(!selected||selected.dead)return;const p=toScreen(selected.x,selected.y),d=Math.hypot(selected.x-player.x,selected.y-player.y);ctx.save();ctx.font='700 8px Arial Narrow, Segoe UI';ctx.fillStyle='rgba(255,105,95,.98)';ctx.textAlign='left';ctx.fillText((d/10).toFixed(1)+' km',p.x+24,p.y+32);ctx.fillStyle='rgba(255,145,135,.74)';ctx.fillText('HULL '+Math.max(0,Math.round(selected.hull))+'%',p.x+24,p.y+43);ctx.restore()}
-function drawRadar(){if(document.body.classList.contains('radarHidden'))return;const rect=radar.getBoundingClientRect(),rw=rect.width,rh=rect.height;if(rw<2||rh<2||!player)return;rctx.clearRect(0,0,rw,rh);const expanded=document.body.classList.contains('radarExpanded'),cx=rw/2,cy=rh/2,rad=Math.min(rw,rh)*.39;rctx.strokeStyle='rgba(115,220,228,.16)';rctx.lineWidth=1;for(const f of expanded?[.33,.66,1]:[1]){rctx.beginPath();rctx.arc(cx,cy,rad*f,0,Math.PI*2);rctx.stroke()}rctx.beginPath();rctx.moveTo(cx,4);rctx.lineTo(cx,rh-4);rctx.moveTo(4,cy);rctx.lineTo(rw-4,cy);rctx.stroke();if(expanded){rctx.fillStyle='rgba(165,226,231,.58)';rctx.font='8px Segoe UI,Arial';rctx.textAlign='center';rctx.fillText('N',cx,10);rctx.fillText('S',cx,rh-4);rctx.textAlign='left';rctx.fillText('W',5,cy-4);rctx.textAlign='right';rctx.fillText('E',rw-5,cy-4);rctx.textAlign='left'}const range=3600;for(const s of ships){if(s.dead)continue;const dx=(s.x-player.x)/range,dy=(s.y-player.y)/range;const x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<2||x>rw-2||y<2||y>rh-2)continue;rctx.fillStyle=s.team==='player'?'#85f0f4':'#ff6f68';rctx.beginPath();rctx.arc(x,y,s.team==='player'?(expanded?4:3):(expanded?3.5:2.8),0,Math.PI*2);rctx.fill()}for(const a of asteroids){if(a.dead)continue;const dx=(a.x-player.x)/range,dy=(a.y-player.y)/range,x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<1||x>rw-1||y<1||y>rh-1)continue;rctx.fillStyle=expanded?'rgba(170,164,153,.68)':'rgba(150,146,138,.52)';const sz=expanded?clamp(a.r/28,1.4,4):clamp(a.r/42,1,2.6);rctx.beginPath();rctx.arc(x,y,sz,0,Math.PI*2);rctx.fill()}for(const t of torps){const dx=(t.x-player.x)/range,dy=(t.y-player.y)/range,x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<1||x>rw-1||y<1||y>rh-1)continue;rctx.fillStyle=t.team==='player'?'#ffcf7b':'#ff473d';rctx.fillRect(x-1,y-1,2,2)}}
+function drawRadar(){if(document.body.classList.contains('radarHidden'))return;const rect=radar.getBoundingClientRect(),rw=rect.width,rh=rect.height;if(rw<2||rh<2||!player)return;rctx.clearRect(0,0,rw,rh);const expanded=document.body.classList.contains('radarExpanded'),cx=rw/2,cy=rh/2,rad=Math.min(rw,rh)*.39;rctx.strokeStyle='rgba(115,220,228,.16)';rctx.lineWidth=1;for(const f of expanded?[.33,.66,1]:[1]){rctx.beginPath();rctx.arc(cx,cy,rad*f,0,Math.PI*2);rctx.stroke()}rctx.beginPath();rctx.moveTo(cx,4);rctx.lineTo(cx,rh-4);rctx.moveTo(4,cy);rctx.lineTo(rw-4,cy);rctx.stroke();if(expanded){rctx.fillStyle='rgba(165,226,231,.58)';rctx.font='8px Segoe UI,Arial';rctx.textAlign='center';rctx.fillText('N',cx,10);rctx.fillText('S',cx,rh-4);rctx.textAlign='left';rctx.fillText('W',5,cy-4);rctx.textAlign='right';rctx.fillText('E',rw-5,cy-4);rctx.textAlign='left'}const range=3600*(1+campaignUpgrade('sensors')*.08);for(const s of ships){if(s.dead)continue;const dx=(s.x-player.x)/range,dy=(s.y-player.y)/range;const x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<2||x>rw-2||y<2||y>rh-2)continue;rctx.fillStyle=s.team==='player'?'#85f0f4':'#ff6f68';rctx.beginPath();rctx.arc(x,y,s.team==='player'?(expanded?4:3):(expanded?3.5:2.8),0,Math.PI*2);rctx.fill()}for(const a of asteroids){if(a.dead)continue;const dx=(a.x-player.x)/range,dy=(a.y-player.y)/range,x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<1||x>rw-1||y<1||y>rh-1)continue;rctx.fillStyle=expanded?'rgba(170,164,153,.68)':'rgba(150,146,138,.52)';const sz=expanded?clamp(a.r/28,1.4,4):clamp(a.r/42,1,2.6);rctx.beginPath();rctx.arc(x,y,sz,0,Math.PI*2);rctx.fill()}for(const t of torps){const dx=(t.x-player.x)/range,dy=(t.y-player.y)/range,x=cx+dx*rw*.42,y=cy+dy*rh*.42;if(x<1||x>rw-1||y<1||y>rh-1)continue;rctx.fillStyle=t.team==='player'?'#ffcf7b':'#ff473d';rctx.fillRect(x-1,y-1,2,2)}}
 
 function render(){
   const sx=screenShake?rand(-screenShake,screenShake):0,sy=screenShake?rand(-screenShake,screenShake):0;
@@ -971,6 +1124,7 @@ bindTap('fsBtn',async()=>{try{if(!document.fullscreenElement)await document.docu
 document.querySelectorAll('.diffBtn').forEach(btn=>bindTap(btn,()=>setDifficulty(btn.dataset.difficulty)));
 setDifficulty(difficulty);
 function startVoidCommand(){
+  gameMode='skirmish';activeMissionIndex=-1;const co=document.getElementById('campaignOverlay');if(co)co.classList.add('hidden');
   const ro=document.getElementById('resultOverlay');if(ro)ro.classList.add('hidden');
   const overlay=document.getElementById('overlay');
   if(overlay){overlay.classList.add('hidden');overlay.style.display='none';overlay.style.pointerEvents='none'}
@@ -981,7 +1135,12 @@ function startVoidCommand(){
 }
 window.__startVoidCommand=startVoidCommand;
 bindTap('startBtn',startVoidCommand);
-bindTap('againBtn',startVoidCommand);
+bindTap('campaignBtn',()=>openCampaign('missions'));
+bindTap('campaignMissionsTab',()=>setCampaignView('missions'));
+bindTap('campaignUpgradesTab',()=>setCampaignView('shipyard'));
+bindTap('campaignBackBtn',closeCampaign);
+bindTap('repairBtn',repairCampaignShip);
+bindTap('againBtn',()=>{if(gameMode==='campaign')openCampaign('shipyard');else startVoidCommand()});
 bindTap('resultMenuBtn',showMainMenu);
 
 // Last-resort delegated capture handler for local-file Android viewers/WebViews.
@@ -989,15 +1148,17 @@ bindTap('resultMenuBtn',showMainMenu);
 const introOverlay=document.getElementById('overlay');
 if(introOverlay){
   const menuCapture=(e)=>{
-    const p=e.target&&e.target.closest?e.target.closest('#startBtn, .diffBtn'):null;
+    const p=e.target&&e.target.closest?e.target.closest('#startBtn, #campaignBtn, .diffBtn'):null;
     if(!p)return;
     e.preventDefault();e.stopPropagation();
     if(p.id==='startBtn') startVoidCommand();
+    else if(p.id==='campaignBtn') openCampaign();
     else if(p.classList.contains('diffBtn')) setDifficulty(p.dataset.difficulty);
   };
   introOverlay.addEventListener('pointerdown',menuCapture,{passive:false,capture:true});
   introOverlay.addEventListener('touchstart',menuCapture,{passive:false,capture:true});
 }
+
 
 function loop(t){const dt=Math.min(.033,((t-last)||16.7)/1000);last=t;updateCombatReplay(dt);const simDt=replay?.active?dt*.30:dt;tick(simDt);render();if(started&&!paused)updateUI();requestAnimationFrame(loop)}requestAnimationFrame(loop);
 })();
