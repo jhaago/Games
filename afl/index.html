@@ -70,6 +70,7 @@
 /* A fixed-step simulation, independent of the display size and render frame rate. */
 const $ = id => document.getElementById(id);
 const TAU=Math.PI*2, P={w:1000,h:600,b1:176,g1:248,g2:352,b2:424,post:94};
+const KICK_MAX_RANGE=185, HANDBALL_MAX_RANGE=92;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const lerp=(a,b,t)=>a+(b-a)*t;
 const length=(x,y)=>Math.hypot(x,y);
@@ -205,7 +206,7 @@ function ownBall(p,silent=false,marked=false){
  queueReaction();syncDribble(0);if(marked){G.stats.marks[p.team]++;notice(p.team===0?'MARK!  TAKE YOUR KICK':'OPPOSITION MARK',p.team===0?1.15:.7);sound('save');}else if(!silent)sound('tap');
 }
 function release(p,dx,dy,speed,kind,vz=0){
- const b=G.ball,n=unit(dx,dy);b.owner=null;b.x=p.x+n.x*20;b.y=p.y+n.y*20;b.z=30;b.vx=n.x*speed;b.vy=n.y*speed;b.vz=vz;b.lastTouch=p.team;b.lastPlayer=p.id;b.lock=.16;b.kind=kind;b.target=null;b.age=0;b.markable=kind==='kick';
+ const b=G.ball,n=unit(dx,dy);b.owner=null;b.x=p.x+n.x*20;b.y=p.y+n.y*20;b.z=30;b.vx=n.x*speed;b.vy=n.y*speed;b.vz=vz;b.lastTouch=p.team;b.lastPlayer=p.id;b.lock=.16;b.kind=kind;b.target=null;b.age=0;b.markable=kind==='kick';b.originX=b.x;b.originY=b.y;b.maxTravel=null;
  if(kind==='handball'){p.handball=.30;p.kick=0;}else{p.kick=.32;p.handball=0;}p.kickDir=Math.atan2(n.y,n.x);p.face=p.kickDir;p.cool=Math.max(p.cool,.20);p.held=0;p.markTimer=0;p.protect=Math.min(p.protect,.18);G.trails=[];queueReaction();
 }
 function segmentDistance(px,py,ax,ay,bx,by){const dx=bx-ax,dy=by-ay,t=clamp(((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy||1),0,1);return length(px-ax-dx*t,py-ay-dy*t);}
@@ -218,11 +219,11 @@ function laneRisk(p,m){let risk=0;for(const e of G.players){if(e.team===p.team||
 function passTarget(p,useInput=false){
  // Handballs are deliberately a short support disposal. Do not select a
  // teammate on the far side of the oval just because their lane is open.
- const mates=fieldPlayers(p.team).filter(m=>m!==p&&distance(p,m)<=255);if(!mates.length)return null;
+ const mates=fieldPlayers(p.team).filter(m=>m!==p&&distance(p,m)<=HANDBALL_MAX_RANGE);if(!mates.length)return null;
  const hasAim=useInput&&length(input.x,input.y)>.18,aim=hasAim?unit(input.x,input.y):{x:direction(p.team),y:0};
  let best=null,score=-Infinity;
  for(const m of mates){const dx=m.x-p.x,dy=m.y-p.y,dist=length(dx,dy),n=unit(dx,dy),e=nearest(other(p.team),m.x,m.y,null,true),space=e?distance(e,m):100;
-  const value=(n.x*aim.x+n.y*aim.y)*(hasAim?300:105)-Math.abs(dist-135)*.42+clamp(dx*direction(p.team),-180,180)*.10+clamp(space,0,100)*.55-laneRisk(p,m)*1.05;
+  const value=(n.x*aim.x+n.y*aim.y)*(hasAim?300:105)-Math.abs(dist-62)*.55+clamp(dx*direction(p.team),-180,180)*.10+clamp(space,0,100)*.55-laneRisk(p,m)*1.05;
   if(value>score){score=value;best=m;}
  }return best;
 }
@@ -231,7 +232,7 @@ function aiPassOption(p){
  // still useful, but territory and avoiding an immediate give-back now dominate.
  let best=null;
  for(const m of fieldPlayers(p.team)){
-  const dist=distance(p,m);if(m===p||m.recover>0||dist<68||dist>500)continue;
+  const dist=distance(p,m);if(m===p||m.recover>0||dist<42||dist>HANDBALL_MAX_RANGE)continue;
   const dx=m.x-p.x,dy=m.y-p.y,dd=dx*dx+dy*dy;let risk=0;
   for(const e of G.players){if(e.team===p.team)continue;
    const along=((e.x-p.x)*dx+(e.y-p.y)*dy)/dd;
@@ -245,7 +246,7 @@ function aiPassOption(p){
   const backwards=gain<0?Math.abs(gain)*1.55+65:0;
   const sideways=gain>=0&&gain<28?42:0;
   const giveBack=m.id===p.lastPassFrom?(p.held<3.2?245:115):0;
-  const score=Math.min(space,135)*.46+clamp(gain,-180,260)*.88-Math.abs(dist-165)*.12-risk*1.15-backwards-sideways-giveBack;
+  const score=Math.min(space,135)*.46+clamp(gain,-180,260)*.88-Math.abs(dist-62)*.18-risk*1.15-backwards-sideways-giveBack;
   if(!best||score>best.score)best={player:m,score,gain,space,dist};
  }return best;
 }
@@ -255,13 +256,13 @@ function findKickSpace(p){
  // defenders and a teammate who has a realistic chance to arrive first.
  const dir=direction(p.team),base=progress(p),mates=fieldPlayers(p.team).filter(m=>m!==p&&m.recover<=0);
  let best=null;
- for(const gain of [145,205,275,335])for(const lateral of [-170,-90,0,90,170]){
+ for(const gain of [85,120,155,180])for(const lateral of [-105,-55,0,55,105]){
   const prog=clamp(base+gain,90,900),wx=dir>0?prog:P.w-prog;
   const wy=clamp(p.y+lateral+(300-p.y)*.16,58,542),q=clampToOval(wx,wy,38);
-  const actualGain=(dir>0?q.x:P.w-q.x)-base;if(actualGain<105)continue;
+  const actualGain=(dir>0?q.x:P.w-q.x)-base,spaceKickDist=distance(p,q);if(actualGain<65||spaceKickDist>KICK_MAX_RANGE)continue;
   let runner=null,runnerDist=1e9;
   for(const m of mates){const d=length(m.x-q.x,m.y-q.y);if(d<runnerDist){runnerDist=d;runner=m;}}
-  if(!runner||runnerDist>270)continue;
+  if(!runner||runnerDist>175)continue;
   const opp=nearest(other(p.team),q.x,q.y,null,false),oppDist=opp?distance(opp,q):230;
   const advantage=oppDist-runnerDist;
   const lane=laneRisk(p,q),edge=Math.abs(q.y-300)>205?24:0;
@@ -275,9 +276,9 @@ function findKickSpace(p){
 function kickToSpace(p,space=null,power=.50){
  if(G.state!=='play'||G.paused||G.ball.owner!==p)return false;
  const s=space||findKickSpace(p);if(!s)return false;
- const dist=length(s.x-p.x,s.y-p.y),speed=clamp(585+power*205+dist*.11,620,900),vz=142+power*138;
- release(p,s.x-p.x,s.y-p.y,speed,'kick',vz);G.stats.kicks[p.team]++;if(G.handballChain)G.handballChain[p.team]=0;
- const b=G.ball;b.target=s.runner.id;b.tx=s.x;b.ty=s.y;s.runner.receiveUntil=G.age+2.8;s.runner.assist=.60;s.runner.react=0;s.runner.makeSpace=0;
+ const rawDist=length(s.x-p.x,s.y-p.y),maxRange=KICK_MAX_RANGE*(.50+.50*power),n=unit(s.x-p.x,s.y-p.y),dist=Math.min(rawDist,maxRange),tx=p.x+n.x*dist,ty=p.y+n.y*dist,speed=clamp(150+power*50+dist*.18,175,235),vz=110+power*50;
+ release(p,tx-p.x,ty-p.y,speed,'kick',vz);G.stats.kicks[p.team]++;if(G.handballChain)G.handballChain[p.team]=0;
+ const b=G.ball;b.maxTravel=maxRange;b.target=s.runner.id;b.tx=tx;b.ty=ty;s.runner.receiveUntil=G.age+2.8;s.runner.assist=.60;s.runner.react=0;s.runner.makeSpace=0;
  G.shake=Math.max(G.shake,.75+power);sound('shoot');emit(p.x,p.y,5,'dust');return true;
 }
 
@@ -285,7 +286,7 @@ function passBall(p,target=null){
  if(G.state!=='play'||G.paused||G.ball.owner!==p)return false;
  const m=target||passTarget(p,p===G.controlled);if(!m)return false;
  const dist=distance(p,m),flight=clamp(dist/520,.08,.38);let tx=m.x+m.vx*flight*.30,ty=m.y+m.vy*flight*.30;const q=clampToOval(tx,ty,24);tx=q.x;ty=q.y;
- const d=length(tx-p.x,ty-p.y),speed=clamp(330+d*.38,350,445);release(p,tx-p.x,ty-p.y,speed,'handball',30);const b=G.ball;b.target=m.id;b.tx=tx;b.ty=ty;b.markable=false;G.stats.handballs[p.team]++;if(G.handballChain)G.handballChain[p.team]=(G.handballChain[p.team]||0)+1;
+ const d=length(tx-p.x,ty-p.y),speed=clamp(215+d*.25,220,255);release(p,tx-p.x,ty-p.y,speed,'handball',22);const b=G.ball;b.maxTravel=HANDBALL_MAX_RANGE;b.target=m.id;b.tx=tx;b.ty=ty;b.markable=false;G.stats.handballs[p.team]++;if(G.handballChain)G.handballChain[p.team]=(G.handballChain[p.team]||0)+1;
  m.receiveUntil=G.age+Math.min(1.65,d/speed+.65);m.assist=.52;m.react=0;m.makeSpace=0;
  if(p.team===0){G.controlled=m;notice(`HANDBALL TO ${m.appearance.name.toUpperCase()}`,.6);}sound('handball');return true;
 }
@@ -295,14 +296,14 @@ function passAction(){if(G.state!=='play'||G.paused)return;const p=G.controlled;
 }
 function shootBall(p,power=.55,aim=0){
  if(G.state!=='play'||G.paused||G.ball.owner!==p)return false;
- const dir=direction(p.team),d=difficultyProfile(),close=progress(p)>665||isPractice();let tx,ty,target=null;
+ const dir=direction(p.team),d=difficultyProfile(),goalDistance=Math.abs(goalX(p.team)-p.x),close=goalDistance<=KICK_MAX_RANGE||isPractice();let tx,ty,target=null;
  if(!close){
-  const mates=fieldPlayers(p.team).filter(m=>m!==p&&progress(m)>progress(p)+35&&distance(p,m)>115&&distance(p,m)<500);
+  const mates=fieldPlayers(p.team).filter(m=>m!==p&&progress(m)>progress(p)+35&&distance(p,m)>70&&distance(p,m)<=KICK_MAX_RANGE);
   if(mates.length){target=mates.sort((a,b)=>(progress(b)-progress(a))-(progress(a)-progress(p))*.05)[0];const flight=clamp(distance(p,target)/520,.28,.95);tx=target.x+target.vx*flight*.62;ty=target.y+target.vy*flight*.62;}
  }
  if(!target){tx=goalX(p.team)+dir*45;ty=300+clamp(aim,-1,1)*68;if(p.team===1)ty+=Math.sin(G.age*2.1+p.index)*d.oppKickError;}
- const q=clampToOval(tx,ty,-55);tx=q.x;ty=q.y;const dist=length(tx-p.x,ty-p.y),speed=clamp(590+power*220+dist*.10,620,900),vz=145+power*145;
- release(p,tx-p.x,ty-p.y,speed,'kick',vz);G.stats.kicks[p.team]++;if(G.handballChain)G.handballChain[p.team]=0;const b=G.ball;if(target){b.target=target.id;b.tx=target.x;b.ty=target.y;target.receiveUntil=G.age+2.4;target.assist=.45;target.react=0;}G.shake=Math.max(G.shake,.8+power*1.1);sound('shoot');emit(p.x,p.y,5,'dust');return true;
+ const q=clampToOval(tx,ty,-55);tx=q.x;ty=q.y;const maxRange=KICK_MAX_RANGE*(.50+.50*power),rawDist=length(tx-p.x,ty-p.y),n=unit(tx-p.x,ty-p.y),dist=Math.min(rawDist,maxRange);tx=p.x+n.x*dist;ty=p.y+n.y*dist;const speed=clamp(150+power*50+dist*.18,175,235),vz=110+power*50;
+ release(p,tx-p.x,ty-p.y,speed,'kick',vz);G.stats.kicks[p.team]++;if(G.handballChain)G.handballChain[p.team]=0;const b=G.ball;b.maxTravel=maxRange;if(target){b.target=target.id;b.tx=tx;b.ty=ty;target.receiveUntil=G.age+2.4;target.assist=.45;target.react=0;}G.shake=Math.max(G.shake,.8+power*1.1);sound('shoot');emit(p.x,p.y,5,'dust');return true;
 }
 function tackleAction(){
  const p=G.controlled;if(!p||G.paused||G.state!=='play'||p.cool>0)return;
@@ -358,10 +359,10 @@ function fieldAI(p,dt){
   }else{
    p.held+=dt;p.role='set kick';p.vx=towards(p.vx,0,1500*dt);p.vy=towards(p.vy,0,1500*dt);
    if(p.held>.72&&p.think<=0){
-    p.think=.24;const outlet=aiPassOption(p),space=findKickSpace(p),range=progress(p)>640,chain=G.handballChain?.[p.team]||0;
+    p.think=.24;const outlet=aiPassOption(p),space=findKickSpace(p),range=Math.abs(goalX(p.team)-p.x)<=KICK_MAX_RANGE,chain=G.handballChain?.[p.team]||0;
     if(range)shootBall(p,.56,Math.sin(G.age+p.index)*.34);
     else if(space&&space.score>185&&Math.random()<.42)kickToSpace(p,space,.52);
-    else if(chain===0&&outlet&&outlet.gain>45&&outlet.dist<165&&Math.random()<.18)passBall(p,outlet.player);
+    else if(chain===0&&outlet&&outlet.gain>45&&outlet.dist<=HANDBALL_MAX_RANGE&&Math.random()<.18)passBall(p,outlet.player);
     else if(space&&space.score>150)kickToSpace(p,space,.50);
     else shootBall(p,.50,0);
    }
@@ -383,8 +384,8 @@ function fieldAI(p,dt){
   if(enemy&&pressure<92){const side=(p.y<300?-1:1);target=clampToOval(p.x+dir*118,p.y+side*92,30);}
   steer(p,target.x,target.y,speed*.96,dt);
   if(p.think<=0){
-   p.think=.18;const outlet=aiPassOption(p),space=findKickSpace(p),range=progress(p)>650,chain=G.handballChain?.[p.team]||0;
-   const shortForward=outlet&&outlet.gain>18&&outlet.dist<195,strongSpace=space&&space.score>175&&space.gain>125;
+   p.think=.18;const outlet=aiPassOption(p),space=findKickSpace(p),range=Math.abs(goalX(p.team)-p.x)<=KICK_MAX_RANGE,chain=G.handballChain?.[p.team]||0;
+   const shortForward=outlet&&outlet.gain>18&&outlet.dist<=HANDBALL_MAX_RANGE,strongSpace=space&&space.score>175&&space.gain>75;
    if(range&&p.held>.38){shootBall(p,.50,Math.sin(G.age+p.index)*.52);}
    else if(chain>=2&&p.held>.48){if(strongSpace&&Math.random()<.60)kickToSpace(p,space,.49);else shootBall(p,.48,0);}
    else if(pressure<72&&p.held>.34){
@@ -454,23 +455,26 @@ function testPossession(ax,ay){
 }
 function updateBall(dt){
  const b=G.ball;let ax=b.x,ay=b.y;b.lock=Math.max(0,b.lock-dt);b.age+=dt;if(b.owner){syncDribble(dt);testPossession(ax,ay);return;}
- b.x+=b.vx*dt;b.y+=b.vy*dt;b.z+=b.vz*dt;b.vz-=350*dt;if(b.z<0){b.z=0;if(Math.abs(b.vz)>38){b.vz=-b.vz*.34;if(Math.abs(b.vz)<24)b.vz=0;}else b.vz=0;}
+ b.x+=b.vx*dt;b.y+=b.vy*dt;b.z+=b.vz*dt;b.vz-=350*dt;
+ if(b.maxTravel&&Number.isFinite(b.originX+b.originY)){const dx=b.x-b.originX,dy=b.y-b.originY,travel=length(dx,dy);if(travel>b.maxTravel){const n=unit(dx,dy);b.x=b.originX+n.x*b.maxTravel;b.y=b.originY+n.y*b.maxTravel;b.vx*=.10;b.vy*=.10;b.vz=Math.min(b.vz,12);b.z=Math.min(b.z,10);b.maxTravel=null;}}if(b.z<0){b.z=0;if(Math.abs(b.vz)>38){b.vz=-b.vz*.34;if(Math.abs(b.vz)<24)b.vz=0;}else b.vz=0;}
  const v=length(b.vx,b.vy),drag=Math.exp(-(b.z>0?.10:.34)*dt),roll=b.z<=0?12*dt:0;b.vx*=drag;b.vy*=drag;if(v>1&&roll){const f=Math.max(0,1-roll/v);b.vx*=f;b.vy*=f;}b.spin+=v*dt*.035;
  testPossession(ax,ay);if(b.owner)return;
- // AFL scoring posts. Contact with either tall goal post is immediately a behind.
- // The collision radius is intentionally narrow so post hits are occasional, not routine.
- for(const side of [0,1]){
-  const x=side?982:18,attacking=(side===(direction(0)>0))?0:1;
-  for(const yy of [P.g1,P.g2]){if(b.z<P.post+5&&segmentDistance(x,yy,ax,ay,b.x,b.y)<5.5){emit(x,yy,8,'spark');sound('post');G.shake=2.8;scoreEvent(attacking,false);return;}}
-  // A rare glancing hit on an outside behind post can still ricochet in this arcade version.
-  for(const yy of [P.b1,P.b2]){if(b.z<77&&segmentDistance(x,yy,ax,ay,b.x,b.y)<4.2){const n=unit(b.x-x,b.y-yy);b.x=x+n.x*8;b.y=yy+n.y*8;const dot=b.vx*n.x+b.vy*n.y;b.vx=(b.vx-2*dot*n.x)*.48;b.vy=(b.vy-2*dot*n.y)*.48;b.vz+=12;emit(x,yy,5,'spark');sound('post');G.shake=1.5;}}
- }
+ // Judge the scoring line before any post/boundary collision. This prevents a ball
+ // that has already crossed for a score from being reflected back into play.
  const crossedLeft=ax>=18&&b.x<18,crossedRight=ax<=982&&b.x>982;
  if(crossedLeft||crossedRight){const sideRight=crossedRight,lineX=sideRight?982:18,t=(lineX-ax)/(b.x-ax||1),cy=lerp(ay,b.y,clamp(t,0,1));const attacking=(sideRight===(direction(0)>0))?0:1;
   if(cy>P.b1&&cy<P.b2){const betweenGoals=cy>P.g1&&cy<P.g2,isGoal=betweenGoals&&b.kind==='kick'&&b.lastTouch===attacking;scoreEvent(attacking,isGoal);return;}
  }
- // Reflect the ball off the oval boundary for a fast arcade-style throw-in substitute.
- const n=ovalNorm(b.x,b.y);if(n>1){const q=clampToOval(b.x,b.y,4),nx=(q.x-500)/(484*484),ny=(q.y-300)/(274*274),u=unit(nx,ny),dot=b.vx*u.x+b.vy*u.y;b.x=q.x;b.y=q.y;if(dot>0){b.vx=(b.vx-1.7*dot*u.x)*.72;b.vy=(b.vy-1.7*dot*u.y)*.72;}sound('tap');}
+ // A genuine glancing contact with either tall goal post is a behind. The two
+ // outside behind posts are no longer arcade bumpers, so they cannot ricochet a
+ // shot dramatically back toward the centre of the oval.
+ for(const side of [0,1]){
+  const x=side?982:18,attacking=(side===(direction(0)>0))?0:1;
+  for(const yy of [P.g1,P.g2]){if(b.z<P.post+5&&segmentDistance(x,yy,ax,ay,b.x,b.y)<4.6){emit(x,yy,8,'spark');sound('post');G.shake=2.8;scoreEvent(attacking,false);return;}}
+ }
+ // Sideline rebounds remain for the arcade flow, but at the goal ends an out-of-
+ // scoring-area ball is simply deadened near the boundary instead of bouncing back.
+ const n=ovalNorm(b.x,b.y);if(n>1){const q=clampToOval(b.x,b.y,4),endZone=q.x<44||q.x>956;b.x=q.x;b.y=q.y;if(endZone){b.vx*=.05;b.vy*=.05;b.vz=Math.min(0,b.vz);b.z=Math.min(b.z,3);}else{const nx=(q.x-500)/(484*484),ny=(q.y-300)/(274*274),u=unit(nx,ny),dot=b.vx*u.x+b.vy*u.y;if(dot>0){b.vx=(b.vx-1.7*dot*u.x)*.72;b.vy=(b.vy-1.7*dot*u.y)*.72;}}sound('tap');}
  if(b.target!==null&&(b.age>3.0||Math.abs(b.vx)+Math.abs(b.vy)<35)){b.target=null;G.players.forEach(p=>{p.receiveUntil=0;p.assist=0;});}
  if(!Number.isFinite(b.x+b.y+b.vx+b.vy+b.z)){b.x=500;b.y=300;b.z=0;b.vx=b.vy=b.vz=0;b.target=null;}
 }
@@ -753,7 +757,7 @@ function renderEditor(){
 function updatePreviews(){for(let t=0;t<2;t++){const name=t===0?'blue':'orange';$(name+'Preview').textContent=cfg.teams[t].name;$(name+'Swatch').style.background=cfg.teams[t].shirt;}}
 function controlInstructions(){return cfg.controlMode==='touch'
  ? '<p><strong>Drag or hold</strong> anywhere on the oval to move toward your finger. Lift to stop steering.</p><p><strong>Tap</strong> toward a teammate to handball and switch to them. <strong>Double-tap</strong> to kick; aim above or below your player to change the kick line.</p><p>Without the ball: tap to switch players, double-tap to tackle.</p>'
- : '<p><strong>Move</strong> with the joystick or WASD / arrows.</p><p><strong>HANDBALL / X</strong> finds a teammate and switches to them. Without the ball, it switches players.</p><p><strong>KICK / Space</strong>: hold for power. In range, aim for the big sticks; farther out, it can kick to a teammate. Without the ball, tackle.</p><p><strong>Marks</strong> stop play around the catcher and give them a protected set-kick window. Move strongly with the joystick to call <strong>play on</strong>.</p>';}
+ : '<p><strong>Move</strong> with the joystick or WASD / arrows.</p><p><strong>HANDBALL / X</strong> is a short disposal (about half a full kick) and switches to the receiver. Without the ball, it switches players.</p><p><strong>KICK / Space</strong>: hold for power; a full kick reaches roughly the 50m arc distance. In range, aim for the big sticks; farther out, it can kick to a teammate. Without the ball, tackle.</p><p><strong>Marks</strong> stop play around the catcher and give them a protected set-kick window. Move strongly with the joystick to call <strong>play on</strong>.</p>';}
 function applyControlLayout(){
  const direct=cfg.controlMode==='touch';$('controls').classList.toggle('joystick-right',cfg.joystickSide==='right');$('controls').classList.toggle('touch-mode',direct);$('touchSurface').classList.toggle('hidden',!direct);$('joystickSide').value=direct?'touch':cfg.joystickSide;$('helpLine').textContent=direct?'Drag to move · Tap to handball · Double-tap to kick':'Move: arrows / WASD · Handball: X · Kick: Space';$('game').setAttribute('aria-label',direct?'Australian rules oval. Drag or hold to move, tap to handball, double-tap to kick.':'Australian rules oval. Move with the joystick or arrow keys, X to handball, Space to kick.');const pauseSetting=$('pauseControls');if(pauseSetting)pauseSetting.value=direct?'touch':cfg.joystickSide;const pauseHelp=$('pauseControlHelp');if(pauseHelp)pauseHelp.innerHTML=controlInstructions();
 }
