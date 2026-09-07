@@ -41,8 +41,8 @@
 </head>
 <body>
 <svg class="iconDefs" xmlns="http://www.w3.org/2000/svg"><defs>
-<symbol id="i-ball" viewBox="0 0 48 48"><circle cx="31" cy="31" r="8" fill="currentColor"/><path d="M8 5h6l13 28c2 5 7 8 13 8h2" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-<symbol id="i-shoot" viewBox="0 0 55 48"><path d="M11 4h6l13 28c2 5 8 9 15 9h4" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M3 38h18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="39" cy="35" r="7" fill="currentColor"/></symbol><symbol id="i-skill" viewBox="0 0 48 48"><path d="M8 9h6l10 22c2 5 7 8 13 8h4" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M7 36c9-12 21-13 34-5M33 26l8 5-7 7" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-ball" viewBox="0 0 48 48"><circle cx="34" cy="35" r="6.2" fill="currentColor"/><path d="M9 4c3 7 6 14 9 22 2 6 3 10 7 13 4 3 9 3 13 1 2-1 3-3 2-5-2-3-5-2-7 0-2 1-4 0-5-2" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-shoot" viewBox="0 0 55 48"><path d="M10 4c3 7 6 14 9 22 2 6 3 10 7 13 5 4 12 3 16 0 2-2 2-5 0-6-3-2-6 0-8 2-2 2-5 1-6-2" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 39h17" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cx="41" cy="35" r="6.2" fill="currentColor"/></symbol><symbol id="i-skill" viewBox="0 0 48 48"><path d="M8 8c3 7 6 14 9 22 2 6 3 9 7 12 4 3 9 3 13 1 2-1 3-3 2-5-2-3-5-2-7 0-2 1-4 0-5-2" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 35c10-11 22-12 36-5M33 25l8 5-7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 <symbol id="i-pause" viewBox="0 0 24 24"><path d="M7 5v14M17 5v14" stroke-width="5"/></symbol>
 <symbol id="i-full" viewBox="0 0 24 24"><path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6"/></symbol>
 <symbol id="i-sound" viewBox="0 0 24 24"><path d="M10 5 5 9H2v6h3l5 4zM14 8q5 4 0 8m3-11q8 7 0 14"/></symbol>
@@ -55,7 +55,7 @@
 <section id="setup"><div class="setupShell">
 <div class="hero"><div class="eyebrow">Fast sticks. Big goals. Little legends.</div><h1 class="wordmark">FIELD HOCKEY<span>SHOWDOWN</span></h1><p>Dribble into space. Link up with your team.<br>Get inside the circle and let it fly.</p><canvas id="heroArt" class="heroArt" width="700" height="430" aria-label="Two original cartoon field hockey players"></canvas><div class="heroFoot">Your team. Your colours. Your game.</div><div class="rotateHint">Turn your device sideways for the best view.</div></div>
 <div class="setupCard"><div class="cardTop"><h2>Let's play.</h2><span class="pill">ARCADE HOCKEY</span></div>
-<span class="fieldLabel">Outfield players per team</span><div class="segments" id="sizes"><button class="choice" data-size="practice">1 v GK<small>SHOOTOUT</small></button><button class="choice" data-size="1">1 v 1</button><button class="choice" data-size="2">2 v 2</button><button class="choice active" data-size="3">3 v 3<small>4-a-side + GK</small></button><button class="choice" data-size="4">4 v 4</button></div>
+<span class="fieldLabel">Outfield players per team</span><div class="segments" id="sizes"><button class="choice" data-size="practice">1 v GK<small>SHOOTOUT</small></button><button class="choice" data-size="1">1 v 1</button><button class="choice" data-size="2">2 v 2</button><button class="choice active" data-size="3">3 v 3</button><button class="choice" data-size="4">4 v 4</button></div>
 <div class="setupRow matchSettings"><label><span class="fieldLabel">Each half</span><select id="halfLength"><option value="60">1 minute</option><option value="120" selected>2 minutes</option><option value="180">3 minutes</option></select></label><label><span class="fieldLabel">Difficulty</span><select id="difficulty"><option value="beginner">First Kick</option><option value="junior">Junior</option><option value="easy">Friendly</option><option value="normal" selected>Arcade</option><option value="hard">Challenge</option><option value="expert">Superstar</option></select></label><label><span class="fieldLabel">Controls</span><select id="joystickSide" aria-label="Control mode"><option value="left">Left stick</option><option value="right">Right stick</option><option value="touch">Touch</option></select></label></div>
 <label class="checkboxRow"><input id="goalies" type="checkbox" checked> Add goalkeepers <span id="keeperNote" style="color:#798875;font-size:10px">(one extra on each team)</span></label>
 <span class="fieldLabel">Choose your ground</span><div class="venues"><button class="venue active" data-venue="stadium"><span class="venuePic"></span><span class="venueName">SUNSHINE STADIUM</span></button><button class="venue" data-venue="park"><span class="venuePic"></span><span class="venueName">CLOVER PARK</span></button><button class="venue" data-venue="night"><span class="venuePic"></span><span class="venueName">UNDER THE LIGHTS</span></button></div>
@@ -90,12 +90,12 @@ const clone=o=>JSON.parse(JSON.stringify(o));
 // reacts faster and supports more actively while opponents are slower to read play.
 // Keeper saveChance is never 1.0, so even the strongest keeper can occasionally be beaten.
 const DIFFICULTY={
- beginner:{oppReact:.78,teamReact:.035,oppSpeed:124,teamSpeed:190,teamSupport:1.13,oppShotError:36,oppKeeper:{reaction:.30,reach:48,move:104,saveChance:.30,contact:17,diveContact:20},teamKeeper:{reaction:.065,reach:96,move:166,saveChance:.94,contact:24,diveContact:31}},
- junior:{oppReact:.64,teamReact:.05,oppSpeed:134,teamSpeed:185,teamSupport:1.10,oppShotError:29,oppKeeper:{reaction:.26,reach:54,move:112,saveChance:.40,contact:18,diveContact:22},teamKeeper:{reaction:.075,reach:92,move:163,saveChance:.92,contact:24,diveContact:30}},
- easy:{oppReact:.52,teamReact:.075,oppSpeed:143,teamSpeed:180,teamSupport:1.07,oppShotError:22,oppKeeper:{reaction:.21,reach:60,move:123,saveChance:.52,contact:19,diveContact:24},teamKeeper:{reaction:.09,reach:88,move:159,saveChance:.90,contact:23,diveContact:29}},
- normal:{oppReact:.40,teamReact:.11,oppSpeed:160,teamSpeed:174,teamSupport:1.02,oppShotError:12,oppKeeper:{reaction:.14,reach:78,move:150,saveChance:.70,contact:21,diveContact:27},teamKeeper:{reaction:.13,reach:82,move:151,saveChance:.86,contact:22,diveContact:28}},
- hard:{oppReact:.28,teamReact:.15,oppSpeed:174,teamSpeed:170,teamSupport:.99,oppShotError:6,oppKeeper:{reaction:.09,reach:90,move:160,saveChance:.84,contact:23,diveContact:29},teamKeeper:{reaction:.15,reach:78,move:148,saveChance:.82,contact:21,diveContact:27}},
- expert:{oppReact:.18,teamReact:.19,oppSpeed:184,teamSpeed:168,teamSupport:.97,oppShotError:3,oppKeeper:{reaction:.055,reach:99,move:170,saveChance:.92,contact:24,diveContact:31},teamKeeper:{reaction:.18,reach:74,move:145,saveChance:.78,contact:20,diveContact:26}}
+ beginner:{oppReact:.78,teamReact:.035,oppSpeed:124,teamSpeed:190,teamSupport:1.13,oppShotError:36,oppKeeper:{reaction:.30,reach:48,move:104,saveChance:.20,contact:17,diveContact:20},teamKeeper:{reaction:.065,reach:96,move:166,saveChance:.86,contact:24,diveContact:31}},
+ junior:{oppReact:.64,teamReact:.05,oppSpeed:134,teamSpeed:185,teamSupport:1.10,oppShotError:29,oppKeeper:{reaction:.26,reach:54,move:112,saveChance:.30,contact:18,diveContact:22},teamKeeper:{reaction:.075,reach:92,move:163,saveChance:.84,contact:24,diveContact:30}},
+ easy:{oppReact:.52,teamReact:.075,oppSpeed:143,teamSpeed:180,teamSupport:1.07,oppShotError:22,oppKeeper:{reaction:.21,reach:60,move:123,saveChance:.40,contact:19,diveContact:24},teamKeeper:{reaction:.09,reach:88,move:159,saveChance:.82,contact:23,diveContact:29}},
+ normal:{oppReact:.40,teamReact:.11,oppSpeed:160,teamSpeed:174,teamSupport:1.02,oppShotError:12,oppKeeper:{reaction:.14,reach:78,move:150,saveChance:.56,contact:21,diveContact:27},teamKeeper:{reaction:.13,reach:82,move:151,saveChance:.78,contact:22,diveContact:28}},
+ hard:{oppReact:.28,teamReact:.15,oppSpeed:174,teamSpeed:170,teamSupport:.99,oppShotError:6,oppKeeper:{reaction:.09,reach:90,move:160,saveChance:.70,contact:23,diveContact:29},teamKeeper:{reaction:.15,reach:78,move:148,saveChance:.74,contact:21,diveContact:27}},
+ expert:{oppReact:.18,teamReact:.19,oppSpeed:184,teamSpeed:168,teamSupport:.97,oppShotError:3,oppKeeper:{reaction:.055,reach:99,move:170,saveChance:.82,contact:24,diveContact:31},teamKeeper:{reaction:.18,reach:74,move:145,saveChance:.70,contact:20,diveContact:26}}
 };
 const difficultyProfile=()=>DIFFICULTY[cfg.difficulty]||DIFFICULTY.normal;
 const keeperProfile=p=>p.team===0?difficultyProfile().teamKeeper:difficultyProfile().oppKeeper;
@@ -400,7 +400,7 @@ function keeperSave(p,ax,ay){
  // re-rolled on the following frame.
  if(b.kind==='shot'&&b.lastTouch!==p.team){
   const corner=clamp(Math.abs(b.y-300)/88,0,1),pace=clamp((length(b.vx,b.vy)-620)/360,0,1);
-  const chance=clamp(kp.saveChance-corner*.10-pace*.06,.12,.97);
+  const chance=clamp(kp.saveChance-corner*.22-pace*.10,.08,.92);
   if(Math.random()>chance){b.missedKeeper=p.id;p.dive=Math.max(p.dive,.30);p.diveDir=Math.sign(b.y-p.y)||1;p.diveCool=Math.max(p.diveCool,.5);emit(p.x,p.y,4,'dust');return false;}
  }
  G.stats.saves[p.team]++;p.protect=.6;emit(b.x,b.y,11,'spark');sound('save');if(p.team===0)notice('WHAT A SAVE!',.8);else notice('SAVED!',.65);
@@ -580,7 +580,10 @@ function drawBackground(){
  // Field-hockey 23m-style lines and simplified shooting circles.
  pitchLine(c,[[250,0],[250,600]],white,lw*.82);pitchLine(c,[[750,0],[750,600]],white,lw*.82);
  for(const side of [0,1]){const x=side?1000:0,d=side?-1:1;
-  pitchCircle(c,x,300,P.circle,white,lw,side?Math.PI/2:Math.PI*1.5,side?Math.PI*1.5:Math.PI*.5);
+  // Both shooting circles should curve into the field and finish exactly on
+  // the boundary line. The left side uses the inside semicircle from the top
+  // boundary intersection down to the bottom boundary intersection.
+  pitchCircle(c,x,300,P.circle,white,lw,side?Math.PI/2:Math.PI*1.5,side?Math.PI*1.5:Math.PI*2.5);
   const spot=project(x+d*102,300);ellipse(c,spot.x,spot.y,2.6*s,1.9*s,white);
   const dashX=x+d*(P.circle+42);for(const yy of [212,388]){const a=project(dashX,yy),b=project(dashX+d*15,yy);line(c,[[a.x,a.y],[b.x,b.y]],white,lw*.85);}
  }
@@ -700,11 +703,26 @@ function drawCharacter(c,p,x,y,scale,opts={}){
  if(!back){ellipse(c,-6,-45,1.5,1.9,'#fff6ac');}
  const head=headSprite(a,back,front);c.save();c.translate(running?Math.sin(phase)*.65:0,0);c.rotate(running?Math.sin(phase)*.022:0);c.drawImage(head,-35,-107,72,68);c.restore();
  arm(false);
- // Curved field-hockey stick is always visible and swings through hits.
+ // Completely redrawn modern field-hockey stick: one continuous slim
+ // composite body with a gentle bow and a tight J-shaped hook at the toe.
  const hitPhase=kick>0?Math.sin((1-kick/.32)*Math.PI):0,skillPhase=p.skill>0?Math.sin((1-p.skill/.36)*Math.PI):0;
- c.save();c.rotate(-hitPhase*.28+skillPhase*p.skillSide*.12);
- line(c,[[10,-40],[20,-23],[28,-4]],p.gk?'#202d34':'#60412d',4.5);line(c,[[11,-40],[21,-23]],p.gk?'#dcebe4':'#d4b081',1.3);
- path(c,'M28-5Q30 2 38 3Q44 4 45 0Q39-2 34-7Z',p.gk?'#202d34':'#312b2b','#1c262b',1);
+ c.save();
+ c.translate(0,1);
+ c.rotate(-hitPhase*.30+skillPhase*p.skillSide*.11);
+ const body=p.gk?'#27343c':'#22272d',edge=p.gk?'#101b21':'#15191d';
+ const accent=p.gk?'#f3cf54':(p.team===0?'#1997ff':'#ff8b1b');
+ const accent2=p.gk?'#fff3a7':(p.team===0?'#95d5ff':'#ffd095');
+ // Main silhouette. The top is narrow, the shaft has only a subtle bow, and
+ // the head curls back into a short rounded toe rather than becoming a blade.
+ path(c,'M8-44 C10-40 12-35 14-30 L23-7 C24-3 24 1 24 6 C24 11 26 15 30 17 C34 19 39 19 42 17 C45 15 45 12 43 10 C41 8 38 8 36 9 L33 11 C31 12 29 11 28 8 C27 5 27 1 26-3 L17-31 C15-37 13-42 11-46 Z',body,edge,1.15);
+ // Grip wrap at the handle.
+ path(c,'M8.6-43.6 C9.8-40.7 11.1-37.4 12.4-34.1 L15.4-35.3 C14-39.4 12.8-42.7 11.1-45.5 Z',accent,'#11181c',.6);
+ for(let gy=0;gy<3;gy++)line(c,[[10.2+gy*.7,-42.4+gy*2.1],[13.1+gy*.7,-41.5+gy*2.1]],accent2,.55);
+ // Composite graphics along the lower shaft and hook make the stick readable
+ // even at the small in-game character scale.
+ path(c,'M18.8-25.5 L21.6-17.4 L24.2-18.3 L21.5-26.3 Z',accent,null);
+ path(c,'M24.3-6 C25.1-2 25.2 2 25.3 6 C25.4 10.1 27 13.6 30.2 15.2 C33 16.6 36.5 16.9 39.3 15.8 C37.3 14.7 34.7 14.1 32.8 14.2 C29.9 14.3 28.3 12.2 27.5 9.7 C26.6 6.8 26.5 2.2 25.9-2.7 Z',accent,'#11181c',.5);
+ line(c,[[24.9,6.2],[36.8,14.9]],accent2,.8);
  c.restore();
  c.restore();
 }
